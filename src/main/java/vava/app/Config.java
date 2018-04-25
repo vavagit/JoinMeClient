@@ -13,9 +13,4 @@ public class Config {
 	public RestTemplateFactory getCommunicationManager() {
 		return new RestTemplateFactory();
 	}
-	
-	@Bean
-	public RestTemplate getRestTemplate() {
-		return getCommunicationManager().getObject();
-	}
 }
