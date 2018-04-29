@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="349.0" prefWidth="527.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="vava.controller.LoginController">
+<AnchorPane prefHeight="349.0" prefWidth="527.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="vava.controllers.LoginController">
    <children>
       <Line endX="100.0" layoutX="264.0" layoutY="151.0" rotate="90.0" startX="-100.0" />
       <Label alignment="CENTER" layoutX="177.0" layoutY="14.0" prefHeight="27.0" prefWidth="174.0" text="JOIN ME" textAlignment="CENTER">
@@ -19,10 +19,10 @@
       <Label alignment="CENTER" layoutX="45.0" layoutY="50.0" prefHeight="27.0" prefWidth="174.0" text="Ak už máš vytvorené konto " textAlignment="CENTER" />
       <Label alignment="CENTER" layoutX="285.0" layoutY="41.0" prefHeight="27.0" prefWidth="174.0" text="Ak ešte nemaš vytvorene konto" textAlignment="CENTER" />
       <Label alignment="CENTER" layoutX="78.0" layoutY="90.0" prefHeight="19.0" prefWidth="108.0" text="Používateľské meno" textAlignment="CENTER" />
-      <TextField fx:id="loginUserNameTF" layoutX="65.0" layoutY="109.0" />
+      <TextField  layoutX="65.0" layoutY="109.0" />
       <Label alignment="CENTER" layoutX="78.0" layoutY="131.0" prefHeight="19.0" prefWidth="108.0" text="Heslo" textAlignment="CENTER" />
-      <PasswordField fx:id="loginPasswordTF" layoutX="65.0" layoutY="151.0" />
-      <Button fx:id="LogInButtom" layoutX="78.0" layoutY="204.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="108.0" text="Log In">
+      <PasswordField  layoutX="65.0" layoutY="151.0" />
+      <Button fx:id="logInButton" layoutX="78.0" layoutY="204.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="108.0" onAction="#logInHandle" text="Log In">
          <font>
             <Font size="21.0" />
          </font>
