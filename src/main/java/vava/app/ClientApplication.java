@@ -4,50 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
-import com.lynden.gmapsfx.GoogleMapView;
-import com.lynden.gmapsfx.MapComponentInitializedListener;
-import com.lynden.gmapsfx.javascript.event.UIEventType;
-import com.lynden.gmapsfx.javascript.object.Animation;
-import com.lynden.gmapsfx.javascript.object.DirectionsPane;
-import com.lynden.gmapsfx.javascript.object.GoogleMap;
-import com.lynden.gmapsfx.javascript.object.LatLong;
-import com.lynden.gmapsfx.javascript.object.LatLongBounds;
-import com.lynden.gmapsfx.javascript.object.MapOptions;
-import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
-import com.lynden.gmapsfx.javascript.object.Marker;
-import com.lynden.gmapsfx.javascript.object.MarkerOptions;
-import com.lynden.gmapsfx.service.directions.DirectionStatus;
 import com.lynden.gmapsfx.service.directions.DirectionsRenderer;
-import com.lynden.gmapsfx.service.directions.DirectionsResult;
-import com.lynden.gmapsfx.service.directions.DirectionsServiceCallback;
-import com.lynden.gmapsfx.service.elevation.ElevationResult;
-import com.lynden.gmapsfx.service.elevation.ElevationServiceCallback;
-import com.lynden.gmapsfx.service.elevation.ElevationStatus;
-import com.lynden.gmapsfx.service.geocoding.GeocoderStatus;
-import com.lynden.gmapsfx.service.geocoding.GeocodingResult;
-import com.lynden.gmapsfx.service.geocoding.GeocodingService;
-import com.lynden.gmapsfx.service.geocoding.GeocodingServiceCallback;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import netscape.javascript.JSObject;
-import vava.components.GmComponent;
 import vava.controllers.LoginController;
-import vava.model.Event;
+
 
 /**
  * Example Application for creating and loading a GoogleMap into a JavaFX
@@ -68,9 +41,11 @@ public class ClientApplication extends Application{
 		LoginController lg = loader.getController();
 		//root.getChildrenUnmodifiable().add(new GmComponent(stage).mapComponent);
 		Scene scene = new Scene(root);
-		
-        stage.setTitle("FXML Welcome");
-        ;
+		//scene.getStylesheets().add(getClass().getResource("/vava/views/Log.css").toExternalForm());
+        stage.setTitle("JoinMe");
+        stage.setResizable(false);
+        Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
+        stage.getIcons().add(image);
         stage.setScene(scene);
         stage.show();
 		
@@ -103,19 +78,19 @@ public class ClientApplication extends Application{
 
 	public static void main(String[] args) {
 		//System.setProperty("java.net.useSystemProxies", "true");
+		System.out.println("hello");
+		System.out.println(Locale.getDefault().getCountry());
+		ScriptEngineManager factory = new ScriptEngineManager();
+	    ScriptEngine engine = factory.getEngineByName("JavaScript");
+	    try {
+			engine.eval("print('Hello, World')");
+		} catch (ScriptException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		launch(args);
 		
-		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-		RestTemplate restTemplate = context.getBean(RestTemplate.class);
-		ResponseEntity<List<Event>> rateResponse =
-		        restTemplate.exchange("http://192.168.0.8:8080/events",
-		                    HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {
-		            });
-		Boolean temp = restTemplate.postForObject("http://192.168.0.8:8080/events/",new Event(), Boolean.class);
-		System.out.println(temp);
-		List<Event> rates = rateResponse.getBody();
-		for(Event e : rates)
-			System.out.println(e.getEventId());
+		
 	}
 	
 	

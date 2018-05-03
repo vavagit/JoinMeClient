@@ -1,0 +1,70 @@
+
+
+
+.anchor{
+    -fx-background-image: url(/img/1.jpg); 
+    -fx-background-position: center; 
+    -fx-background-size: stretch;
+   
+}
+.register{
+	-fx-pref-width: 400;
+	-fx-pref-height: 600;
+}
+.userInput{ 
+	-fx-pref-height: 50.0;
+	-fx-pref-width: 200;
+	-fx-font-size: 20;
+}
+.userInputR{
+	-fx-pref-height: 40.0;
+	-fx-pref-width: 300;
+}
+.input{
+	-fx-border-color: #ccc;
+	-fx-border-width: 3;
+	-fx-border-style: solid inside;
+	-fx-font-size: 15;
+}
+
+.tPane{
+	-fx-background-color: white;
+	-fx-pref-width: 350.0;
+	-fx-pref-height: 75.0;
+}
+
+.tLabel{
+	-fx-text-fill: black;
+	-fx-font-size: 20;
+}
+
+.button{
+	-fx-background-color:  #19b9e7;
+	-fx-text-fill: #fff;
+	-fx-font-size: 21;
+	-fx-text-alignment: center;
+	-fx-alignment: center;
+	-fx-border-radius: 0.2;
+}
+.buttonChange{
+	-fx-background-color:  #6dcde9;
+}
+
+
+.paneOnTextF{
+	 -fx-pref-height: 250.0;
+	 -fx-pref-width:250.0;
+	-fx-background-color: #eee; 
+}
+/* pane register hlavny sivy pane v ktorom budu vsetky textfieldy */
+.paneRegister{
+	-fx-background-color: #eee;
+	-fx-pref-height: 500.0;
+	 -fx-pref-width:350.0;
+}
+.errLabel{
+	-fx-pref-width: 200;
+	-fx-pref-height: 15;
+	-fx-text-fill: red;
+	-fx-font-size: 11;
+}

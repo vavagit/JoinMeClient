@@ -14,7 +14,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField layoutX="48.0" layoutY="55.0" />
+      <TextField fx:id="dekoduj" layoutX="48.0" layoutY="55.0" />
       <TextField layoutX="48.0" layoutY="91.0" />
       <TextField layoutX="48.0" layoutY="130.0" />
       <TextField layoutX="48.0" layoutY="168.0" />

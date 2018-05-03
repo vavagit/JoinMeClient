@@ -1,5 +1,6 @@
 package vava.components;
 
+import java.util.List;
 import java.util.Locale;
 
 import com.lynden.gmapsfx.GoogleMapView;
@@ -33,10 +34,12 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 
 	public GoogleMapView mapComponent;
 	public GoogleMap map;
+	public GeocodingService gs;
 	protected DirectionsPane directions;
 	private MarkerOptions markerOptions2;
 	private Marker myMarker2;
-
+	public LatLong fromGeocode;
+	@Override
 	public void elevationsReceived(ElevationResult[] results, ElevationStatus status) {
 		if (status.equals(ElevationStatus.OK)) {
 			for (ElevationResult e : results) {
@@ -45,21 +48,24 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 		}
 	}
 
-	
+	@Override
 	public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
 		if (status.equals(GeocoderStatus.OK)) {
 			for (GeocodingResult e : results) {
-				System.out.println(e.getVariableName());
-				System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
+				fromGeocode = e.getGeometry().getLocation();
+				//System.out.println(e.getGeometry().getLocation());
+				//System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
 			}
-
+		
 		}
+		map.setCenter(fromGeocode);
+		map.setZoom(12);
 
 	}
 
 	public GmComponent(Stage s) {
 		mapComponent = new GoogleMapView(Locale.getDefault().getLanguage(), null);
-		
+		//gs = new GeocodingService();
 		mapComponent.addMapInitializedListener(this);
 	}
 	
@@ -69,7 +75,7 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 			System.out.println("OK");
 
 			DirectionsResult e = results;
-			GeocodingService gs = new GeocodingService();
+			
 
 			System.out.println("SIZE ROUTES: " + e.getRoutes().size() + "\n" + "ORIGIN: "
 					+ e.getRoutes().get(0).getLegs().get(0).getStartLocation());
@@ -126,7 +132,7 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 		map.setHeading(123.2);
 		
 //	        System.out.println("Heading is: " + map.getHeading() );
-
+	//	gs = new GeocodingService();
 		MarkerOptions markerOptions = new MarkerOptions();
 		LatLong markerLatLong = new LatLong(47.606189, -122.335842);
 		markerOptions.position(markerLatLong).title("My new Marker").icon("mymarker.png").animation(Animation.DROP)
@@ -156,6 +162,8 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 			}
 
 		});
+		System.out.println("skus");
+		gs=new GeocodingService();
 	}
 
 	private void checkCenter(LatLong center) {
@@ -163,6 +171,17 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 //	        Point2D p = map.fromLatLngToPoint(center);
 //	        System.out.println("Testing fromLatLngToPoint result: " + p);
 //	        System.out.println("Testing fromLatLngToPoint expected: " + mapComponent.getWidth()/2 + ", " + mapComponent.getHeight()/2);
+	}
+	public void geocodingAddress(String place) {
+		//GeocodingService gs = new GeocodingService();
+		LatLong l = fromGeocode;
+		gs.geocode(place, this);
+		if(l == fromGeocode) {
+			System.out.println("necaka");
+		}
+		
+		
+		
 	}
 
 
