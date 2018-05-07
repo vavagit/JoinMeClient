@@ -102,7 +102,7 @@ public class LoginController implements Initializable {
 		/*User usr = new User(userName,password);
 		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 		RestTemplate restTemplate = context.getBean(RestTemplate.class);
-		String ip = "http://192.168.0.8:8080/";
+		String ip = "http://25.19.186.82:8009/";
 		try {
 			ResponseEntity<User> user = restTemplate.exchange(ip+"login", HttpMethod.POST, new HttpEntity<User>(usr),new ParameterizedTypeReference<User>() {});
 		}
@@ -110,17 +110,17 @@ public class LoginController implements Initializable {
 			errLabel.setText("Invalid username or password");
 			userNameTF.clear();
 			passwordPF.clear();
-			//return;
+			return;
 		}
 		catch(RestClientException p){
 			errLabel.setText("error connection. Try later");
-			//return;
+			return;
 		}*/
 		
 		
 		Stage s = (Stage)logInButton.getScene().getWindow();
 		s.close();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/views/CreateEvents.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/views/MainView.fxml"));
 		AnchorPane root=null;
 		try {
 			root = loader.load();
@@ -128,7 +128,7 @@ public class LoginController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		CreateEventController cec = loader.getController();
+		MainViewController cec = loader.getController();
 		//root.getChildrenUnmodifiable().add(new GmComponent(stage).mapComponent);
 		Scene scene = new Scene(root);
         s.setTitle("FXML Welcome");

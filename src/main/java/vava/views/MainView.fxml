@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.*?>
+
+<AnchorPane styleClass="anchor" stylesheets="/vava/views/Log.css"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vava.controllers.MainViewController">
+   <children>
+      <Pane layoutX="20.0" layoutY="20.0" styleClass="leftMainPane">
+      	<children>
+      	<Pane layoutX="0" layoutY="0" styleClass="leftTitleMainPane">
+      		<children>
+      			<Label fx:id="titleLeftLabel" layoutX="5" layoutY="0" styleClass="tLabel"/>
+      			<ImageView fitHeight="50" fitWidth="50" layoutX="100.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="/img/helloIco.jpg" />
+                     </image>
+                  </ImageView>
+                 <Label fx:id="nameOfUserLabel" layoutX="5" layoutY="35"/>
+      		</children>
+      	</Pane>
+      	
+      	<Hyperlink layoutX="5" layoutY="70" text="Create Event" textFill="BLACK" style="-fx-font-size: 14;" />
+      	<Hyperlink layoutX="5" layoutY="90" text="Show me events" textFill="black" style="-fx-font-size: 14;"/>
+      	<Hyperlink layoutX="5" layoutY="110" text="Show joined events" textFill="black" style="-fx-font-size: 14;"/>
+      	
+      	</children>
+      </Pane>
+      <ListView fx:id="eventListView" layoutX="193.0" layoutY="48.0" prefHeight="325.0" prefWidth="400.0" />
+   </children>
+</AnchorPane>

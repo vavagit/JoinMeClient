@@ -7,19 +7,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="358.0" prefWidth="523.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="vava.controllers.CreateEventController">
+<AnchorPane styleClass="anchor,createEvent" stylesheets="/vava/views/Log.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="vava.controllers.CreateEventController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="206.0" layoutY="14.0" prefHeight="26.0" prefWidth="111.0" text="CREATE EVENT" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="dekoduj" layoutX="48.0" layoutY="55.0" />
-      <TextField layoutX="48.0" layoutY="91.0" />
-      <TextField layoutX="48.0" layoutY="130.0" />
-      <TextField layoutX="48.0" layoutY="168.0" />
-      <TextField layoutX="48.0" layoutY="201.0" />
-      <TextField layoutX="48.0" layoutY="233.0" />
-      <Pane fx:id="gmapsPane" layoutX="206.0" layoutY="40.0" prefHeight="300.0" prefWidth="300.0" />
+      <Pane layoutX="20" layoutY="70" styleClass="createUserPane">
+	      	<children>
+	      		<Pane styleClass="createTPane" layoutX="0" layoutY="0">
+	      			<children>
+	      				<Label layoutX="10" layoutY="10" style="-fx-font-size: 20;" text="Create event!"/>
+	      			</children>
+	      		</Pane>
+			      <TextField fx:id="dekoduj" styleClass="userCreateEventInput,input" layoutX="20.0" layoutY="80.0" />
+			      <TextField layoutX="20.0" layoutY="110.0" styleClass="userCreateEventInput,input"/>
+			      <TextField layoutX="48.0" layoutY="150.0" styleClass="userCreateEventInput,input"/>
+			      <TextField layoutX="48.0" layoutY="168.0" />
+			      <TextField layoutX="48.0" layoutY="201.0" />
+			      <TextField layoutX="48.0" layoutY="233.0" />
+			      <Pane fx:id="gmapsPane" layoutX="275.0" layoutY="40.0" prefHeight="300.0" prefWidth="300.0" />
+		    </children>
+      </Pane>
    </children>
 </AnchorPane>

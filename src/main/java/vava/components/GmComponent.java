@@ -39,6 +39,7 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 	private MarkerOptions markerOptions2;
 	private Marker myMarker2;
 	public LatLong fromGeocode;
+	
 	@Override
 	public void elevationsReceived(ElevationResult[] results, ElevationStatus status) {
 		if (status.equals(ElevationStatus.OK)) {
@@ -53,13 +54,18 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 		if (status.equals(GeocoderStatus.OK)) {
 			for (GeocodingResult e : results) {
 				fromGeocode = e.getGeometry().getLocation();
-				//System.out.println(e.getGeometry().getLocation());
-				//System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
+				System.out.println(e.getGeometry().getLocation());
+				System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
 			}
 		
 		}
+		MarkerOptions mo = new MarkerOptions();
+		mo.position(fromGeocode).visible(true);
+		Marker newMarker = new Marker(mo);
+		map.clearMarkers();
+		map.addMarker(newMarker);
 		map.setCenter(fromGeocode);
-		map.setZoom(12);
+		map.setZoom(13);
 
 	}
 
@@ -152,14 +158,12 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 
 		map.addUIEventHandler(UIEventType.dblclick, (JSObject obj) -> { // liseneer ktory vrati suradnice po kliknuti
 			LatLong ll = new LatLong((JSObject) obj.getMember("latLng"));
-			if (myMarker2 == null) {
+			map.clearMarkers();
 				markerOptions2 = new MarkerOptions();
 				markerOptions2.position(ll).title("My new Marker").visible(true).draggable(true);
 				myMarker2 = new Marker(markerOptions2);
 				map.addMarker(myMarker2);
-			} else {
-				myMarker2.setPosition(ll);
-			}
+			
 
 		});
 		System.out.println("skus");
