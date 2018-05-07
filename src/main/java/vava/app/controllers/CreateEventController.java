@@ -17,7 +17,7 @@ public class CreateEventController implements Initializable{
 	@FXML TextField dekoduj;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		GmComponent gm = GmComponent.getInstance();
+		GmComponent gm = new GmComponent(null);
 		gmapsPane.getChildren().add(gm.mapComponent);
 		dekoduj.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			 public void handle(KeyEvent ke) {
