@@ -46,9 +46,6 @@ public class MainViewController implements Initializable {
 
         ObservableList<EventPaneComponent> myObservableList = FXCollections.observableList(list);
          eventListView.setItems(myObservableList);
-	
-         
-	
 	}
 	@FXML
 	private void mouseEnteredFilterBt(MouseEvent event) {
