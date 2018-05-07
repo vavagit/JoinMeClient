@@ -178,8 +178,8 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 			
 
 		});
-		System.out.println("skus");
-		//gs=new GeocodingService();
+		//System.out.println("skus");
+		gs=new GeocodingService();
 	}
 
 	private void checkCenter(LatLong center) {
