@@ -6,6 +6,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
 
 <AnchorPane styleClass="anchor" stylesheets="/vava/views/Log.css"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vava.controllers.MainViewController">
    <children>
@@ -16,7 +19,7 @@
       			<Label fx:id="titleLeftLabel" layoutX="5" layoutY="0" styleClass="tLabel"/>
       			<ImageView fitHeight="50" fitWidth="50" layoutX="100.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="/img/helloIco.jpg" />
+                        <Image url="/img/helloIco.png" />
                      </image>
                   </ImageView>
                  <Label fx:id="nameOfUserLabel" layoutX="5" layoutY="35"/>
@@ -29,6 +32,18 @@
       	
       	</children>
       </Pane>
-      <ListView fx:id="eventListView" layoutX="193.0" layoutY="48.0" prefHeight="325.0" prefWidth="400.0" />
+      <HBox  layoutX="193" layoutY="20" styleClass="hboxFilter">
+      	<children>
+      	 <Label fx:id = "locationLabel" layoutX="0" layoutY="0" styleClass="locationLabel"/>
+      	 <TextField  fx:id = "locationTextField" layoutX="10" layoutY="0" styleClass="locationTextField"/>
+      	 <Pane layoutY="0" styleClass="spacePane"/>
+      	<Label fx:id="rangeLabel" layoutX="0" layoutY="0" styleClass="locationLabel"/>
+      	<TextField  fx:id = "rangeTextField" layoutX="10" layoutY="0" styleClass="rangeTextField"/>
+      	<Pane layoutY="0" styleClass="spacePane"/>
+      	<Label layoutX="0" layoutY="0" styleClass="locationLabel" text="Km "/>
+      	<Button fx:id="filterButton" text="Filter" styleClass="filterButton" onMouseEntered="#mouseEnteredFilterBt" onMouseExited="#mouseExitedFilterBt"/>
+      	</children>
+      </HBox>
+      <ListView fx:id="eventListView" layoutX="193.0" layoutY="55.0" styleClass="eventListView" />
    </children>
 </AnchorPane>

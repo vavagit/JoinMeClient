@@ -34,7 +34,7 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 
 	public GoogleMapView mapComponent;
 	public GoogleMap map;
-	public GeocodingService gs;
+	public GeocodingService gs = new GeocodingService();
 	protected DirectionsPane directions;
 	private MarkerOptions markerOptions2;
 	private Marker myMarker2;
@@ -50,22 +50,27 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 	}
 
 	@Override
-	public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
+	public LatLong geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
+		LatLong temp = null;
 		if (status.equals(GeocoderStatus.OK)) {
 			for (GeocodingResult e : results) {
-				fromGeocode = e.getGeometry().getLocation();
-				System.out.println(e.getGeometry().getLocation());
-				System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
+				temp = e.getGeometry().getLocation();
+				//System.out.println(e.getGeometry().getLocation());
+				//System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
 			}
-		
+		return temp;
 		}
-		MarkerOptions mo = new MarkerOptions();
+		else {
+			return null;
+		}
+		/*MarkerOptions mo = new MarkerOptions();
 		mo.position(fromGeocode).visible(true);
 		Marker newMarker = new Marker(mo);
 		map.clearMarkers();
 		map.addMarker(newMarker);
 		map.setCenter(fromGeocode);
-		map.setZoom(13);
+		map.setZoom(13);*/
+		
 
 	}
 
@@ -167,7 +172,7 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 
 		});
 		System.out.println("skus");
-		gs=new GeocodingService();
+		//gs=new GeocodingService();
 	}
 
 	private void checkCenter(LatLong center) {
@@ -178,11 +183,8 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 	}
 	public void geocodingAddress(String place) {
 		//GeocodingService gs = new GeocodingService();
-		LatLong l = fromGeocode;
 		gs.geocode(place, this);
-		if(l == fromGeocode) {
-			System.out.println("necaka");
-		}
+		
 		
 		
 		
