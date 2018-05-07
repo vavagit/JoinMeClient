@@ -31,7 +31,7 @@
             <TextField fx:id="firstNameTF" layoutX="25" layoutY="285" promptText="first name.." styleClass="userInputR,input" />
             <TextField fx:id="lastNameTF" layoutX="25" layoutY="335" promptText="last name.." styleClass="userInputR,input" />
             <TextField fx:id="addressTF" layoutX="25" layoutY="385" promptText="address.." styleClass="userInputR,input" />
-            <Button fx:id="signUpButton" layoutX="25" layoutY="435" onAction="#signUpHandle" styleClass="userInputR,button" text="Sign me up!" />
+            <Button fx:id="signUpButton" layoutX="25" layoutY="435" onAction="#signUpHandle" onMouseEntered="#enterMouse" onMouseExited="#exitMouse" styleClass="userInputR,button" text="Sign me up!" />
          </children>
       </Pane>
    </children>
