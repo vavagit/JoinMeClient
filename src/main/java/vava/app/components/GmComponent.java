@@ -40,7 +40,7 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 	private Marker myMarker2;
 	public LatLong fromGeocode;
 	
-	public static GmComponent gm = null;
+	private static GmComponent gm = null;
 	@Override
 	public void elevationsReceived(ElevationResult[] results, ElevationStatus status) {
 		if (status.equals(ElevationStatus.OK)) {
