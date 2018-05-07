@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -31,9 +32,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import vava.app.Config;
 import vava.app.components.EventPaneComponent;
-import vava.app.model.Dataset;
 import vava.app.model.Event;
-import vava.app.model.communication.RestTemplateFactory;
 
 
 public class MainViewController implements Initializable {
@@ -55,16 +54,11 @@ public class MainViewController implements Initializable {
 		nameOfUserLabel.setText(nameUser);
 		locationLabel.setText(locationLabelS);
 		rangeLabel.setText("Range: ");
-        /*list.add(new EventPaneComponent(new Event(1, 12, "Fc pod hrat", "skuska", Date.valueOf(LocalDate.now()), 30, 15, new SportCategory(4,"hockey"), "Krizova Ves", new Location())));
-        list.add(new EventPaneComponent(new Event(1, 12, "Fc pod hrat", "skuska", Date.valueOf(LocalDate.now()), 30, 5, new SportCategory(2,"hockey"), "Krizova Ves", new Location())));
-
-        ObservableList<EventPaneComponent> myObservableList = FXCollections.observableList(list);
-        eventListView.setItems(myObservableList);
-        */
         try {
      		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
      		RestTemplate template = context.getBean(RestTemplate.class);
-     		     		
+     		((ConfigurableApplicationContext)context).close();     		
+     		
      		final String url = "http://localhost:8009/events?lon={lon}&lat={lat}&radius={radius}";
      		Map<String, Object> map = new HashMap<>();
      		map.put("lon", 50.0);
