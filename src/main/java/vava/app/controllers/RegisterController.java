@@ -10,6 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import javafx.event.ActionEvent;
@@ -89,6 +90,10 @@ public class RegisterController implements Initializable {
 		}catch(HttpClientErrorException e){
 			new Alert(AlertType.ERROR, "Registracia sa nepodarila. Uzivatelske meno uz existuje").showAndWait();
 			e.printStackTrace();
+			return;
+		}
+		catch(RestClientException p){
+			new Alert(AlertType.ERROR, "Registracia sa nepodarila. Pripojenie je nefungujuce").showAndWait();
 			return;
 		}
 		
