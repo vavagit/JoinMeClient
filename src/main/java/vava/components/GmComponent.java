@@ -31,14 +31,22 @@ import netscape.javascript.JSObject;
 
 public class GmComponent implements MapComponentInitializedListener, ElevationServiceCallback,
 GeocodingServiceCallback, DirectionsServiceCallback {
-
+	public static GmComponent gm = null;
 	public GoogleMapView mapComponent;
 	public GoogleMap map;
-	public GeocodingService gs = new GeocodingService();
+	public GeocodingService gs;
 	protected DirectionsPane directions;
 	private MarkerOptions markerOptions2;
 	private Marker myMarker2;
 	public LatLong fromGeocode;
+	
+	public static GmComponent getInstance() {
+		if(gm==null) {
+			gm = new GmComponent();
+		}
+		return gm;
+	}
+	
 	
 	@Override
 	public void elevationsReceived(ElevationResult[] results, ElevationStatus status) {
@@ -48,20 +56,17 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 			}
 		}
 	}
-
+	
+	
 	@Override
 	public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
 		LatLong temp = null;
 		if (status.equals(GeocoderStatus.OK)) {
 			for (GeocodingResult e : results) {
-				temp = e.getGeometry().getLocation();
-				//System.out.println(e.getGeometry().getLocation());
-				//System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
+				fromGeocode = e.getGeometry().getLocation();
+				System.out.println(e.getGeometry().getLocation());
+				System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
 			}
-			fromGeocode = temp;
-		}
-		else {
-			fromGeocode = null;
 		}
 		/*MarkerOptions mo = new MarkerOptions();
 		mo.position(fromGeocode).visible(true);
@@ -73,11 +78,12 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 		
 
 	}
-
-	public GmComponent(Stage s) {
+	
+	
+	
+	protected GmComponent() {
 		mapComponent = new GoogleMapView(Locale.getDefault().getLanguage(), null);
-		//gs = new GeocodingService();
-		mapComponent.addMapInitializedListener(this);
+		mapComponent.addMapInitializedListener(this);	
 	}
 	
 	public void directionsReceived(DirectionsResult results, DirectionStatus status) {
@@ -121,9 +127,8 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 	
 	@Override
 	public void mapInitialized() {
-
+		gs = new GeocodingService();
 		// System.out.println("MainApp.mapInitialised....");
-
 		// Once the map has been loaded by the Webview, initialize the map details.
 		LatLong center = new LatLong(47.606189, -122.335842);
 		mapComponent.addMapReadyListener(() -> {
@@ -142,8 +147,11 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 		mapComponent.setPrefSize(300, 300);
 		map.setHeading(123.2);
 		
+		
+		
+		
+		
 //	        System.out.println("Heading is: " + map.getHeading() );
-	//	gs = new GeocodingService();
 		MarkerOptions markerOptions = new MarkerOptions();
 		LatLong markerLatLong = new LatLong(47.606189, -122.335842);
 		markerOptions.position(markerLatLong).title("My new Marker").icon("mymarker.png").animation(Animation.DROP)
@@ -171,8 +179,9 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 			
 
 		});
-		System.out.println("skus");
-		//gs=new GeocodingService();
+		//System.out.println("skus");
+		//gs = new GeocodingService();
+		//gs.geocode("Poprad", this);
 	}
 
 	private void checkCenter(LatLong center) {
@@ -184,10 +193,12 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 	public LatLong geocodingAddress(String place) {
 		//GeocodingService gs = new GeocodingService();
 		fromGeocode = null;
-		gs.geocode(place, this);
-		return fromGeocode;
+		gs.geocode(place,this);
+		if(fromGeocode != null) {
+			return fromGeocode;
+		}
 		
-		
+		return null;	
 	}
 
 
