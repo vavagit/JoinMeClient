@@ -28,6 +28,8 @@ public class Event {
 		this.address = address;
 		this.eventLocation = eventLocation;
 	}
+	
+	public Event() {}
 
 	public int getEventId() {
 		return eventId;

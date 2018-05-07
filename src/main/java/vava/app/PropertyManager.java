@@ -9,18 +9,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PropertyManager {
-	private static final String CONFIG_PATH = "src/main/resources/props";
 	
 	private Properties properties = new Properties();
 	
-	public PropertyManager() {
-		properties = loadFromDir();
+	public PropertyManager(String path) {
+		properties = loadFromFile(path);
 	}
 	
-	private Properties loadFromDir() {
+	private Properties loadFromFile(String path) {
 		Properties properties = new Properties();
 		try {
-			properties.load(new FileInputStream(new File(CONFIG_PATH)));
+			properties.load(new FileInputStream(new File(path)));
 		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
