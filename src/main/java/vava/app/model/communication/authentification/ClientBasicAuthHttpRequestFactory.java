@@ -1,4 +1,4 @@
-package vava.model.communication.authentification;
+package vava.app.model.communication.authentification;
 
 import java.net.URI;
 

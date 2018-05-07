@@ -12,6 +12,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import com.lynden.gmapsfx.service.directions.DirectionsRenderer;
+import com.lynden.gmapsfx.service.geocoding.GeocodingService;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import vava.controllers.LoginController;
+import vava.app.components.GmComponent;
+import vava.app.controllers.LoginController;
 
 
 /**
@@ -34,7 +36,7 @@ public class ClientApplication extends Application{
 	
 	@Override
 	public void start(final Stage stage) throws Exception {
-
+		GmComponent g = GmComponent.getInstance();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/views/Login.fxml"));
 		AnchorPane root;
 		root = loader.load();
@@ -48,7 +50,7 @@ public class ClientApplication extends Application{
         stage.getIcons().add(image);
         stage.setScene(scene);
         stage.show();
-		
+        //GeocodingService gs = new GeocodingService();
 	
         /*System.out.println("Java version: " + System.getProperty("java.home"));
 		
@@ -79,8 +81,10 @@ public class ClientApplication extends Application{
 	public static void main(String[] args) {
 		//System.setProperty("java.net.useSystemProxies", "true");
 		System.out.println("hello");
+		
 		System.out.println(Locale.getDefault().getCountry());
 		ScriptEngineManager factory = new ScriptEngineManager();
+		//System.out.println(g.geocodingAddress("Poprad"));
 	    ScriptEngine engine = factory.getEngineByName("JavaScript");
 	    try {
 			engine.eval("print('Hello, World')");

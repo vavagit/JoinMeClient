@@ -1,4 +1,4 @@
-package vava.controllers;
+package vava.app.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;

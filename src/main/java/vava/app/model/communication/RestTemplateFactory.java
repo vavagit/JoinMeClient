@@ -1,4 +1,4 @@
-package vava.model.communication;
+package vava.app.model.communication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import vava.model.communication.authentification.ClientBasicAuthHttpRequestFactory;
+import vava.app.model.communication.authentification.ClientBasicAuthHttpRequestFactory;
 
 
 public class RestTemplateFactory implements InitializingBean, FactoryBean<RestTemplate> {

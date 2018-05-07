@@ -1,4 +1,4 @@
-package vava.controllers;
+package vava.app.controllers;
 
 import java.net.URL;
 import java.sql.Date;
@@ -16,10 +16,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import vava.app.components.EventPaneComponent;
+import vava.app.components.GmComponent;
 import vava.app.model.Event;
 import vava.app.model.Location;
 import vava.app.model.SportCategory;
-import vava.components.EventPaneComponent;
 
 
 public class MainViewController implements Initializable {
@@ -36,6 +37,8 @@ public class MainViewController implements Initializable {
 	@FXML Button filterButton;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		System.out.println(GmComponent.getInstance().geocodingAddress("Bratislava"));
+		
 		titleLeftLabel.setText(leftTitle);
 		nameOfUserLabel.setText(nameUser);
 		locationLabel.setText(locationLabelS);
