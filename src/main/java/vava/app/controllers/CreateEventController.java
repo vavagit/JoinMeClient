@@ -32,7 +32,7 @@ public class CreateEventController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		GmComponent gm = GmComponent.getInstance();
 		gmapsPane.getChildren().add(gm.mapComponent);
-		gm.map.setZoom(15);
+		gm.map.setZoom(7);
 		
 		addressTF.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			 public void handle(KeyEvent ke) {
