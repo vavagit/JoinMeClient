@@ -31,6 +31,11 @@ public class PropertyManager {
 		return properties;
 	}
 	
+	/**
+	 * Vratenie hodnoty nahranej zo suboru
+	 * @param key kluc podla ktoreho sa vyhladava
+	 * @return emtpy string ak sa nenachadza inak hodnota
+	 */
 	public String getProperty(String key) {
 		return properties.getProperty(key, "");
 	}

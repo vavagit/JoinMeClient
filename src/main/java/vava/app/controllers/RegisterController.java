@@ -22,10 +22,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import vava.app.Config;
 import vava.app.model.Dataset;
@@ -83,8 +82,6 @@ public class RegisterController implements Initializable {
 			ResponseEntity<User> returnedEntity = template.postForEntity("http://localhost:8009/register", user, User.class);
 			
 			user.setId(returnedEntity.getBody().getId());
-			//nastavenie autorizacie pre dalsie requesty
-			factory.setAuthorization(usernameString, passwordString);
 			//ulozenie prihlaseneho uzivatela
 			Dataset.getInstance().setLoggedIn(user);
 			//uzatvorenie contextu

@@ -11,6 +11,8 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import vava.app.model.Dataset;
+import vava.app.model.User;
 
 public class RestTemplateFactory implements InitializingBean, FactoryBean<RestTemplate> {
 	
@@ -42,14 +44,18 @@ public class RestTemplateFactory implements InitializingBean, FactoryBean<RestTe
         restTemplate = new RestTemplate(
           new ClientBasicAuthHttpRequestFactory(host));
         restTemplate.setMessageConverters(getMessageConverters());
-        setAuthorization("user", "password");
+        User user = Dataset.getInstance().getLoggedIn();
+        System.err.println(user);
+        if(user != null)
+        	setAuthorization(user.getUserName(), user.getPassword());
     }
 
-    public void setAuthorization(String username, String password) {
-    	 restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(username, password));
+    private void setAuthorization(String username, String password) {
+    	clearAuthorization();
+    	restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(username, password));
     }
     
-    public void clearAuthorization() {
+    private void clearAuthorization() {
     	restTemplate.getInterceptors().clear();
     }
 }

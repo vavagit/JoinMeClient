@@ -97,7 +97,7 @@ public class LoginController implements Initializable {
 			return;
 		}
 		
-		/*User user = new User(userName,password);
+		User user = new User(userName,password);
 		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 		RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
 		RestTemplate template = factory.getObject();
@@ -108,8 +108,10 @@ public class LoginController implements Initializable {
 			String url = "http://localhost:8009/login";
 			ResponseEntity<User> returnedEntity = template.postForEntity(url, user, User.class);
 			//nastavenie autorizacnych udajov pre dalsiu komunikaciu
-			factory.setAuthorization(userName, password);
-			Dataset.getInstance().setLoggedIn(returnedEntity.getBody());
+			User returnedUser = returnedEntity.getBody();
+			returnedUser.setPassword(password);
+			returnedUser.setUserName(userName);
+			Dataset.getInstance().setLoggedIn(returnedUser);
 		}
 		catch(HttpStatusCodeException e){
 			errLabel.setText("Invalid username or password");
@@ -122,7 +124,6 @@ public class LoginController implements Initializable {
 			return;
 		}
 		
-		*/
 		//prepnutie sceny na hlavne okno
 		Stage currentStage = (Stage) passwordPF.getScene().getWindow();
 		currentStage.close();
