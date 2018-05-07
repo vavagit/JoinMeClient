@@ -1,4 +1,4 @@
-package vava.components;
+package vava.app.components;
 
 import java.util.List;
 import java.util.Locale;

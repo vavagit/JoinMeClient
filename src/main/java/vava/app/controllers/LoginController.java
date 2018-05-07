@@ -1,18 +1,14 @@
-package vava.controllers;
+package vava.app.controllers;
 
 
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.apache.http.conn.HttpHostConnectException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
@@ -23,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -35,7 +32,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import vava.app.Config;
+import vava.app.model.Dataset;
 import vava.app.model.User;
+import vava.app.model.communication.RestTemplateFactory;
 
 public class LoginController implements Initializable {
 	Stage stage;
@@ -59,7 +58,7 @@ public class LoginController implements Initializable {
 	private void registerHandle(ActionEvent event) {
 		Stage s = (Stage)logInButton.getScene().getWindow();
 		s.close();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/views/Register.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/Register.fxml"));
 		AnchorPane root=null;
 		try {
 			root = loader.load();
@@ -67,7 +66,6 @@ public class LoginController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		RegisterController rec = loader.getController();
 		Scene scene = new Scene(root);
         s.setTitle("JoinMe - REGISTER");
         s.setScene(scene);
@@ -99,12 +97,19 @@ public class LoginController implements Initializable {
 			return;
 		}
 		
-		/*User usr = new User(userName,password);
+		User user = new User(userName,password);
 		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-		RestTemplate restTemplate = context.getBean(RestTemplate.class);
-		String ip = "http://25.19.186.82:8009/";
+		RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
+		RestTemplate template = factory.getObject();
+		
+		((ConfigurableApplicationContext) context).close();
+		
 		try {
-			ResponseEntity<User> user = restTemplate.exchange(ip+"login", HttpMethod.POST, new HttpEntity<User>(usr),new ParameterizedTypeReference<User>() {});
+			String url = "http://localhost:8009/login";
+			ResponseEntity<User> returnedEntity = template.postForEntity(url, user, User.class);
+			//nastavenie autorizacnych udajov pre dalsiu komunikaciu
+			factory.setAuthorization(userName, password);
+			Dataset.getInstance().setLoggedIn(returnedEntity.getBody());
 		}
 		catch(HttpStatusCodeException e){
 			errLabel.setText("Invalid username or password");
@@ -115,24 +120,22 @@ public class LoginController implements Initializable {
 		catch(RestClientException p){
 			errLabel.setText("error connection. Try later");
 			return;
-		}*/
-		
-		
-		Stage s = (Stage)logInButton.getScene().getWindow();
-		s.close();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/views/MainView.fxml"));
-		AnchorPane root=null;
-		try {
-			root = loader.load();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		MainViewController cec = loader.getController();
-		//root.getChildrenUnmodifiable().add(new GmComponent(stage).mapComponent);
-		Scene scene = new Scene(root);
-        s.setTitle("FXML Welcome");
-        s.setScene(scene);
-        s.show();
+		
+		
+		//prepnutie sceny na hlavne okno
+		Stage currentStage = (Stage) passwordPF.getScene().getWindow();
+		currentStage.close();
+				
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/MainView.fxml"));
+			Parent root = loader.load();
+			Scene scene = new Scene(root);
+	        currentStage.setScene(scene);
+	        currentStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
 	}
 }

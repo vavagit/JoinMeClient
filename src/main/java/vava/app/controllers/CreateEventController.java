@@ -1,4 +1,4 @@
-package vava.controllers;
+package vava.app.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import vava.components.GmComponent;
+import vava.app.components.GmComponent;
 
 public class CreateEventController implements Initializable{
 	@FXML Pane gmapsPane;

@@ -1,4 +1,4 @@
-package vava.components;
+package vava.app.components;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
