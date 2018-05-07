@@ -20,6 +20,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -37,7 +39,7 @@ public class RegisterController implements Initializable {
 	@FXML private TextField firstNameTF;
 	@FXML private TextField lastNameTF;
 	@FXML private TextField addressTF;
-	
+	@FXML private Button signUpButton;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -105,4 +107,14 @@ public class RegisterController implements Initializable {
 			return;
 		}
 	}
+	@FXML
+	private void enterMouse(MouseEvent event) {
+		signUpButton.getStyleClass().add("buttonChange");
+	}
+	
+	@FXML
+	private void exitMouse(MouseEvent event) {
+		signUpButton.getStyleClass().remove("buttonChange");
+	}
+	
 }
