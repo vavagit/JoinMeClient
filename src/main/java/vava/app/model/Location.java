@@ -34,8 +34,13 @@ public class Location {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+	
+	@Override
+	public String toString() {
+		return "(" + latitude + "," + longitude + ")";
+	}
 
-	public static double calculateDistanceInKilometers(Location point1, Location point2) {
+	public static int calculateDistanceInKilometers(Location point1, Location point2) {
 
 		double latDistance = Math.toRadians(point1.getLatitude() - point2.getLatitude());
 		double lngDistance = Math.toRadians(point1.getLongitude() - point2.getLongitude());
@@ -45,6 +50,6 @@ public class Location {
 
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-		return AVERAGE_RADIUS_OF_EARTH_KM * c;
+		return (int)(AVERAGE_RADIUS_OF_EARTH_KM * c);
 	}
 }
