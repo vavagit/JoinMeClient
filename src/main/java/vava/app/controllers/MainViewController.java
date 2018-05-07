@@ -1,5 +1,6 @@
 package vava.app.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -9,13 +10,18 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import vava.app.components.EventPaneComponent;
 import vava.app.model.Event;
 import vava.app.model.Location;
@@ -23,6 +29,7 @@ import vava.app.model.SportCategory;
 
 
 public class MainViewController implements Initializable {
+	Stage s;
 	String leftTitle = "Hi!";
 	String nameUser = "Damian Majercak";
 	String locationLabelS = "Lokacia: ";
@@ -58,4 +65,22 @@ public class MainViewController implements Initializable {
 		filterButton.setStyle("-fx-background-color: #19b9e7");
 		//filterButton.getStyleClass().remove("buttonChange");
 	}
+	
+	@FXML
+	private void createEventHandle(ActionEvent event) {
+		s = new Stage();
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/CreateEvents.fxml"));
+			Parent root = loader.load();
+			Scene scene = new Scene(root);
+	        s.setScene(scene);
+	        s.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		
+	}
+	
+	
 }

@@ -34,12 +34,13 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 
 	public GoogleMapView mapComponent;
 	public GoogleMap map;
-	public GeocodingService gs = new GeocodingService();
+	public GeocodingService gs;
 	protected DirectionsPane directions;
 	private MarkerOptions markerOptions2;
 	private Marker myMarker2;
 	public LatLong fromGeocode;
 	
+	public static GmComponent gm = null;
 	@Override
 	public void elevationsReceived(ElevationResult[] results, ElevationStatus status) {
 		if (status.equals(ElevationStatus.OK)) {
@@ -73,8 +74,14 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 		
 
 	}
+	public static GmComponent getInstance() {
+		if(gm ==null) {
+			gm = new GmComponent(null);
+		}
+		return gm;
+	}
 
-	public GmComponent(Stage s) {
+	private GmComponent(Stage s) {
 		mapComponent = new GoogleMapView(Locale.getDefault().getLanguage(), null);
 		//gs = new GeocodingService();
 		mapComponent.addMapInitializedListener(this);
