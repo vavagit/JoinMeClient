@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane styleClass="anchor" stylesheets="/vava/views/Log.css"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vava.controllers.MainViewController">
+<AnchorPane styleClass="anchor" stylesheets="/vava/app/views/Log.css"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vava.app.controllers.MainViewController">
    <children>
       <Pane layoutX="20.0" layoutY="20.0" styleClass="leftMainPane">
       	<children>

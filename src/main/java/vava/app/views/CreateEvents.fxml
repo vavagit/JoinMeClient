@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane styleClass="anchor,createEvent" stylesheets="/vava/views/Log.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="vava.controllers.CreateEventController">
+<AnchorPane styleClass="anchor,createEvent" stylesheets="/vava/app/views/Log.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="vava.app.controllers.CreateEventController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="206.0" layoutY="14.0" prefHeight="26.0" prefWidth="111.0" text="CREATE EVENT" textAlignment="CENTER">
          <font>
