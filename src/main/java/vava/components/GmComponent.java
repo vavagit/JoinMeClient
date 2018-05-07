@@ -50,7 +50,7 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 	}
 
 	@Override
-	public LatLong geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
+	public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
 		LatLong temp = null;
 		if (status.equals(GeocoderStatus.OK)) {
 			for (GeocodingResult e : results) {
@@ -58,10 +58,10 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 				//System.out.println(e.getGeometry().getLocation());
 				//System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
 			}
-		return temp;
+			fromGeocode = temp;
 		}
 		else {
-			return null;
+			fromGeocode = null;
 		}
 		/*MarkerOptions mo = new MarkerOptions();
 		mo.position(fromGeocode).visible(true);
@@ -181,11 +181,11 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 //	        System.out.println("Testing fromLatLngToPoint result: " + p);
 //	        System.out.println("Testing fromLatLngToPoint expected: " + mapComponent.getWidth()/2 + ", " + mapComponent.getHeight()/2);
 	}
-	public void geocodingAddress(String place) {
+	public LatLong geocodingAddress(String place) {
 		//GeocodingService gs = new GeocodingService();
+		fromGeocode = null;
 		gs.geocode(place, this);
-		
-		
+		return fromGeocode;
 		
 		
 	}
