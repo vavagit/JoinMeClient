@@ -35,6 +35,11 @@ public class SportCategory {
 	public void setSport_en(String sport_en) {
 		this.sport_en = sport_en;
 	}
+
+	@Override
+	public String toString() {
+		return "SportCategory [id=" + id + ", sport_sk=" + sport_sk + ", sport_en=" + sport_en + "]";
+	}
 	
 	
 	

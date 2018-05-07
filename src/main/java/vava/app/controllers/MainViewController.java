@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 import vava.app.Config;
 import vava.app.components.EventPaneComponent;
 import vava.app.model.Event;
+import vava.app.model.SportCategory;
 
 
 public class MainViewController implements Initializable {
@@ -59,19 +60,19 @@ public class MainViewController implements Initializable {
      		RestTemplate template = context.getBean(RestTemplate.class);
      		((ConfigurableApplicationContext)context).close();     		
      		
-     		final String url = "http://localhost:8009/events?lon={lon}&lat={lat}&radius={radius}";
+     		final String url = "http://25.19.186.82:8009/events?lon={lon}&lat={lat}&radius={radius}";
      		Map<String, Object> map = new HashMap<>();
      		map.put("lon", 50.0);
      		map.put("lat", 50.0);
      		map.put("radius", 1000);
-     		ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {}, map);
+     		ResponseEntity<List<SportCategory>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<SportCategory>>() {}, map);
      		
-    		List<EventPaneComponent> list = new ArrayList<>();
-     		for(Event current : returnedEntity.getBody()) {
-     			list.add(new EventPaneComponent(current));
+    		List<SportCategory> list = new ArrayList<>();
+     		for(SportCategory current : returnedEntity.getBody()) {
+     			list.add(new SportCategory(current.getId(),current.getSport_en(),current.getSport_sk()));
      		}
-  
-     		eventListView.setItems(FXCollections.observableList(list));
+     		
+     		
         	
      	}catch(RestClientException e) {
      		e.printStackTrace();

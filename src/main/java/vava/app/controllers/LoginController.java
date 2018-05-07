@@ -105,7 +105,7 @@ public class LoginController implements Initializable {
 		((ConfigurableApplicationContext) context).close();
 		
 		try {
-			String url = "http://localhost:8009/login";
+			String url = "http://25.19.186.82:8009/login";
 			ResponseEntity<User> returnedEntity = template.postForEntity(url, user, User.class);
 			//nastavenie autorizacnych udajov pre dalsiu komunikaciu
 			User returnedUser = returnedEntity.getBody();
