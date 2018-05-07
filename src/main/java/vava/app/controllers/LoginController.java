@@ -3,6 +3,7 @@ package vava.app.controllers;
 
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,6 +45,14 @@ public class LoginController implements Initializable {
 	@FXML Label errLabel;
 	@FXML Hyperlink register;
 	public void initialize(URL location, ResourceBundle resources) {
+		try {
+			byte[] s = "\u002b\u013e\u0161\u013e\u0161\u002b\u010d\u0165".getBytes("UTF16");
+			String text = new String(s, "UTF16");
+			errLabel.setText(text);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// TODO Auto-generated method stub
 		passwordPF.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			 public void handle(KeyEvent ke) {
