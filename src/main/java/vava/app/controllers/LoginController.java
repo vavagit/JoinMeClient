@@ -97,7 +97,7 @@ public class LoginController implements Initializable {
 			return;
 		}
 		
-		User user = new User(userName,password);
+		/*User user = new User(userName,password);
 		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 		RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
 		RestTemplate template = factory.getObject();
@@ -122,7 +122,7 @@ public class LoginController implements Initializable {
 			return;
 		}
 		
-		
+		*/
 		//prepnutie sceny na hlavne okno
 		Stage currentStage = (Stage) passwordPF.getScene().getWindow();
 		currentStage.close();

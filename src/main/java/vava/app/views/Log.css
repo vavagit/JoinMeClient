@@ -13,10 +13,7 @@
 	-fx-pref-width: 400;
 	-fx-pref-height: 600;
 }
-.userCreateEventInput{
-	-fx-pref-width: 200;
-	-fx-pref-height: 30;
-}
+
 .userInput{ 
 	-fx-pref-height: 50.0;
 	-fx-pref-width: 200;
@@ -26,6 +23,7 @@
 	-fx-pref-height: 40.0;
 	-fx-pref-width: 300;
 }
+
 .input{
 	-fx-border-color: #ccc;
 	-fx-border-width: 3;
@@ -38,16 +36,7 @@
 	-fx-pref-width: 350.0;
 	-fx-pref-height: 75.0;
 }
-.createTPane{
-	-fx-background-color: white;
-	-fx-pref-width: 250.0;
-	-fx-pref-height: 75.0;
-}
-.createUserPane{
-	-fx-background-color: #eee;
-	-fx-pref-height: 400.0;
-	 -fx-pref-width:250.0;
-}
+
 
 .tLabel{
 	-fx-text-fill: black;
@@ -62,19 +51,6 @@
 	-fx-alignment: center;
 	-fx-border-radius: 0.2;
 }
-
-/*.list-view .list-cell:even {
--fx-background-color: white;
--fx-text-fill: black;
-}
-.list-view .list-cell:odd {
--fx-background-color: #CCC;
--fx-text-fill: black;
-}
-/* .list-view .list-cell:selected{
-	-fx-background-color: red;
-	-fx-text-fill: blue;
-}*/
 .buttonJoin{
 	-fx-background-color:  #19b9e7;
 	-fx-text-fill: #FFF;
@@ -85,7 +61,6 @@
 }
 .buttonDetail{
 	-fx-background-color: #FFF;
-	        
     -fx-max-width: 100px;
     -fx-max-height: 100px;
     -fx-background-image: url(/img/detailIco.png);
@@ -213,5 +188,29 @@
 	-fx-border-radius: 0.2;
 	-fx-max-height: 30;	
 }
-
-
+/*-----------------------create event    ------------------------- */
+.spaceCreateEvent{
+	-fx-min-height: 5;
+	-fx-pref-height: 5;
+	-fx-max-height: 5;
+	-fx-background-color: #eee; 	
+}
+.createTPane{
+	-fx-background-color: white;
+	-fx-pref-width: 250.0;
+	-fx-pref-height: 75.0;
+}
+.createUserPane{
+	-fx-background-color: #eee;
+	-fx-pref-height: 425.0;
+	 -fx-pref-width:250.0;
+}
+.userCreateEventInput{
+	-fx-pref-width: 200;
+	-fx-pref-height: 30;
+}
+.descriptionAreaInput{
+	-fx-pref-width: 200;
+	-fx-pref-height: 40;
+	-fx-max-height: 70;
+}
