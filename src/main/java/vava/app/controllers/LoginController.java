@@ -33,6 +33,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import vava.app.Config;
+import vava.app.PropertyManager;
 import vava.app.model.Dataset;
 import vava.app.model.User;
 import vava.app.model.communication.RestTemplateFactory;
@@ -45,15 +46,6 @@ public class LoginController implements Initializable {
 	@FXML Label errLabel;
 	@FXML Hyperlink register;
 	public void initialize(URL location, ResourceBundle resources) {
-		try {
-			byte[] s = "\u002b\u013e\u0161\u013e\u0161\u002b\u010d\u0165".getBytes("UTF16");
-			String text = new String(s, "UTF16");
-			errLabel.setText(text);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// TODO Auto-generated method stub
 		passwordPF.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			 public void handle(KeyEvent ke) {
 		            if (ke.getCode() == KeyCode.ENTER) {
@@ -114,7 +106,8 @@ public class LoginController implements Initializable {
 		((ConfigurableApplicationContext) context).close();
 		
 		try {
-			String url = "http://localhost:8009/login";
+			String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
+			String url = "http://"+ip+":8009/login";
 			ResponseEntity<User> returnedEntity = template.postForEntity(url, user, User.class);
 			//nastavenie autorizacnych udajov pre dalsiu komunikaciu
 			User returnedUser = returnedEntity.getBody();
