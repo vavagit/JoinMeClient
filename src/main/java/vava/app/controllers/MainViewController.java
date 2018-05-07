@@ -48,8 +48,8 @@ public class MainViewController implements Initializable {
 		locationLabel.setText(locationLabelS);
 		rangeLabel.setText("Range: ");
 		List<EventPaneComponent> list = new ArrayList<>();
-        list.add(new EventPaneComponent(new Event(1, 12, "Fc pod hrat", "skuska", Date.valueOf(LocalDate.now()), 30, 15, new SportCategory(4,"hockey"), "Krizova Ves", new Location())));
-        list.add(new EventPaneComponent(new Event(1, 12, "Fc pod hrat", "skuska", Date.valueOf(LocalDate.now()), 30, 5, new SportCategory(2,"hockey"), "Krizova Ves", new Location())));
+        list.add(new EventPaneComponent(new Event(1, 12, "Fc pod hrat", "skuska", Date.valueOf(LocalDate.now()), 30, 15, new SportCategory(4,"hockey","hokej"), "Krizova Ves", new Location())));
+        list.add(new EventPaneComponent(new Event(1, 12, "Fc pod hrat", "skuska", Date.valueOf(LocalDate.now()), 30, 5, new SportCategory(2,"hockey","hokej"), "Krizova Ves", new Location())));
 
         ObservableList<EventPaneComponent> myObservableList = FXCollections.observableList(list);
          eventListView.setItems(myObservableList);
