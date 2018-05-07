@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import org.springframework.stereotype.Component;
 
@@ -12,14 +13,14 @@ public class PropertyManager {
 	
 	private Properties properties = new Properties();
 	
-	public PropertyManager(String path) {
+	public PropertyManager(InputStream path) {
 		properties = loadFromFile(path);
 	}
 	
-	private Properties loadFromFile(String path) {
+	private Properties loadFromFile(InputStream path) {
 		Properties properties = new Properties();
 		try {
-			properties.load(new FileInputStream(new File(path)));
+			properties.load(path);
 		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();

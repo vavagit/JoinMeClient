@@ -55,7 +55,7 @@
 			    		<TextArea fx:id="descriptionTA" styleClass="input,descriptionAreaInput"/>
 			    		
 			    		<Pane styleClass="spaceCreateEvent"/>
-			    		<Button styleClass="button,userCreateEventInput" text="Create event!"/>
+			    		<Button fx:id="createButton" styleClass="button,userCreateEventInput" text="Create event!"/>
 			    	</children>
 			    </VBox>
 			    <Pane fx:id="gmapsPane" layoutX="275.0" layoutY="40.0" prefHeight="300.0" prefWidth="300.0" />

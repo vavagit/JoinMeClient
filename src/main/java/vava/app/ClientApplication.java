@@ -1,5 +1,8 @@
 package vava.app;
 
+import java.time.LocalDate;
+import java.util.Locale;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,6 +27,7 @@ public class ClientApplication extends Application{
 	}
 
 	public static void main(String[] args) {
+		System.out.println(Locale.getDefault().getLanguage());
 		launch(args);
 	}
 }
