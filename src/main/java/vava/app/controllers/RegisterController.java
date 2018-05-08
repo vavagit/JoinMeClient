@@ -13,6 +13,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.lynden.gmapsfx.javascript.object.LatLong;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,10 +26,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import vava.app.Config;
 import vava.app.PropertyManager;
+import vava.app.components.GmComponent;
 import vava.app.model.Dataset;
 import vava.app.model.Location;
 import vava.app.model.User;
@@ -42,10 +46,11 @@ public class RegisterController implements Initializable {
 	@FXML private TextField lastNameTF;
 	@FXML private TextField addressTF;
 	@FXML private Button signUpButton;
-	
+	RegisterController rc;
+	LatLong address;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		rc = this;
 	}
 	
 	@FXML
@@ -73,7 +78,7 @@ public class RegisterController implements Initializable {
 		
 		//vytvorenie objektu uzivatela
 		User user = new User(usernameString, passwordString, new Date(new java.util.Date().getTime()), firstNameString, lastNameString, 0, 
-							contactString, addressString, new Location(10,10));
+							contactString, addressString, new Location(address.getLatitude(),address.getLongitude()));
 		
 		try {
 			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
@@ -122,4 +127,15 @@ public class RegisterController implements Initializable {
 		signUpButton.getStyleClass().remove("buttonChange");
 	}
 	
+	@FXML 
+	private void inputHandle(KeyEvent event) {
+			String place = addressTF.getText();
+			System.out.println("text-------- "+place);
+			GmComponent.getInstance().geocodingAddress(addressTF.getText(), rc);
+	}
+	
+	public void fillLongLitude(LatLong l) {
+		this.address = l;
+		System.out.println("Naplnam polohu "+l);
+	}
 }

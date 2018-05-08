@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import vava.app.controllers.CreateEventController;
 import vava.app.controllers.MainViewController;
+import vava.app.controllers.RegisterController;
 
 public class GmComponent implements MapComponentInitializedListener, ElevationServiceCallback,
 GeocodingServiceCallback, DirectionsServiceCallback {
@@ -74,6 +75,10 @@ public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus st
 		}
 		else if(objectCTRL instanceof MainViewController) {
 			MainViewController q1 = (MainViewController)objectCTRL;
+			q1.fillLongLitude(fromGeocode);
+		}
+		else if(objectCTRL instanceof RegisterController) {
+			RegisterController q1 = (RegisterController)objectCTRL;
 			q1.fillLongLitude(fromGeocode);
 		}
 		/*MarkerOptions mo = new MarkerOptions();
