@@ -217,7 +217,7 @@ public class CreateEventsController implements Initializable {
 		String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
 		final String url = "http://" + ip + ":8009/events";
 		try {
-			template.postForEntity(url, created, Void.class);
+			template.put(url, created, Void.class);
 		} catch (HttpStatusCodeException e) {
 			new Alert(AlertType.ERROR, "Event sa nepodarilo vytvorit").showAndWait();
 			return;
