@@ -159,9 +159,7 @@ public class EditEventController implements Initializable {
 			}
 		});
 
-		sportCategoryChB.setItems(list2);
-		sportCategoryChB.getSelectionModel().selectFirst();
-		
+		sportCategoryChB.setItems(list2);		
 		
 		titleLabel.setText(pm.getProperty("titleLabel"));
 		titleDescriptionLabel.setText(pm.getProperty("titleDescriptionLabel"));

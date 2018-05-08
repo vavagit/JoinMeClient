@@ -40,7 +40,19 @@ public class SportCategory {
 	public String toString() {
 		return "SportCategory [id=" + id + ", sport_sk=" + sport_sk + ", sport_en=" + sport_en + "]";
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SportCategory other = (SportCategory) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 	
 }
