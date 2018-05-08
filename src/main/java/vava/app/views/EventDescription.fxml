@@ -4,22 +4,43 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="299.0" prefWidth="575.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane  styleClass="anchor,anchorEventDescription" stylesheets="/vava/app/views/Log.css" fx:controller="vava.app.controllers.EventDescriptionController" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="eventTitleLabel" layoutX="27.0" layoutY="21.0" text="Event:" />
-      <Label fx:id="dateLabel" layoutX="27.0" layoutY="71.0" text="Date:" />
-      <Label fx:id="descriptionLabel" layoutX="27.0" layoutY="171.0" text="Description:" />
-      <Label fx:id="sportCategoryLabel" layoutX="27.0" layoutY="48.0" text="Sport:" />
-      <Label fx:id="addressLabel" layoutX="27.0" layoutY="96.0" text="Address:" />
-      <Label fx:id="ageLabel" layoutX="27.0" layoutY="121.0" text="Age limit:" />
-      <Label fx:id="dataEventTitleLabel" layoutX="115.0" layoutY="22.0" prefHeight="15.0" prefWidth="201.0" wrapText="true" />
-      <Label fx:id="dataSportCategoryLabel" layoutX="115.0" layoutY="47.0" prefHeight="15.0" prefWidth="201.0" wrapText="true" />
-      <Label fx:id="dataDateLabel" layoutX="115.0" layoutY="72.0" prefHeight="15.0" prefWidth="201.0" wrapText="true" />
-      <Label fx:id="dataAddressLabel" layoutX="115.0" layoutY="97.0" prefHeight="15.0" prefWidth="201.0" wrapText="true" />
-      <Label fx:id="dataAgeLabel" layoutX="115.0" layoutY="122.0" prefHeight="15.0" prefWidth="201.0" wrapText="true" />
-      <Label fx:id="dataDescriptionLabel" layoutX="115.0" layoutY="172.0" prefHeight="68.0" prefWidth="201.0" wrapText="true" />
-      <Label fx:id="creatorLabel" layoutX="27.0" layoutY="146.0" text="Creator:" />
-      <Label fx:id="dataCreatorLabel" layoutX="115.0" layoutY="147.0" prefHeight="15.0" prefWidth="201.0" wrapText="true" />
+   	<Pane styleClass = "paneUnderDetails" layoutX="20" layoutY="20">
+   		<children>
+   		  <Pane styleClass="titlePaneUnderDetails" layoutX="0" layoutY="0">
+   		  	<children>
+   		  		<Label fx:id="dataEventTitleLabel" 	layoutX="10" layoutY="25" styleClass="titleLabel"/>
+   		  	</children>
+   		  </Pane>
+   		  <VBox layoutX="5" layoutY="75">
+   		  	<children>
+		      <Label fx:id="dateLabel" styleClass="eventdescriptionLabel" text="Date:" />
+		      <Label fx:id="dataDateLabel" styleClass="eventdescriptionDataLabel"/>
+		      <Pane styleClass="eventDescriptionSpace"/>
+		      
+		      <Label fx:id="sportCategoryLabel" styleClass="eventdescriptionLabel" text="Sport:" />
+		       <Label fx:id="dataSportCategoryLabel" styleClass="eventdescriptionDataLabel" />
+				<Pane styleClass="eventDescriptionSpace"/>
+		      <Label fx:id="ageLabel" styleClass="eventdescriptionLabel" text="Age limit:" />
+		      <Label fx:id="dataAgeLabel" styleClass="eventdescriptionDataLabel"/>
+		      <Pane styleClass="eventDescriptionSpace"/>
+		       <Label fx:id="addressLabel" styleClass="eventdescriptionLabel" text="Address:" />
+		      <Label fx:id="dataAddressLabel" styleClass="eventdescriptionDataLabel"/>
+		      <Pane styleClass="eventDescriptionSpace"/>
+		      <Label fx:id="creatorLabel" styleClass="eventdescriptionLabel" text="Creator:" />
+		      <Label fx:id="dataCreatorLabel"  styleClass="eventdescriptionDataLabel"/>
+		      <Pane styleClass="eventDescriptionSpace"/>
+		       <Label fx:id="descriptionLabel" styleClass="eventdescriptionLabel" text="Description:" />
+		      <Label fx:id="dataDescriptionLabel" styleClass="eventdescriptionDataLabel"/>
+			</children>
+	      </VBox>
+   		</children>
+   	</Pane>
+   	
+   	<Pane fx:id="gmaps" styleClass="gmapsPaneEventDescription" layoutX="285" layoutY="75"/>
    </children>
 </AnchorPane>

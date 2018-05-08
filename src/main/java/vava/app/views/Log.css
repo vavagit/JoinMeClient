@@ -224,3 +224,63 @@
 	-fx-pref-height: 40;
 	-fx-max-height: 70;
 }
+/*event description -------------------------------- */
+.anchorEventDescription{
+	-fx-pref-height: 500.0px;
+	 -fx-pref-width: 600.0px;
+	 -fx-min-width: 600px;
+	 -fx-max-width: 600px;
+}
+.paneUnderDetails{
+	-fx-min-width: 250px;
+	-fx-max-width: 250px;
+	-fx-pref-tile-width: 250px;
+	-fx-pref-height: 400px;
+	-fx-min-height: 400px;
+	-fx-max-height: 400px;
+	-fx-background-color: #EEE;
+}
+.titlePaneUnderDetails{
+	-fx-min-width: 250px;
+	-fx-max-width: 250px;
+	-fx-pref-tile-width: 250px;
+	-fx-pref-height: 70px;
+	-fx-min-height: 70px;
+	-fx-max-height: 70px;
+	-fx-background-color: #FFF;
+}
+.titleLabel{
+	-fx-max-width: 250px;
+	-fx-max-height: 70px;
+	-fx-font-size: 20;
+	-fx-alignment: center;
+	-fx-text-alignment: center;
+}
+.eventdescriptionLabel{
+	-fx-max-width: 250px;
+	-fx-max-height: 20px;
+	-fx-font-size: 20;
+	-fx-text-alignment: center;
+}
+.eventDescriptionSpace{
+	-fx-min-height: 5px;
+	-fx-max-height: 5px;
+}
+.eventdescriptionDataLabel{
+	-fx-max-width: 240px;
+	-fx-pref-width: 240px;
+	-fx-max-height: 20px;
+	-fx-font-size: 15;
+	-fx-text-alignment: center;
+	-fx-alignment: center;
+	-fx-border-color: #ccc;
+	-fx-border-width: 3;
+	-fx-border-style: solid outside;
+}
+.gmapsPaneEventDescription{
+		-fx-max-width: 300px;
+		-fx-pref-width: 300px;
+		-fx-pref-height: 300px;
+		-fx-max-height: 300px;
+}
+

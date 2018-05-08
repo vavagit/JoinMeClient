@@ -1,14 +1,23 @@
 package vava.app.components;
 
+import java.io.IOException;
+
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import vava.app.controllers.EventDescriptionController;
 import vava.app.model.Event;
 
 public class EventPaneComponent extends HBox{
@@ -29,7 +38,7 @@ public class EventPaneComponent extends HBox{
      Label valueOfAddress = new Label();
      Label numberOfUsers = new Label();
      Label numberOfUsersValue = new Label();
-     
+     Event ev;
      //---------------------------------------
      
      //-----------------treti stplec-----
@@ -37,9 +46,37 @@ public class EventPaneComponent extends HBox{
      Button detailBt = new Button();
      VBox vboxBt = new VBox();
     
+     private void init() {
+    	 detailBt.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				
+				Stage s =(Stage) detailBt.getScene().getWindow();
+				Stage newS = new Stage();
+				newS.initOwner(s);
+				newS.setAlwaysOnTop(true);
+				
+				try {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/EventDescription.fxml"));
+					Parent root = loader.load();
+					Scene scene = new Scene(root);
+			        EventDescriptionController ec = loader.getController();
+			        ec.fillEventObject(ev);
+					newS.setScene(scene);
+			        newS.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+					return;
+				}
+			}
+		});
+     }
+     
     public EventPaneComponent(Event e) {
 		super();
+		init();
 		//init
+		ev=e;
 		title.getStyleClass().add("vbLabel");
 		date.getStyleClass().add("vbLabel");
 		address.getStyleClass().add("vbLabel");
