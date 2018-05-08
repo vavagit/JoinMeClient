@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration monitorInterval="60">
+	<Properties>
+		<Property name="LOG_PATTERN">
+			%d{yyyy-MM-dd HH:mm:ss} %-5p [%C{2}]: %m%n
+		</Property>
+	</Properties>
+	<Appenders>
+		<Console name="ConsoleAppender" target="SYSTEM_OUT">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+		</Console>
+
+		<RollingFile name="ErrorAppender" fileName="logs/errorLog.log"
+			filePattern="logs/errorLog-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="1MB" />
+			</Policies>
+		</RollingFile>
+
+		<RollingFile name="ServicesAppender" fileName="logs/servicesLog.log"
+			filePattern="logs/servicesLog-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+
+			<Filters>
+				<ThresholdFilter level="error" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="fatal" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+			</Filters>
+
+			<Policies>
+				<SizeBasedTriggeringPolicy size="1MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10" />
+		</RollingFile>
+
+	</Appenders>
+	<Loggers>
+		
+		<Logger name="vava.app" additivity="false" level="DEBUG">
+			<AppenderRef ref="ErrorAppender" level="ERROR" />
+			<AppenderRef ref="ServicesAppender"/>
+		</Logger>
+
+
+		<Logger name="org.springframework" level="ERROR" additivity="false">
+			<AppenderRef ref="ErrorAppender" />
+		</Logger>
+
+		<Logger name="org.appache" level="ERROR" additivity="false">
+			<AppenderRef ref="ErrorAppender" />
+		</Logger>
+		
+		<Logger name="com.lynden" level="ERROR" additivity="false">
+			<AppenderRef ref="ErrorAppender" />
+		</Logger>
+
+		<Root level="INFO">
+			<AppenderRef ref="ConsoleAppender" />
+		</Root>
+	</Loggers>
+</Configuration>

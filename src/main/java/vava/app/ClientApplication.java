@@ -1,5 +1,7 @@
 package vava.app;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +11,8 @@ import javafx.stage.Stage;
 import vava.app.components.GmComponent;
 
 public class ClientApplication extends Application{
+	private static Logger logger = LogManager.getLogger(ClientApplication.class);
+	
 	@Override
 	public void start(final Stage stage) throws Exception {
 		GmComponent.getInstance();
@@ -17,6 +21,7 @@ public class ClientApplication extends Application{
 		Scene scene = new Scene(root);
         stage.setTitle("JoinMe");
         stage.setResizable(false);
+        //nastavenie ikony
         Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
         stage.getIcons().add(image);
         stage.setScene(scene);
@@ -25,6 +30,7 @@ public class ClientApplication extends Application{
 	}
 
 	public static void main(String[] args) {
+		logger.info("Aplication start");
 		launch(args);
 	}
 }

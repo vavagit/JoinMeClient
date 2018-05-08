@@ -1,5 +1,10 @@
 package vava.app.model;
 
+/**
+ * Datova trieda obsahujuca pomocne data. Navrhovy vzor singleton
+ * @author erikubuntu
+ *
+ */
 public class Dataset {
 	private static Dataset set = new Dataset();
 	

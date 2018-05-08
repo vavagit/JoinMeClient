@@ -5,6 +5,11 @@ import org.springframework.context.annotation.Configuration;
 
 import vava.app.model.communication.RestTemplateFactory;
 
+/**
+ * Konfiguracna trieda spring
+ * @author erikubuntu
+ *
+ */
 @Configuration
 public class Config {
 	
