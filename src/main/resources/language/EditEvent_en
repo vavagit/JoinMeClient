@@ -1,0 +1,10 @@
+titleLabel = Edit event!
+titleDescriptionLabel = Here, you can edit event
+createButton = Edit event!
+eventNameTF = Name of the event
+sportCategoryChB = Sport category
+addressTF = Address of the event
+eventDateDP = Date of the event
+neccessaryAgeTF = Age limit
+maxUsersTF = Number of users
+descriptionTA = Description of the event
