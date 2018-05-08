@@ -33,6 +33,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import vava.app.Config;
@@ -104,7 +109,12 @@ public class MainViewController implements Initializable {
 		filterButton.setStyle("-fx-background-color: #19b9e7");
 		//filterButton.getStyleClass().remove("buttonChange");
 	}
-	
+	@FXML 
+	private void inputHandle(KeyEvent event) {
+			String place = locationTextField.getText();
+			System.out.println("text-------- "+place);
+			GmComponent.getInstance().geocodingAddress(locationTextField.getText(), mwc);
+	}
 	@FXML
 	private void createEventHandle(ActionEvent event) {
 		s = new Stage();
@@ -120,6 +130,7 @@ public class MainViewController implements Initializable {
 		}
 		
 	}
+	
 	
 	@FXML
 	private void filterHandle(ActionEvent event) {
@@ -143,7 +154,7 @@ public class MainViewController implements Initializable {
 		Double longitude =null;
 
 		if(!selectedArea.isEmpty()) {
-			GmComponent.getInstance().geocodingAddress(selectedArea, mwc);		
+			//GmComponent.getInstance().geocodingAddress(selectedArea, mwc);		
 			if(l == null) {
 				new Alert(AlertType.ERROR, "Poloha nebola najdena").showAndWait();
 				return;
@@ -151,6 +162,7 @@ public class MainViewController implements Initializable {
 			
 			latitude = l.getLatitude();
 			longitude = l.getLongitude();
+			//System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			System.out.println(l);
 		}
 				
@@ -178,6 +190,7 @@ public class MainViewController implements Initializable {
 	}
 	public void fillLongLitude(LatLong l) {
 		this.l = l;
+		System.out.println("Naplnam polohu "+l);
 	}
 	
 }

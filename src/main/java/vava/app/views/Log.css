@@ -5,10 +5,7 @@
     -fx-background-size: stretch;
    
 }
-.createEvent{
-	-fx-pref-height: 500;
-	-fx-pref-width: 600;
-}
+
 .register{
 	-fx-pref-width: 400;
 	-fx-pref-height: 600;
@@ -92,9 +89,18 @@
 
 
 /*main view  style  -------------------------------------------------------*/
+.mainView{
+	-fx-pref-height: 400.0px;
+	-fx-pref-width: 700.0px;
+	-fx-max-width: 	700.0px;
+	-fx-min-width: 700.0px;
+	
+}
 .eventListView{
 	-fx-pref-height: 325.0;
-	-fx-pref-width: 400.0;
+	-fx-pref-width: 500.0px;
+	-fx-min-width: 500.0px;
+	-fx-max-width: 500.0px;
 }
 
 
@@ -189,6 +195,10 @@
 	-fx-max-height: 30;	
 }
 /*-----------------------create event    ------------------------- */
+.createEvent{
+	-fx-pref-height: 500;
+	-fx-pref-width: 600;
+}
 .spaceCreateEvent{
 	-fx-min-height: 5;
 	-fx-pref-height: 5;

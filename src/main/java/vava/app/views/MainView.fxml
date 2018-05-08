@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor" stylesheets="/vava/app/views/Log.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vava.app.controllers.MainViewController">
+<AnchorPane  styleClass="anchor,mainView" stylesheets="/vava/app/views/Log.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vava.app.controllers.MainViewController">
    <children>
       <Pane layoutX="20.0" layoutY="20.0" styleClass="leftMainPane">
       	<children>
@@ -35,13 +35,14 @@
       <HBox layoutX="193" layoutY="20" styleClass="hboxFilter">
       	<children>
       	 <Label fx:id="locationLabel" layoutX="0" layoutY="0" styleClass="locationLabel" />
-      	 <TextField fx:id="locationTextField" layoutX="10" layoutY="0" styleClass="locationTextField" />
+      	 <TextField fx:id="locationTextField" layoutX="10" layoutY="0"
+      	 onKeyReleased="#inputHandle"  styleClass="locationTextField" />
       	 <Pane layoutY="0" styleClass="spacePane" />
       	<Label fx:id="rangeLabel" layoutX="0" layoutY="0" styleClass="locationLabel" />
       	<TextField fx:id="rangeTextField" layoutX="10" layoutY="0" styleClass="rangeTextField" />
       	<Pane layoutY="0" styleClass="spacePane" />
       	<Label layoutX="0" layoutY="0" styleClass="locationLabel" text="Km " />
-      	<Button fx:id="filterButton" onMouseEntered="#mouseEnteredFilterBt" onMouseExited="#mouseExitedFilterBt" styleClass="filterButton" text="Filter" />
+      	<Button fx:id="filterButton" onAction="#filterHandle" onMouseEntered="#mouseEnteredFilterBt" onMouseExited="#mouseExitedFilterBt" styleClass="filterButton" text="Filter" />
       	</children>
       </HBox>
       <ListView fx:id="eventListView" layoutX="193.0" layoutY="55.0" styleClass="eventListView" />

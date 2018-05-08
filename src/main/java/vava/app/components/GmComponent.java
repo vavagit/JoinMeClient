@@ -29,6 +29,7 @@ import com.lynden.gmapsfx.service.geocoding.GeocodingServiceCallback;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import vava.app.controllers.CreateEventController;
+import vava.app.controllers.MainViewController;
 
 public class GmComponent implements MapComponentInitializedListener, ElevationServiceCallback,
 GeocodingServiceCallback, DirectionsServiceCallback {
@@ -53,22 +54,26 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 
 	@Override
 public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
-	System.out.println(Thread.currentThread().getName()+"  "+Thread.currentThread().getId());
+	//System.out.println(Thread.currentThread().getName()+"  "+Thread.currentThread().getId());
 		LatLong temp = null;
 		if (status.equals(GeocoderStatus.OK)) {
 			for (GeocodingResult e : results) {
 				temp = e.getGeometry().getLocation();
-				System.out.println(e.getGeometry().getLocation());
+				//System.out.println("goeode result    "+e.getGeometry().getLocation());
 				System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
+				fromGeocode = temp;
+				break;
 			}
-			fromGeocode = temp;
+			
 			//System.out.println(fromGeocode);
 		}
-		else {
-			fromGeocode = new LatLong(Double.MAX_VALUE,Double.MAX_VALUE);
-		}
+		
 		if(objectCTRL instanceof CreateEventController) {
 			CreateEventController q1 = (CreateEventController)objectCTRL;
+			q1.fillLongLitude(fromGeocode);
+		}
+		else if(objectCTRL instanceof MainViewController) {
+			MainViewController q1 = (MainViewController)objectCTRL;
 			q1.fillLongLitude(fromGeocode);
 		}
 		/*MarkerOptions mo = new MarkerOptions();
@@ -203,7 +208,7 @@ public void geocodingAddress(String place,Object e) {
 		//GeocodingService gs = new GeocodingService();
 		this.objectCTRL = e;
 		gs.geocode(place, this);
-		System.out.println(Thread.currentThread().getName()+"  "+Thread.currentThread().getId());
+		//System.out.println(Thread.currentThread().getName()+"  "+Thread.currentThread().getId());
 		return;
 	}
 	public void refillLatLong(Object e) {
