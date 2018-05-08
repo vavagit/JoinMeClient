@@ -291,3 +291,21 @@
 	-fx-pref-width: 240px;
 	-fx-max-height: 20px;
 }
+
+
+
+/*skuska */
+.context-menu {
+  	-fx-background-color:  #19b9e7;
+	-fx-text-fill: #FFF;
+	-fx-font-size: 15;
+	-fx-text-alignment: center;
+	-fx-alignment: center;
+	-fx-border-radius: 0.2;
+}
+
+
+.menu-item:focused .label {
+  -fx-text-fill: white;
+  -fx-background-color: #6dcde9;
+}
