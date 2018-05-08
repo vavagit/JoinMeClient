@@ -3,6 +3,7 @@ package vava.app.controllers;
 import java.lang.Character.UnicodeBlock;
 import java.net.URL;
 import java.rmi.server.Skeleton;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +74,6 @@ public class CreateEventController implements Initializable{
 		gmapsPane.getChildren().add(gm.mapComponent);
 		init();
 		gmapsPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent event) {
 				if(event.getClickCount() == 2) {
@@ -84,9 +84,7 @@ public class CreateEventController implements Initializable{
 			
 		});
 		gm.map.setZoom(7);
-		
-		
-		addressTF.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		addressTF.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
 			 public void handle(KeyEvent ke) {
 		            if (ke.getCode() == KeyCode.ENTER) {
 		                gm.geocodingAddress(addressTF.getText(),e);
@@ -103,12 +101,12 @@ public class CreateEventController implements Initializable{
 			language = "en";
 		}
 		final String lang = language;
-		/* try {
+		 try {
 	     		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 	     		RestTemplate template = context.getBean(RestTemplate.class);
 	     		((ConfigurableApplicationContext)context).close();     		
-	     		
-	     		final String url = "http://25.19.186.82:8009/events/categories";
+	     		String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
+	     		final String url = "http://"+ip+":8009/events/categories";
 	     		ResponseEntity<List<SportCategory>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<SportCategory>>() {});
 	     		
 	    		list = new ArrayList<>();
@@ -137,7 +135,7 @@ public class CreateEventController implements Initializable{
 			}
 		});
 		
-		sportCategoryChB.setItems(list2);*/
+		sportCategoryChB.setItems(list2);
 		System.out.println(language);
 		PropertyManager pm = new PropertyManager(getClass().getResourceAsStream("/language/CreateEvents_"+language));
 		titleLabel.setText(pm.getProperty("titleLabel"));
@@ -164,6 +162,19 @@ public class CreateEventController implements Initializable{
 		//GmComponent.getInstance().map.setZoom(12);
 	}
 	
+	
+private	void createEventHandle(){
+		/*Event newEv = new Event(0,Integer.parseInt(maxUsersTF.getText()), 
+				eventNameTF.getText(), descriptionTA.getText(),
+				eventDateDP.getValue(), necessaryAge, creatorId, sportCategory, address, eventLocation); */
+ 		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+ 		RestTemplate template = context.getBean(RestTemplate.class);
+ 		((ConfigurableApplicationContext)context).close();     		
+ 		String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
+ 		final String url = "http://"+ip+":8009/events/events";
+ 		//template.postForEntity(url, newEv, Void.class);
+	     	
+	}
 	
 
 	
