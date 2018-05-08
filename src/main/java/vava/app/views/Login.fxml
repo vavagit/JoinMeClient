@@ -23,11 +23,11 @@
        
             <TextField fx:id="userNameTF" layoutX="25.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" promptText="Username..." styleClass="userInput" />
             <PasswordField fx:id="passwordPF" layoutX="25.0" layoutY="125.0" promptText="Password..." styleClass="userInput" />
-            <Button fx:id="logInButton" layoutX="25.0" layoutY="195.0" mnemonicParsing="false" onMouseExited="#logInMouseExited" onMouseEntered="#logInChangeCollor" onAction="#logInHandle" styleClass="userInput,button" text="Log In" />
-            <Label fx:id = "errLabel" layoutX = "25.0" layoutY="177.0" styleClass="errLabel" />
+            <Button fx:id="logInButton" layoutX="25.0" layoutY="195.0" mnemonicParsing="false" onAction="#logInHandle" onMouseEntered="#logInChangeCollor" onMouseExited="#logInMouseExited" styleClass="userInput,button" text="Log In" />
+            <Label fx:id="errLabel" layoutX="25.0" layoutY="177.0" styleClass="errLabel" />
             <Pane prefHeight="62.0" prefWidth="250.0" style="-fx-background-color: #fff;">
                <children>
-                  <Label layoutX="14.0" layoutY="15.0" prefHeight="40.0" prefWidth="124.0" text="Login to our page">
+                  <Label fx:id="logInLabel" layoutX="14.0" layoutY="15.0" prefHeight="40.0" prefWidth="124.0" text="Login to our page">
                      <font>
                         <Font name="Arial Narrow" size="19.0" />
                      </font>
@@ -48,7 +48,7 @@
       <Pane layoutX="33.0" layoutY="349.0" prefHeight="21.0" prefWidth="239.0">
          <children>
             <Label layoutX="14.0" layoutY="1.0" prefHeight="19.0" prefWidth="124.0" text="Don´t have account ?" textFill="#eeeeee" />
-            <Hyperlink fx:id="register" onAction="#registerHandle" layoutX="161.0" layoutY="1.0" text="Register HERE" textFill="#fcfcfc" />
+            <Hyperlink fx:id="register" layoutX="161.0" layoutY="1.0" onAction="#registerHandle" text="Register HERE" textFill="#fcfcfc" />
          </children>
       </Pane>
       <Line endX="150.0" layoutX="127.0" layoutY="342.0" startX="-100.0" stroke="WHITE" />

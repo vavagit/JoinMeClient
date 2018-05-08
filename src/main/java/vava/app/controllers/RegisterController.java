@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -46,11 +47,28 @@ public class RegisterController implements Initializable {
 	@FXML private TextField lastNameTF;
 	@FXML private TextField addressTF;
 	@FXML private Button signUpButton;
+	@FXML private Label signUpLabel;
+	@FXML private Label fillInLabel;
+	
 	private RegisterController rc;
 	private LatLong address;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		rc = this;
+		
+		//multilanguage
+		PropertyManager manager = new PropertyManager("");
+		manager.loadLanguageSet(getClass());
+		//nastavenie nazvov podla jazyku
+		userNameTF.setPromptText(manager.getProperty("userNameTF"));
+		passwordPF.setPromptText(manager.getProperty("passwordPF"));
+		contactTF.setPromptText(manager.getProperty("contactTF"));
+		firstNameTF.setPromptText(manager.getProperty("firstNameTF"));
+		lastNameTF.setPromptText(manager.getProperty("lastNameTF"));
+		addressTF.setPromptText(manager.getProperty("addressTF"));
+		signUpButton.setText(manager.getProperty("signUpButton"));
+		signUpLabel.setText(manager.getProperty("signUpLabel"));
+		fillInLabel.setText(manager.getProperty("fillInLabel"));
 	}
 	
 	@FXML

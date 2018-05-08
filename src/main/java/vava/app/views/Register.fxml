@@ -15,8 +15,8 @@
          <children>
             <Pane styleClass="tPane">
                <children>
-                  <Label layoutX="20" layoutY="10" styleClass="tLabel" text="Sign up now!" />
-                  <Label layoutX="20" layoutY="50" text="Fill in the form below to get instant access:" />
+                  <Label fx:id="signUpLabel" layoutX="20" layoutY="10" styleClass="tLabel" text="Sign up now!" />
+                  <Label fx:id="fillInLabel" layoutX="20" layoutY="50" text="Fill in the form below to get instant access:" wrapText="true" />
                   <ImageView fitHeight="60" fitWidth="65.0" layoutX="285.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="/img/pen.png" />
@@ -30,7 +30,7 @@
             <TextField fx:id="contactTF" layoutX="25" layoutY="235" promptText="email.." styleClass="userInputR,input" />
             <TextField fx:id="firstNameTF" layoutX="25" layoutY="285" promptText="first name.." styleClass="userInputR,input" />
             <TextField fx:id="lastNameTF" layoutX="25" layoutY="335" promptText="last name.." styleClass="userInputR,input" />
-            <TextField fx:id="addressTF" onKeyReleased="#inputHandle" layoutX="25" layoutY="385" promptText="address.." styleClass="userInputR,input" />
+            <TextField fx:id="addressTF" layoutX="25" layoutY="385" onKeyReleased="#inputHandle" promptText="address.." styleClass="userInputR,input" />
             <Button fx:id="signUpButton" layoutX="25" layoutY="435" onAction="#signUpHandle" onMouseEntered="#enterMouse" onMouseExited="#exitMouse" styleClass="userInputR,button" text="Sign me up!" />
          </children>
       </Pane>

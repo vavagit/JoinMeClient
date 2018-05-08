@@ -111,7 +111,7 @@ public class CreateEventsController implements Initializable {
 		
 		//vytvorenie propertyManagera
 		PropertyManager pm = new PropertyManager("");
-		String language = pm.getLanguageSet(getClass());
+		String language = pm.loadLanguageSet(getClass());
 		
 		try {
 			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);

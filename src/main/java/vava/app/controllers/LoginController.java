@@ -39,11 +39,18 @@ import vava.app.model.communication.RestTemplateFactory;
 
 public class LoginController implements Initializable {
 	Stage stage;
-	@FXML Button logInButton;
-	@FXML TextField userNameTF;
-	@FXML PasswordField passwordPF;
-	@FXML Label errLabel;
-	@FXML Hyperlink register;
+	@FXML 
+	private Button logInButton;
+	@FXML 
+	private TextField userNameTF;
+	@FXML
+	private Label logInLabel;
+	@FXML 
+	private PasswordField passwordPF;
+	@FXML 
+	private Label errLabel;
+	@FXML 
+	private Hyperlink register;
 	
 	
 	public void initialize(URL location, ResourceBundle resources) {
@@ -54,6 +61,15 @@ public class LoginController implements Initializable {
 		            }
 		        }
 		});
+		
+		//multilanguage
+		PropertyManager manager = new PropertyManager("");
+		manager.loadLanguageSet(getClass());
+		//nastavenie nazvov podla jazyku
+		logInButton.setText(manager.getProperty("logInButton"));
+		userNameTF.setPromptText(manager.getProperty("userNameTF"));
+		passwordPF.setPromptText(manager.getProperty("passwordPF"));
+		logInLabel.setText(manager.getProperty("logInLabel"));
 	}
 	
 	@FXML
@@ -65,7 +81,6 @@ public class LoginController implements Initializable {
 		try {
 			root = loader.load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Scene scene = new Scene(root);
