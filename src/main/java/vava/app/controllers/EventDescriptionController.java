@@ -53,6 +53,7 @@ public class EventDescriptionController implements Initializable {
 	@FXML Label creatorLabel;
 	@FXML Label dataCreatorLabel;
 	@FXML Button joinButton;
+	@FXML Button joinedUsersButton;
 	@FXML Pane gmaps;
 	Event event;
 	
@@ -90,6 +91,7 @@ public class EventDescriptionController implements Initializable {
 		addressLabel.setText(pm.getProperty("addressLabel"));
 		ageLabel.setText(pm.getProperty("ageLabel"));
 		creatorLabel.setText(pm.getProperty("creatorLabel"));
+		joinedUsersButton.setText(pm.getProperty("joinedUsersButton"));
 		
 		dataEventTitleLabel.setText(event.getEventName());
 		dataAgeLabel.setText(event.getNecessaryAge()+"");
@@ -171,6 +173,10 @@ public class EventDescriptionController implements Initializable {
 			return;
 		}
 	}
-	
+	@FXML
+	private void joinedUsersButtonHandle(ActionEvent event) {
+		
+		
+	}
 
 }

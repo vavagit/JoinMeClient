@@ -7,3 +7,4 @@ ageLabel = Age limit:
 creatorLabel = Creator:
 joinButton = Join!
 joinButtonJoined = You are joined!
+joinedUsersButton = Show joined users!
