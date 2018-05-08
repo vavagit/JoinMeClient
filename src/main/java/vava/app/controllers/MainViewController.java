@@ -30,6 +30,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
@@ -94,6 +95,11 @@ public class MainViewController implements Initializable {
 				}
 				Stage s =(Stage) filterButton.getScene().getWindow();
 				Stage newS = new Stage();
+				 newS.setTitle("JoinMe - Edit event");
+			        newS.setResizable(false);
+			        //nastavenie ikony
+			        Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
+			        newS.getIcons().add(image);
 				newS.initOwner(s);
 				newS.setAlwaysOnTop(true);
 				newS.initModality(Modality.WINDOW_MODAL);
@@ -166,13 +172,21 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	private void createEventHandle(ActionEvent event) {
-		Stage newStage = new Stage();
+		Stage newS = new Stage();
+		Stage s = (Stage) locationLabel.getScene().getWindow();
 		try {
+			newS.initOwner(s);
+			newS.initModality(Modality.WINDOW_MODAL);
+			newS.setTitle("JoinMe - Create Event");
+	        newS.setResizable(false);
+	        //nastavenie ikony
+	        Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
+	        newS.getIcons().add(image);
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/CreateEvents.fxml"));
 			Parent root = loader.load();
 			Scene scene = new Scene(root);
-			newStage.setScene(scene);
-			newStage.show();
+			newS.setScene(scene);
+			newS.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;

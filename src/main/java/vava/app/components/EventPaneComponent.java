@@ -61,8 +61,13 @@ public class EventPaneComponent extends HBox{
 				Stage s =(Stage) detailBt.getScene().getWindow();
 				Stage newS = new Stage();
 				newS.initOwner(s);
-				newS.setAlwaysOnTop(true);
+				//newS.setAlwaysOnTop(true);
+				newS.setTitle("JoinMe - Event detail");
 				newS.initModality(Modality.WINDOW_MODAL);
+		        newS.setResizable(false);
+		        //nastavenie ikony
+		        Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
+		        newS.getIcons().add(image);
 				try {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/EventDescription.fxml"));
 					Parent root = loader.load();

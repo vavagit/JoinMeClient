@@ -30,6 +30,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -185,8 +186,12 @@ public class EventDescriptionController implements Initializable {
 		Stage s =(Stage) joinedUsersButton.getScene().getWindow();
 		Stage newS = new Stage();
 		newS.initOwner(s);
-		newS.setAlwaysOnTop(true);
+		//newS.setAlwaysOnTop(true);
 		newS.initModality(Modality.WINDOW_MODAL);
+		newS.setTitle("JoinMe - Joined users");
+        newS.setResizable(false);
+        Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
+        newS.getIcons().add(image);
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/UsersView.fxml"));
 			AnchorPane root = loader.load();

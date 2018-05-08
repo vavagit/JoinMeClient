@@ -45,8 +45,11 @@ public class UserPaneComponent extends HBox{
     					Stage s =(Stage) detailUserBt.getScene().getWindow();
     					Stage newS = new Stage();
     					newS.initOwner(s);
-    					newS.setAlwaysOnTop(true);
+    					//newS.setAlwaysOnTop(true);
     					newS.initModality(Modality.WINDOW_MODAL);
+    					newS.setTitle("JoinMe - UserDetail");
+    					Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
+    			        newS.getIcons().add(image);
     					try {
     						FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/UserDetail.fxml"));
     						Parent root = loader.load();
