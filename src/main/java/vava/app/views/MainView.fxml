@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane  styleClass="anchor,mainView" stylesheets="/vava/app/views/Log.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vava.app.controllers.MainViewController">
+<AnchorPane styleClass="anchor,mainView" stylesheets="/vava/app/views/Log.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vava.app.controllers.MainViewController">
    <children>
       <Pane layoutX="20.0" layoutY="20.0" styleClass="leftMainPane">
       	<children>
@@ -26,17 +26,16 @@
       		</children>
       	</Pane>
       	
-      	<Hyperlink layoutX="5" layoutY="70" onAction="#createEventHandle" style="-fx-font-size: 14;" text="Create Event" textFill="BLACK" />
-      	<Hyperlink layoutX="5" layoutY="90" style="-fx-font-size: 14;" text="Show me events" textFill="black" />
-      	<Hyperlink layoutX="5" layoutY="110" style="-fx-font-size: 14;" text="Show joined events" textFill="black" />
+      	<Hyperlink fx:id="createEventLink" layoutX="5" layoutY="70" onAction="#createEventHandle" style="-fx-font-size: 14;" text="Create Event" textFill="BLACK" />
+      	<Hyperlink fx:id="myEventsLink" layoutX="5" layoutY="90" style="-fx-font-size: 14;" text="Show me events" textFill="black" />
+      	<Hyperlink fx:id="joinedEventsLink" layoutX="5" layoutY="110" style="-fx-font-size: 14;" text="Show joined events" textFill="black" />
       	
       	</children>
       </Pane>
       <HBox layoutX="193" layoutY="20" styleClass="hboxFilter">
       	<children>
       	 <Label fx:id="locationLabel" layoutX="0" layoutY="0" styleClass="locationLabel" />
-      	 <TextField fx:id="locationTextField" layoutX="10" layoutY="0"
-      	 onKeyReleased="#inputHandle"  styleClass="locationTextField" />
+      	 <TextField fx:id="locationTextField" layoutX="10" layoutY="0" onKeyReleased="#inputHandle" styleClass="locationTextField" />
       	 <Pane layoutY="0" styleClass="spacePane" />
       	<Label fx:id="rangeLabel" layoutX="0" layoutY="0" styleClass="locationLabel" />
       	<TextField fx:id="rangeTextField" layoutX="10" layoutY="0" styleClass="rangeTextField" />
