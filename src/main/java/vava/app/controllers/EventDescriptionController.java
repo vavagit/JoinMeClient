@@ -159,6 +159,10 @@ public class EventDescriptionController implements Initializable {
 		final String url = "http://" + ip + ":8009/users/"+Dataset.getInstance().getLoggedIn().getId()+"/event/"+this.event.getEventId();
 		try {
 			template.postForEntity(url, null, Void.class);
+			PropertyManager pm = new PropertyManager("");
+			pm.loadLanguageSet(getClass());
+			joinButton.setText(pm.getProperty("joinButtonJoined"));
+			joinButton.setDisable(true);
 		} catch (HttpStatusCodeException e) {
 			new Alert(AlertType.ERROR, "Nepodarilo sa pripojic").showAndWait();
 			return;

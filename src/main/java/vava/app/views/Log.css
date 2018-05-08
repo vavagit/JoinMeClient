@@ -143,7 +143,8 @@
 	-fx-pref-height: 30;
 	-fx-min-height: 30;
 	-fx-max-height: 30;
-	-fx-pref-width: 400;
+	-fx-pref-width: 500;
+	
 }
 
 .locationLabel{
@@ -155,6 +156,7 @@
 	-fx-max-height: 30;
 	-fx-text-alignment: center;
 	-fx-alignment: center;
+	-fx-padding: 5px ;
 }
 .locationTextField{
 	-fx-border-color: #ccc;
@@ -173,8 +175,8 @@
 	-fx-border-width: 3;
 	-fx-border-style: solid inside;
 	-fx-font-size: 13;
-	-fx-min-width: 30;
-	-fx-max-width: 40;
+	-fx-min-width: 50;
+	-fx-max-width: 50;
 	-fx-pref-height: 30;
 	-fx-min-height: 30;
 	-fx-max-height: 30;

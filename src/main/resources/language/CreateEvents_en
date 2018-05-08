@@ -1,11 +1,11 @@
 titleLabel = Create event!
 titleDescriptionLabel = Here, you can create your own event
 createButton = Create event!
-eventNameTF_PT = Name of the event
-sportCategoryChB_PT = Sport category
-addressTF_PT = Address of the event
-eventDateDP_PT = Date of the event
-neccessaryAgeTF_PT = Age limit
+eventNameTF = Name of the event
+sportCategoryChB = Sport category
+addressTF = Address of the event
+eventDateDP = Date of the event
+neccessaryAgeTF = Age limit
 maxUsersTF = Number of users
 descriptionTA = Description of the event
 

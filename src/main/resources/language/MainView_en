@@ -1,6 +1,6 @@
-createEventLabel = Create Event
-myEventsLabel = Show my events
-joinedEventsLabel = Show joined events
+createEventLink = Create Event
+myEventsLink = Show my events
+joinedEventsLink = Show joined events
 kmLabel = Km
 filterButton = Filter
 rangeLabel = range

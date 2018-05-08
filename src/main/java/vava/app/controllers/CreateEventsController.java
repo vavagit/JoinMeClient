@@ -83,8 +83,10 @@ public class CreateEventsController implements Initializable {
 		GmComponent gm = GmComponent.getInstance();
 		gmapsPane.getChildren().add(gm.mapComponent);
 		init();
-
+		gm.map.setCenter(new LatLong(Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude(),Dataset.getInstance().getLoggedIn().getAddressLocation().getLongitude()));
+		gm.map.setZoom(11);
 		CreateEventsController currentInstance = this;
+		
 		gmapsPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {

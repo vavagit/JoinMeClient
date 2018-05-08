@@ -70,9 +70,9 @@ public class MainViewController implements Initializable {
 		//multilanguage
 		PropertyManager manager = new PropertyManager("");
 		manager.loadLanguageSet(getClass());
-		createEventLink.setText(manager.getProperty("createEventLabel"));
-		myEventsLink.setText(manager.getProperty("myEventsLabel"));
-		joinedEventsLink.setText(manager.getProperty("joinedEventsLabel"));
+		createEventLink.setText(manager.getProperty("createEventLink"));
+		myEventsLink.setText(manager.getProperty("myEventsLink"));
+		joinedEventsLink.setText(manager.getProperty("joinedEventsLink"));
 		filterButton.setText(manager.getProperty("filterButton"));
 		locationLabel.setText(manager.getProperty("locationLabel"));
 		rangeLabel.setText(manager.getProperty("rangeLabel"));

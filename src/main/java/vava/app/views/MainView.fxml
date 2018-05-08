@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane styleClass="anchor,mainView" stylesheets="/vava/app/views/Log.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vava.app.controllers.MainViewController">
    <children>
@@ -16,7 +17,7 @@
       	<children>
       	<Pane layoutX="0" layoutY="0" styleClass="leftTitleMainPane">
       		<children>
-      			<Label fx:id="titleLeftLabel" layoutX="5" layoutY="0" styleClass="tLabel" />
+      			<Label fx:id="titleLeftLabel" layoutX="5" layoutY="0" styleClass="tLabel" wrapText="true" style="-fx-max-width: 100;"/>
       			<ImageView fitHeight="50" fitWidth="50" layoutX="100.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="/img/helloIco.png" />
@@ -25,22 +26,27 @@
                  <Label fx:id="nameOfUserLabel" layoutX="5" layoutY="35" />
       		</children>
       	</Pane>
-      	
-      	<Hyperlink fx:id="createEventLink" layoutX="5" layoutY="70" onAction="#createEventHandle" style="-fx-font-size: 14;" text="Create Event" textFill="BLACK" />
-      	<Hyperlink fx:id="myEventsLink" layoutX="5" layoutY="90" style="-fx-font-size: 14;" text="Show me events" textFill="black" />
-      	<Hyperlink fx:id="joinedEventsLink" layoutX="5" layoutY="110" style="-fx-font-size: 14;" text="Show joined events" textFill="black" />
-      	
+      	<VBox layoutX="5" layoutY="70">
+      	<children>
+      	<Hyperlink fx:id="createEventLink"  onAction="#createEventHandle" style="-fx-font-size: 14; -fx-max-width:150;" wrapText="true" text="Create Event" textFill="BLACK" />
+      	<Hyperlink fx:id="myEventsLink"  style="-fx-font-size: 14; -fx-max-width:150;" wrapText="true" text="Show me events" textFill="black" />
+      	<Hyperlink fx:id="joinedEventsLink"  style="-fx-font-size: 14; -fx-max-width:150;" wrapText="true" text="Show joined events" textFill="black" />
+      	</children>
+      	</VBox>
       	</children>
       </Pane>
       <HBox layoutX="193" layoutY="20" styleClass="hboxFilter">
       	<children>
       	 <Label fx:id="locationLabel" layoutX="0" layoutY="0" styleClass="locationLabel" />
+      	 <Pane layoutY="0" styleClass="spacePane" />
       	 <TextField fx:id="locationTextField" layoutX="10" layoutY="0" onKeyReleased="#inputHandle" styleClass="locationTextField" />
       	 <Pane layoutY="0" styleClass="spacePane" />
       	<Label fx:id="rangeLabel" layoutX="0" layoutY="0" styleClass="locationLabel" />
+      	<Pane layoutY="0" styleClass="spacePane" />
       	<TextField fx:id="rangeTextField" layoutX="10" layoutY="0" styleClass="rangeTextField" />
       	<Pane layoutY="0" styleClass="spacePane" />
       	<Label layoutX="0" layoutY="0" styleClass="locationLabel" text="Km " />
+      	<Pane layoutY="0" styleClass="spacePane" />
       	<Button fx:id="filterButton" onAction="#filterHandle" onMouseEntered="#mouseEnteredFilterBt" onMouseExited="#mouseExitedFilterBt" styleClass="filterButton" text="Filter" />
       	</children>
       </HBox>
