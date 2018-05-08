@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import vava.app.controllers.EventDescriptionController;
 import vava.app.model.Event;
@@ -55,7 +56,7 @@ public class EventPaneComponent extends HBox{
 				Stage newS = new Stage();
 				newS.initOwner(s);
 				newS.setAlwaysOnTop(true);
-				
+				newS.initModality(Modality.WINDOW_MODAL);
 				try {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/EventDescription.fxml"));
 					Parent root = loader.load();

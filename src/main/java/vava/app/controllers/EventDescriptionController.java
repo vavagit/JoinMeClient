@@ -118,14 +118,21 @@ public class EventDescriptionController implements Initializable {
 			p.printStackTrace();
 			return;
 		}
+		
+		for(User s : joinedUser) {
+			System.out.println("id uzivatela v liste " +s.getId());
+		}
+		
 		if(joinedUser.contains(Dataset.getInstance().getLoggedIn())) {
 			joinButton.setText(pm.getProperty("joinButtonJoined"));
+			joinButton.setDisable(true);
 		}
 		else{
 			String buttontext = pm.getProperty("joinButton");
 			buttontext = buttontext + " ("+joinedUser.size()+"/"+event.getMaxUsersOnEvent()+")";
 			joinButton.setText(buttontext);
 		}
+		
 		String language = "sk";
 		if("sk".equals(language)) {
 			dataSportCategoryLabel.setText(event.getSportCategory().getSport_sk());

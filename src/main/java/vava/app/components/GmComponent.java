@@ -81,15 +81,6 @@ public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus st
 			RegisterController q1 = (RegisterController)objectCTRL;
 			q1.fillLongLitude(fromGeocode);
 		}
-		/*MarkerOptions mo = new MarkerOptions();
-		mo.position(fromGeocode).visible(true);
-		Marker newMarker = new Marker(mo);
-		map.clearMarkers();
-		map.addMarker(newMarker);
-		map.setCenter(fromGeocode);
-		map.setZoom(13);*/
-		
-
 	}
 	public static GmComponent getInstance() {
 		if(gm ==null) {
