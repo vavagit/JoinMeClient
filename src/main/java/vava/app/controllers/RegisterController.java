@@ -46,8 +46,8 @@ public class RegisterController implements Initializable {
 	@FXML private TextField lastNameTF;
 	@FXML private TextField addressTF;
 	@FXML private Button signUpButton;
-	RegisterController rc;
-	LatLong address;
+	private RegisterController rc;
+	private LatLong address;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		rc = this;
