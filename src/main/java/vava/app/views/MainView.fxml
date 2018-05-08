@@ -17,7 +17,7 @@
       	<children>
       	<Pane layoutX="0" layoutY="0" styleClass="leftTitleMainPane">
       		<children>
-      			<Label fx:id="titleLeftLabel" layoutX="5" layoutY="0" styleClass="tLabel" wrapText="true" style="-fx-max-width: 100;"/>
+      			<Label fx:id="titleLeftLabel" layoutX="5" layoutY="0" style="-fx-max-width: 100;" styleClass="tLabel" wrapText="true" />
       			<ImageView fitHeight="50" fitWidth="50" layoutX="100.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="/img/helloIco.png" />
@@ -28,9 +28,9 @@
       	</Pane>
       	<VBox layoutX="5" layoutY="70">
       	<children>
-      	<Hyperlink fx:id="createEventLink"  onAction="#createEventHandle" style="-fx-font-size: 14; -fx-max-width:150;" wrapText="true" text="Create Event" textFill="BLACK" />
-      	<Hyperlink fx:id="myEventsLink"  style="-fx-font-size: 14; -fx-max-width:150;" wrapText="true" text="Show me events" textFill="black" />
-      	<Hyperlink fx:id="joinedEventsLink"  style="-fx-font-size: 14; -fx-max-width:150;" wrapText="true" text="Show joined events" textFill="black" />
+      	<Hyperlink fx:id="createEventLink" onAction="#createEventHandle" style="-fx-font-size: 14; -fx-max-width:150;" text="Create Event" textFill="BLACK" wrapText="true" />
+      	<Hyperlink fx:id="myEventsLink" onAction="#showMyHandle" style="-fx-font-size: 14; -fx-max-width:150;" text="Show me events" textFill="black" wrapText="true" />
+      	<Hyperlink fx:id="joinedEventsLink" onAction="#showJoinedHandle" style="-fx-font-size: 14; -fx-max-width:150;" text="Show joined events" textFill="black" wrapText="true" />
       	</children>
       	</VBox>
       	</children>

@@ -185,4 +185,51 @@ public class MainViewController implements Initializable {
 		System.out.println("Naplnam polohu "+l);
 	}
 	
+	@FXML
+	private void showMyHandle(ActionEvent event) {
+		try {
+     		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+     		RestTemplate template = context.getBean(RestTemplate.class);
+     		((ConfigurableApplicationContext)context).close();     		
+     		
+     		final String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
+     		final String url = "http://" + ip + ":8009/users/" + Dataset.getInstance().getLoggedIn().getId() + "/created";
+     		
+     		ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {});
+    		List<EventPaneComponent> list = new ArrayList<>();
+     		for(Event current : returnedEntity.getBody()) {
+     			list.add(new EventPaneComponent(current));
+     		}
+     		ObservableList<EventPaneComponent> listEventPane = FXCollections.observableArrayList(list);
+     		eventListView.setItems(listEventPane);
+     	}
+       catch(RestClientException e) {
+     		e.printStackTrace();
+     	}
+	}
+	
+	@FXML
+	private void showJoinedHandle(ActionEvent event) {
+		try {
+     		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+     		RestTemplate template = context.getBean(RestTemplate.class);
+     		((ConfigurableApplicationContext)context).close();     		
+     		
+     		final String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
+     		final String url = "http://" + ip + ":8009/users/" + Dataset.getInstance().getLoggedIn().getId()+ "/events";
+     	  		
+     		ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {});
+    		List<EventPaneComponent> list = new ArrayList<>();
+     		for(Event current : returnedEntity.getBody()) {
+     			list.add(new EventPaneComponent(current));
+     		}
+     		ObservableList<EventPaneComponent> listEventPane = FXCollections.observableArrayList(list);
+     		eventListView.setItems(listEventPane);
+		}
+		catch(RestClientException e) {
+     		e.printStackTrace();
+     	}
+	}
+	
+	
 }
