@@ -47,6 +47,7 @@ import vava.app.PropertyManager;
 import vava.app.components.GmComponent;
 import vava.app.model.Dataset;
 import vava.app.model.Event;
+import vava.app.model.Location;
 import vava.app.model.SportCategory;
 
 public class EditEventController implements Initializable {
@@ -69,7 +70,7 @@ public class EditEventController implements Initializable {
 	@FXML
 	private DatePicker eventDateDP;
 	@FXML
-	private Button createButton;
+	private Button updateButton;
 	@FXML
 	private ChoiceBox<SportCategory> sportCategoryChB;
 	
@@ -116,6 +117,11 @@ public class EditEventController implements Initializable {
 		maxUsersTF.setText(e.getMaxUsersOnEvent() + "");
 		neccessaryAgeTF.setText(e.getNecessaryAge() + "");
 		eventDateDP.setValue(e.getDate().toLocalDate());
+		location = new LatLong(e.getEventLocation().getLatitude(),e.getEventLocation().getLongitude());
+		GmComponent.getInstance().map.setCenter(location);
+		GmComponent.getInstance().map.setZoom(11);
+		GmComponent.getInstance().map.clearMarkers();
+		GmComponent.getInstance().map.addMarker(new Marker(new MarkerOptions().position(location)));
 	}
 	
 	private void init() {
@@ -160,10 +166,9 @@ public class EditEventController implements Initializable {
 		});
 
 		sportCategoryChB.setItems(list2);		
-		
 		titleLabel.setText(pm.getProperty("titleLabel"));
 		titleDescriptionLabel.setText(pm.getProperty("titleDescriptionLabel"));
-		createButton.setText(pm.getProperty("createButton"));
+		updateButton.setText(pm.getProperty("updateButton"));
 		eventNameTF.setPromptText(pm.getProperty("eventNameTF"));
 		addressTF.setPromptText(pm.getProperty("addressTF"));
 		eventDateDP.setPromptText(pm.getProperty("eventDateDP"));
@@ -195,6 +200,7 @@ public class EditEventController implements Initializable {
 		LocalDate date = eventDateDP.getValue();
 		SportCategory category = sportCategoryChB.getValue();
 		
+		
 		//kontorla vyplnenia udajov
 		if(eventNameString.isEmpty() || addressString.isEmpty() || neccesaryAgeString.isEmpty()
 				|| maxUserString.isEmpty() || descriptionString.isEmpty() || date == null || category == null) {
@@ -221,7 +227,7 @@ public class EditEventController implements Initializable {
 		event.setDescription(descriptionString);
 		event.setSportCategory(category);
 		event.setDate(Date.valueOf(date));
-		
+		event.setEventLocation(new Location(location.getLatitude(), location.getLongitude()));
 		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 		RestTemplate template = context.getBean(RestTemplate.class);
 		((ConfigurableApplicationContext) context).close();
@@ -239,7 +245,7 @@ public class EditEventController implements Initializable {
 		}
 		
 		//zatvorenie okna
-		Stage currentStage = (Stage) createButton.getScene().getWindow();
+		Stage currentStage = (Stage) updateButton.getScene().getWindow();
 		currentStage.close();
 	}
 
