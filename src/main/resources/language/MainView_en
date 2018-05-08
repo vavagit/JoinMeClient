@@ -3,3 +3,5 @@ myEventsLabel = Show my events
 joinedEventsLabel = Show joined events
 kmLabel = Km
 filterButton = Filter
+rangeLabel = range
+locationLabel = location

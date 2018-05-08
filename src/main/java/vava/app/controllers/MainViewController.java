@@ -44,6 +44,7 @@ import vava.app.components.GmComponent;
 import vava.app.model.Dataset;
 import vava.app.model.Event;
 import vava.app.model.Location;
+import vava.app.model.User;
 
 
 public class MainViewController implements Initializable {
@@ -63,6 +64,9 @@ public class MainViewController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		mwc = this;
+		
+		User user = Dataset.getInstance().getLoggedIn();
+		
 		//multilanguage
 		PropertyManager manager = new PropertyManager("");
 		manager.loadLanguageSet(getClass());
@@ -70,7 +74,10 @@ public class MainViewController implements Initializable {
 		myEventsLink.setText(manager.getProperty("myEventsLabel"));
 		joinedEventsLink.setText(manager.getProperty("joinedEventsLabel"));
 		filterButton.setText(manager.getProperty("filterButton"));
-
+		locationLabel.setText(manager.getProperty("locationLabel"));
+		rangeLabel.setText(manager.getProperty("rangeLabel"));
+		titleLeftLabel.setText(user.getName() + " " + user.getLastName());
+		
 		//nastavenie nazvov podla jazyku
 		loadEvents(Dataset.getInstance().getLoggedIn().getAddressLocation(), 20);
 	}
