@@ -1,5 +1,4 @@
-logInLabel = Prihlásiť sa na stránku
-userNameTF = Meno...
-passwordPF = Heslo...
-logInButton = Prihlásiť sa
-
+logInLabel = \u0050\u0072\u0069\u0068\u006c\u00e1\u0073\u0069\u0165 \u0073\u0061 \u006e\u0061 \u0073\u0074\u0072\u00e1\u006e\u006b\u0075
+userNameTF = \u004d\u0065\u006e\u006f\u002e\u002e\u002e
+passwordPF = \u0048\u0065\u0073\u006c\u006f\u002e\u002e\u002e
+logInButton = \u0050\u0072\u0069\u0068\u006c\u00e1\u0073\u0069\u0165 \u0073\u0061

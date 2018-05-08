@@ -1,0 +1,10 @@
+eventTitleLabel = Event:
+dateLabel = Date:
+descriptionLabel = Description:
+sportCategoryLabel = Sport:
+addressLabel = Address:
+ageLabel = Age limit:
+creatorLabel = Creator:
+editEventButton = Edit Event
+showUsersButton = Show joined users
+cancelEventButton = Cancel Event

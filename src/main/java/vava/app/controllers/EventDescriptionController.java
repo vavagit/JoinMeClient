@@ -61,7 +61,7 @@ public class EventDescriptionController implements Initializable {
 			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 			RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
 			RestTemplate template = factory.getObject();
-			String ip = new PropertyManager("src/resources/connectionConfig").getProperty("host");
+			String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
 			ResponseEntity<User> returnedEntity = template.getForEntity("http://"+ip+":8009/users/"+event.getCreatorId(), User.class);
 			
 			user = returnedEntity.getBody();
