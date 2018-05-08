@@ -17,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.lynden.gmapsfx.service.geocoding.GeocodingResult;
-
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +24,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -35,8 +35,9 @@ import javafx.stage.Stage;
 import vava.app.Config;
 import vava.app.PropertyManager;
 import vava.app.components.EventPaneComponent;
+import vava.app.model.Dataset;
 import vava.app.model.Event;
-import vava.app.model.SportCategory;
+import vava.app.model.User;
 
 
 public class MainViewController implements Initializable {
@@ -62,16 +63,20 @@ public class MainViewController implements Initializable {
      		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
      		RestTemplate template = context.getBean(RestTemplate.class);
      		((ConfigurableApplicationContext)context).close();     		
+     		
      		final String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
      		final String url = "http://"+ip+":8009/events?lon={lon}&lat={lat}&radius={radius}";
+     		User loggedIn = Dataset.getInstance().getLoggedIn();
+     		
      		Map<String, Object> map = new HashMap<>();
-     		map.put("lon", 50.0);
-     		map.put("lat", 50.0);
-     		map.put("radius", 1000);
-     		ResponseEntity<List<SportCategory>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<SportCategory>>() {}, map);
-    		List<SportCategory> list = new ArrayList<>();
-     		for(SportCategory current : returnedEntity.getBody()) {
-     			list.add(new SportCategory(current.getId(),current.getSport_en(),current.getSport_sk()));
+     		map.put("lon", loggedIn.getAddressLocation().getLongitude());
+     		map.put("lat", loggedIn.getAddressLocation().getLatitude());
+     		map.put("radius", 10);
+     		
+     		ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {}, map);
+    		List<EventPaneComponent> list = new ArrayList<>();
+     		for(Event current : returnedEntity.getBody()) {
+     			list.add(new EventPaneComponent(current));
      		}
      	}catch(RestClientException e) {
      		e.printStackTrace();
@@ -106,5 +111,60 @@ public class MainViewController implements Initializable {
 		
 	}
 	
+	@FXML
+	private void filterHandle(ActionEvent event) {
+		String selectedArea = locationTextField.getText();
+		String rangeString = rangeTextField.getText();
+		
+		if(rangeString.isEmpty()) {
+			new Alert(AlertType.ERROR, "Je nutne vyplnit rozsah vyhladavania filtra").showAndWait();
+			return;
+		}
+		int range = 0;
+		try {
+			range = Integer.parseInt(rangeString);
+		}catch(NumberFormatException e) {
+			new Alert(AlertType.ERROR, "Nespravne vyplnene hodnoty").showAndWait();
+			return;
+		}
+		
+		Double latitude = Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude();
+		Double longitude = Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude();
+
+		if(!selectedArea.isEmpty()) {
+			/*LatLong cordidnates = GmComponent.getInstance().geocodingAddress(selectedArea);
+			//adresa nebola najdena
+			if(cordidnates == null) {
+				new Alert(AlertType.ERROR, "Poloha nebola najdena").showAndWait();
+				return;
+			}
+			
+			latitude = cordidnates.getLatitude();
+			longitude = cordidnates.getLongitude();*/
+		}
+				
+		try {
+     		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+     		RestTemplate template = context.getBean(RestTemplate.class);
+     		((ConfigurableApplicationContext)context).close();     		
+     		
+     		final String url = "http://localhost:8009/events?lon={lon}&lat={lat}&radius={radius}";
+     		Map<String, Object> map = new HashMap<>();
+     		map.put("lon", longitude);
+     		map.put("lat", latitude);
+     		map.put("radius", range);
+     		ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {}, map);
+     		
+    		List<EventPaneComponent> list = new ArrayList<>();
+     		for(Event current : returnedEntity.getBody()) {
+     			list.add(new EventPaneComponent(current));
+     		}
+  
+     		eventListView.setItems(FXCollections.observableList(list));
+        	
+     	}catch(RestClientException e) {
+     		e.printStackTrace();
+     	}
+	}
 	
 }
