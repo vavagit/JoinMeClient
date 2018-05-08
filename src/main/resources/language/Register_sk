@@ -1,0 +1,10 @@
+signUpLabel = Zaregistrovat!
+fillInLabel = Vyplnte nasledovne udaje a zaregistrujte sa:
+userNameTF = meno..
+passwordPF = heslo..
+passwordRPTF = zopakuje heslo..
+contactTF = email..
+firstNameTF = krstne meno..
+lastNameTF = priezvisko..
+addressTF = adresa..
+signUpButton = Zaregistrovat!

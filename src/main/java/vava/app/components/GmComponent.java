@@ -28,6 +28,7 @@ import com.lynden.gmapsfx.service.geocoding.GeocodingServiceCallback;
 
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
+import vava.app.controllers.CreateEventController;
 
 public class GmComponent implements MapComponentInitializedListener, ElevationServiceCallback,
 GeocodingServiceCallback, DirectionsServiceCallback {
@@ -39,7 +40,7 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 	private MarkerOptions markerOptions2;
 	private Marker myMarker2;
 	public LatLong fromGeocode;
-	
+	Object objectCTRL;
 	private static GmComponent gm = null;
 	@Override
 	public void elevationsReceived(ElevationResult[] results, ElevationStatus status) {
@@ -51,18 +52,24 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 	}
 
 	@Override
-	public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
+public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
+	System.out.println(Thread.currentThread().getName()+"  "+Thread.currentThread().getId());
 		LatLong temp = null;
 		if (status.equals(GeocoderStatus.OK)) {
 			for (GeocodingResult e : results) {
 				temp = e.getGeometry().getLocation();
-				//System.out.println(e.getGeometry().getLocation());
-				//System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
+				System.out.println(e.getGeometry().getLocation());
+				System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
 			}
 			fromGeocode = temp;
+			//System.out.println(fromGeocode);
 		}
 		else {
-			fromGeocode = null;
+			fromGeocode = new LatLong(Double.MAX_VALUE,Double.MAX_VALUE);
+		}
+		if(objectCTRL instanceof CreateEventController) {
+			CreateEventController q1 = (CreateEventController)objectCTRL;
+			q1.fillLonglitude(fromGeocode);
 		}
 		/*MarkerOptions mo = new MarkerOptions();
 		mo.position(fromGeocode).visible(true);
@@ -162,20 +169,24 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 //	        System.out.println("Bounds : " + map.getBounds());
 
 		// liseneer ktory vrati suradnice po kliknuti
-		map.addUIEventHandler(UIEventType.click, (JSObject obj) -> { // liseneer ktory vrati suradnice po kliknuti
+		/*map.addUIEventHandler(UIEventType.click, (JSObject obj) -> { // liseneer ktory vrati suradnice po kliknuti
 			LatLong ll = new LatLong((JSObject) obj.getMember("latLng"));
 			System.out.println("LatLong: lat: " + ll.getLatitude() + " lng: " + ll.getLongitude());
 			// lblClick.setText(ll.toString());
-		});
+		});*/
 
 		map.addUIEventHandler(UIEventType.dblclick, (JSObject obj) -> { // liseneer ktory vrati suradnice po kliknuti
 			LatLong ll = new LatLong((JSObject) obj.getMember("latLng"));
+			fromGeocode = ll;
 			map.clearMarkers();
 				markerOptions2 = new MarkerOptions();
 				markerOptions2.position(ll).title("My new Marker").visible(true).draggable(true);
 				myMarker2 = new Marker(markerOptions2);
 				map.addMarker(myMarker2);
-			
+				if(objectCTRL instanceof CreateEventController) {
+					CreateEventController q = (CreateEventController)objectCTRL;
+					q.fillLonglitude(fromGeocode);
+				}
 
 		});
 		//System.out.println("skus");
@@ -188,13 +199,15 @@ GeocodingServiceCallback, DirectionsServiceCallback {
 //	        System.out.println("Testing fromLatLngToPoint result: " + p);
 //	        System.out.println("Testing fromLatLngToPoint expected: " + mapComponent.getWidth()/2 + ", " + mapComponent.getHeight()/2);
 	}
-	public LatLong geocodingAddress(String place) {
+public void geocodingAddress(String place,Object e) {
 		//GeocodingService gs = new GeocodingService();
-		fromGeocode = null;
+		this.objectCTRL = e;
 		gs.geocode(place, this);
-		return fromGeocode;
-		
-		
+		System.out.println(Thread.currentThread().getName()+"  "+Thread.currentThread().getId());
+		return;
+	}
+	public void refillLatLong(Object e) {
+		objectCTRL = e;
 	}
 
 

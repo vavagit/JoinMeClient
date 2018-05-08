@@ -27,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import vava.app.Config;
+import vava.app.PropertyManager;
 import vava.app.model.Dataset;
 import vava.app.model.Location;
 import vava.app.model.User;
@@ -78,8 +79,8 @@ public class RegisterController implements Initializable {
 			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 			RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
 			RestTemplate template = factory.getObject();
-			
-			ResponseEntity<User> returnedEntity = template.postForEntity("http://localhost:8009/register", user, User.class);
+			String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
+			ResponseEntity<User> returnedEntity = template.postForEntity("http://"+ip+":8009/register", user, User.class);
 			
 			user.setId(returnedEntity.getBody().getId());
 			//ulozenie prihlaseneho uzivatela

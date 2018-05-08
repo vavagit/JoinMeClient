@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.lynden.gmapsfx.service.geocoding.GeocodingResult;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import vava.app.Config;
+import vava.app.PropertyManager;
 import vava.app.components.EventPaneComponent;
 import vava.app.model.Event;
 import vava.app.model.SportCategory;
@@ -55,28 +58,25 @@ public class MainViewController implements Initializable {
 		nameOfUserLabel.setText(nameUser);
 		locationLabel.setText(locationLabelS);
 		rangeLabel.setText("Range: ");
-        try {
+       try {
      		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
      		RestTemplate template = context.getBean(RestTemplate.class);
      		((ConfigurableApplicationContext)context).close();     		
-     		
-     		final String url = "http://25.19.186.82:8009/events?lon={lon}&lat={lat}&radius={radius}";
+     		final String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
+     		final String url = "http://"+ip+":8009/events?lon={lon}&lat={lat}&radius={radius}";
      		Map<String, Object> map = new HashMap<>();
      		map.put("lon", 50.0);
      		map.put("lat", 50.0);
      		map.put("radius", 1000);
      		ResponseEntity<List<SportCategory>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<SportCategory>>() {}, map);
-     		
     		List<SportCategory> list = new ArrayList<>();
      		for(SportCategory current : returnedEntity.getBody()) {
      			list.add(new SportCategory(current.getId(),current.getSport_en(),current.getSport_sk()));
      		}
-     		
-     		
-        	
      	}catch(RestClientException e) {
      		e.printStackTrace();
      	}
+
 	}
 	@FXML
 	private void mouseEnteredFilterBt(MouseEvent event) {

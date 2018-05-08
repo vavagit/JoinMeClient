@@ -1,0 +1,11 @@
+titleLabel = Create event!
+titleDescriptionLabel = Here, you can create your own event
+createButton = Create event!
+eventNameTF = Name of the event
+sportCategoryChB = Sport category
+addressTF = Address of the event
+eventDateDP = Date of the event
+neccessaryAgeTF = Age limit
+maxUsersTF = Number of users
+descriptionTA = Description of the event
+

@@ -1,0 +1,10 @@
+signUpLabel = Sign up now!
+fillInLabel = Fill in the form below to get instant access:
+userNameTF = username..
+passwordPF = password..
+passwordRPTF = retry password..
+contactTF = email..
+firstNameTF = first name..
+lastNameTF = last name..
+addressTF = address..
+signUpButton = Sign me up!

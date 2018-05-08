@@ -21,6 +21,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.lynden.gmapsfx.javascript.object.Animation;
+import com.lynden.gmapsfx.javascript.object.LatLong;
+import com.lynden.gmapsfx.javascript.object.Marker;
+import com.lynden.gmapsfx.javascript.object.MarkerOptions;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -54,25 +59,37 @@ public class CreateEventController implements Initializable{
 	@FXML private TextField addressTF;
 	@FXML private TextField neccessaryAgeTF;
 	@FXML private TextField maxUsersTF;
-	@FXML private TextArea descriptionTA;
+	@FXML TextArea descriptionTA;
 	@FXML private DatePicker eventDateDP;
 	@FXML private Button createButton;
 	@FXML private ChoiceBox<SportCategory> sportCategoryChB;
+	CreateEventController e;
+	LatLong l;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		e = this;
 		GmComponent gm = GmComponent.getInstance();
 		gmapsPane.getChildren().add(gm.mapComponent);
 		init();
-		Tooltip e = new Tooltip("choice language");
-		sportCategoryChB.setTooltip(e);
-		
+		gmapsPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if(event.getClickCount() == 2) {
+					GmComponent.getInstance().refillLatLong(e);
+				}
+				
+			}
+			
+		});
 		gm.map.setZoom(7);
+		
 		
 		addressTF.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			 public void handle(KeyEvent ke) {
 		            if (ke.getCode() == KeyCode.ENTER) {
-		               gm.geocodingAddress(addressTF.getText());
-		            }
+		                gm.geocodingAddress(addressTF.getText(),e);
+		             }
 		        }
 		});
 		
@@ -85,7 +102,7 @@ public class CreateEventController implements Initializable{
 			language = "en";
 		}
 		final String lang = language;
-		 try {
+		/* try {
 	     		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 	     		RestTemplate template = context.getBean(RestTemplate.class);
 	     		((ConfigurableApplicationContext)context).close();     		
@@ -118,7 +135,8 @@ public class CreateEventController implements Initializable{
 				return null;
 			}
 		});
-		sportCategoryChB.setItems(list2);
+		
+		sportCategoryChB.setItems(list2);*/
 		System.out.println(language);
 		PropertyManager pm = new PropertyManager(getClass().getResourceAsStream("/language/CreateEvents_"+language));
 		titleLabel.setText(pm.getProperty("titleLabel"));
@@ -130,9 +148,20 @@ public class CreateEventController implements Initializable{
 		neccessaryAgeTF.setPromptText(pm.getProperty("neccessaryAgeTF"));
 		maxUsersTF.setPromptText(pm.getProperty("maxUsersTF"));
 		descriptionTA.setPromptText(pm.getProperty("descriptionTA"));
-
+		Tooltip e = new Tooltip(pm.getProperty("sportCategoryChB"));
+		sportCategoryChB.setTooltip(e);
 	}
-	
+	public void fillLonglitude(LatLong l) {
+		this.l = l;
+		descriptionTA.setText(this.l.toString());
+		addMarker(this.l);
+	}
+	private void addMarker(LatLong l) {
+		GmComponent.getInstance().map.clearMarkers();
+		GmComponent.getInstance().map.addMarker(new Marker(new MarkerOptions().position(l)));
+		GmComponent.getInstance().map.setCenter(l);
+		//GmComponent.getInstance().map.setZoom(12);
+	}
 	
 	
 
