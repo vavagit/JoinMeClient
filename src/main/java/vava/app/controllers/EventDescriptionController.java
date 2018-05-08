@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import vava.app.Config;
 import vava.app.PropertyManager;
@@ -33,7 +34,7 @@ public class EventDescriptionController implements Initializable {
 	@FXML Label eventTitleLabel;
 	@FXML Label dataEventTitleLabel;
 	
-	@FXML Label dateLabel;
+	@FXML Label dateLabel; //
 	@FXML Label descriptionLabel;
 	@FXML Label sportCategoryLabel;
 	@FXML Label addressLabel;
@@ -46,8 +47,9 @@ public class EventDescriptionController implements Initializable {
 	@FXML Label dataDescriptionLabel;//
 	@FXML Label creatorLabel;
 	@FXML Label dataCreatorLabel;
+	@FXML Button joinButton;
 	@FXML Pane gmaps;
-	private Event event;
+	Event event;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -73,13 +75,24 @@ public class EventDescriptionController implements Initializable {
 			p.printStackTrace();
 			return;
 		}
+		PropertyManager pm = new PropertyManager("");
+		pm.loadLanguageSet(getClass());
+		dateLabel.setText(pm.getProperty("dateLabel"));
+		descriptionLabel.setText(pm.getProperty("descriptionLabel"));
+		sportCategoryLabel.setText(pm.getProperty("sportCategoryLabel"));
+		addressLabel.setText(pm.getProperty("addressLabel"));
+		ageLabel.setText(pm.getProperty("ageLabel"));
+		creatorLabel.setText(pm.getProperty("creatorLabel"));
 		
 		dataEventTitleLabel.setText(event.getEventName());
 		dataAgeLabel.setText(event.getNecessaryAge()+"");
 		dataAddressLabel.setText(event.getAddress());
+		dataDescriptionLabel.setWrapText(true);
 		dataDescriptionLabel.setText(event.getDescription());
 		dataDateLabel.setText(event.getDate().toString());
 		dataCreatorLabel.setText(user.getUserName());
+		joinButton.setText(pm.getProperty("joinButton"));
+		
 		String language = "sk";
 		if("sk".equals(language)) {
 			dataSportCategoryLabel.setText(event.getSportCategory().getSport_sk());

@@ -235,9 +235,9 @@
 	-fx-min-width: 250px;
 	-fx-max-width: 250px;
 	-fx-pref-tile-width: 250px;
-	-fx-pref-height: 400px;
-	-fx-min-height: 400px;
-	-fx-max-height: 400px;
+	-fx-pref-height: 450px;
+	-fx-min-height: 450px;
+	-fx-max-height: 450px;
 	-fx-background-color: #EEE;
 }
 .titlePaneUnderDetails{
@@ -269,13 +269,14 @@
 .eventdescriptionDataLabel{
 	-fx-max-width: 240px;
 	-fx-pref-width: 240px;
-	-fx-max-height: 20px;
+	-fx-max-height: 40px;
 	-fx-font-size: 15;
 	-fx-text-alignment: center;
 	-fx-alignment: center;
 	-fx-border-color: #ccc;
 	-fx-border-width: 3;
 	-fx-border-style: solid outside;
+	
 }
 .gmapsPaneEventDescription{
 		-fx-max-width: 300px;
@@ -283,4 +284,8 @@
 		-fx-pref-height: 300px;
 		-fx-max-height: 300px;
 }
-
+.buttonSize{
+	-fx-max-width: 240px;
+	-fx-pref-width: 240px;
+	-fx-max-height: 20px;
+}
