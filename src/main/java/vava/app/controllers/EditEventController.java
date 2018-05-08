@@ -47,7 +47,6 @@ import vava.app.PropertyManager;
 import vava.app.components.GmComponent;
 import vava.app.model.Dataset;
 import vava.app.model.Event;
-import vava.app.model.Location;
 import vava.app.model.SportCategory;
 
 public class EditEventController implements Initializable {
@@ -76,6 +75,7 @@ public class EditEventController implements Initializable {
 	
 	private LatLong location;
 	private Event event;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GmComponent gm = GmComponent.getInstance();
@@ -109,6 +109,13 @@ public class EditEventController implements Initializable {
 	}
 	public void fillEventObject(Event e) {
 		this.event = e;
+		eventNameTF.setText(e.getEventName());
+		addressTF.setText(e.getAddress());
+		descriptionTA.setText(e.getDescription());
+		sportCategoryChB.setValue(e.getSportCategory());
+		maxUsersTF.setText(e.getMaxUsersOnEvent() + "");
+		neccessaryAgeTF.setText(e.getNecessaryAge() + "");
+		eventDateDP.setValue(e.getDate().toLocalDate());
 	}
 	
 	private void init() {
@@ -181,7 +188,7 @@ public class EditEventController implements Initializable {
 	}
 
 	@FXML
-	private void updateEventHandle(ActionEvent event) {
+	private void updateEventHandle(ActionEvent ev) {
 		String eventNameString =  eventNameTF.getText();
 		String addressString =  addressTF.getText();
 		String neccesaryAgeString = neccessaryAgeTF.getText();
@@ -209,18 +216,22 @@ public class EditEventController implements Initializable {
 		}
 		
 		//vytvorenie noveho eventu
-		Event created = new Event(0, maxUsers, eventNameString, descriptionString, Date.valueOf(date),
-				neccesaryAge, Dataset.getInstance().getLoggedIn().getId(), category, addressString,
-				new Location(location.getLatitude(), location.getLongitude()));
+		event.setEventName(eventNameString);
+		event.setAddress(addressString);
+		event.setNecessaryAge(neccesaryAge);
+		event.setMaxUsersOnEvent(maxUsers);
+		event.setDescription(descriptionString);
+		event.setSportCategory(category);
+		event.setDate(Date.valueOf(date));
 		
 		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 		RestTemplate template = context.getBean(RestTemplate.class);
 		((ConfigurableApplicationContext) context).close();
 		
 		String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-		final String url = "http://" + ip + ":8009/events";
+		final String url = "http://" + ip + ":8009/events/update";
 		try {
-			template.postForEntity(url, created, Void.class);
+			template.put(url, event, Void.class);
 		} catch (HttpStatusCodeException e) {
 			new Alert(AlertType.ERROR, "Event sa nepodarilo vytvorit").showAndWait();
 			return;
