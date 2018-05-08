@@ -19,9 +19,11 @@ import org.springframework.web.client.RestTemplate;
 
 import com.lynden.gmapsfx.javascript.object.LatLong;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,12 +32,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import vava.app.Config;
 import vava.app.PropertyManager;
@@ -66,7 +72,6 @@ public class MainViewController implements Initializable {
 		mwc = this;
 		
 		User user = Dataset.getInstance().getLoggedIn();
-		
 		//multilanguage
 		PropertyManager manager = new PropertyManager("");
 		manager.loadLanguageSet(getClass());
@@ -77,7 +82,39 @@ public class MainViewController implements Initializable {
 		locationLabel.setText(manager.getProperty("locationLabel"));
 		rangeLabel.setText(manager.getProperty("rangeLabel"));
 		titleLeftLabel.setText(user.getName() + " " + user.getLastName());
-		
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem editItem = new MenuItem();
+        editItem.setText("Edituj");
+        editItem.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				if(eventListView.getSelectionModel().getSelectedItem().ev.getCreatorId() != Dataset.getInstance().getLoggedIn().getId()) {
+					new Alert(AlertType.ERROR, "Nieste tvorcom vybrateho eventu").showAndWait();
+					return;
+				}
+				Stage s =(Stage) filterButton.getScene().getWindow();
+				Stage newS = new Stage();
+				newS.initOwner(s);
+				newS.setAlwaysOnTop(true);
+				newS.initModality(Modality.WINDOW_MODAL);
+				try {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/EditEvent.fxml"));
+					Parent root = loader.load();
+					Scene scene = new Scene(root);
+			        EditEventController ec = loader.getController();
+			        ec.fillEventObject(eventListView.getSelectionModel().getSelectedItem().ev);
+					newS.setScene(scene);
+			        newS.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+					return;
+				}
+				
+			}
+		});
+        contextMenu.getItems().add(editItem);
+		eventListView.contextMenuProperty().set(contextMenu);
 		//nastavenie nazvov podla jazyku
 		loadEvents(Dataset.getInstance().getLoggedIn().getAddressLocation(), 20);
 	}

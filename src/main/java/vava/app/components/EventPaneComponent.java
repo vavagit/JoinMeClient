@@ -39,7 +39,7 @@ public class EventPaneComponent extends HBox{
      Label valueOfAddress = new Label();
      Label numberOfUsers = new Label();
      Label numberOfUsersValue = new Label();
-     Event ev;
+    public Event ev;
      //---------------------------------------
      
      //-----------------treti stplec-----
