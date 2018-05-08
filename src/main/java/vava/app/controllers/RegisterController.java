@@ -84,8 +84,8 @@ public class RegisterController implements Initializable {
 			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 			RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
 			RestTemplate template = factory.getObject();
-			String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
-			ResponseEntity<User> returnedEntity = template.postForEntity("http://"+ip+":8009/register", user, User.class);
+			String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
+			ResponseEntity<User> returnedEntity = template.postForEntity("http://" + ip + ":8009/register", user, User.class);
 			
 			user.setId(returnedEntity.getBody().getId());
 			//ulozenie prihlaseneho uzivatela

@@ -1,9 +1,11 @@
 package vava.app;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 import java.util.Properties;
 
 import org.springframework.stereotype.Component;
@@ -13,14 +15,14 @@ public class PropertyManager {
 	
 	private Properties properties = new Properties();
 	
-	public PropertyManager(InputStream path) {
+	public PropertyManager(String path) {
 		properties = loadFromFile(path);
 	}
 	
-	private Properties loadFromFile(InputStream path) {
+	private Properties loadFromFile(String path) {
 		Properties properties = new Properties();
 		try {
-			properties.load(path);
+			properties.load(new FileInputStream(path));
 		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -44,6 +46,21 @@ public class PropertyManager {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return "";
+		}
+	}
+	
+	public String getLanguageSet(Class<?> c) {
+		String computer_language = Locale.getDefault().getLanguage();
+		
+		File file = new File("src/main/resources/language/" + c.getSimpleName().replaceAll("Controller", "") + "_" + computer_language);
+		if(file.exists()) {
+			properties = loadFromFile(file.getPath());
+			return computer_language;
+		}
+		else {
+			file = new File("src/main/resources/language/" + c.getSimpleName().replaceAll("Controller", "") + "_en");
+			properties = loadFromFile(file.getPath());
+			return "en";
 		}
 	}
 }

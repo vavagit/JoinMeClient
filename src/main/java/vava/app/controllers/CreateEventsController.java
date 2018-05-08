@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.springframework.context.ApplicationContext;
@@ -52,7 +51,7 @@ import vava.app.model.Location;
 //github.com/vavagit/JoinMeClient
 import vava.app.model.SportCategory;
 
-public class CreateEventController implements Initializable {
+public class CreateEventsController implements Initializable {
 
 	@FXML
 	private Pane gmapsPane;
@@ -85,7 +84,7 @@ public class CreateEventController implements Initializable {
 		gmapsPane.getChildren().add(gm.mapComponent);
 		init();
 
-		CreateEventController currentInstance = this;
+		CreateEventsController currentInstance = this;
 		gmapsPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -109,17 +108,16 @@ public class CreateEventController implements Initializable {
 
 	private void init() {
 		List<SportCategory> list = null;
-		String language = Locale.getDefault().getLanguage();
-		System.out.println(language);
-		if (!"sk".equals(language) && !"en".equals(language)) {
-			language = "en";
-		}
-		final String lang = language;
+		
+		//vytvorenie propertyManagera
+		PropertyManager pm = new PropertyManager("");
+		String language = pm.getLanguageSet(getClass());
+		
 		try {
 			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 			RestTemplate template = context.getBean(RestTemplate.class);
 			((ConfigurableApplicationContext) context).close();
-			String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
+			String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
 			final String url = "http://" + ip + ":8009/events/categories";
 			ResponseEntity<List<SportCategory>> returnedEntity = template.exchange(url, HttpMethod.GET, null,
 					new ParameterizedTypeReference<List<SportCategory>>() {
@@ -137,7 +135,7 @@ public class CreateEventController implements Initializable {
 
 			@Override
 			public String toString(SportCategory object) {
-				if ("sk".equals(lang)) {
+				if ("sk".equals(language)) {
 					return object.getSport_sk();
 				}
 				return object.getSport_en();
@@ -152,8 +150,7 @@ public class CreateEventController implements Initializable {
 		sportCategoryChB.setItems(list2);
 		sportCategoryChB.getSelectionModel().selectFirst();
 		
-		System.out.println(language);
-		PropertyManager pm = new PropertyManager(getClass().getResourceAsStream("/language/CreateEvents_" + language));
+		
 		titleLabel.setText(pm.getProperty("titleLabel"));
 		titleDescriptionLabel.setText(pm.getProperty("titleDescriptionLabel"));
 		createButton.setText(pm.getProperty("createButton"));
@@ -215,7 +212,7 @@ public class CreateEventController implements Initializable {
 		RestTemplate template = context.getBean(RestTemplate.class);
 		((ConfigurableApplicationContext) context).close();
 		
-		String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
+		String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
 		final String url = "http://" + ip + ":8009/events";
 		try {
 			template.postForEntity(url, created, Void.class);

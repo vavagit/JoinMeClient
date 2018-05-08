@@ -28,7 +28,7 @@ import com.lynden.gmapsfx.service.geocoding.GeocodingServiceCallback;
 
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
-import vava.app.controllers.CreateEventController;
+import vava.app.controllers.CreateEventsController;
 import vava.app.controllers.MainViewController;
 import vava.app.controllers.RegisterController;
 
@@ -69,8 +69,8 @@ public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus st
 			//System.out.println(fromGeocode);
 		}
 		
-		if(objectCTRL instanceof CreateEventController) {
-			CreateEventController q1 = (CreateEventController)objectCTRL;
+		if(objectCTRL instanceof CreateEventsController) {
+			CreateEventsController q1 = (CreateEventsController)objectCTRL;
 			q1.fillLongLitude(fromGeocode);
 		}
 		else if(objectCTRL instanceof MainViewController) {
@@ -193,8 +193,8 @@ public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus st
 				markerOptions2.position(ll).title("My new Marker").visible(true).draggable(true);
 				myMarker2 = new Marker(markerOptions2);
 				map.addMarker(myMarker2);
-				if(objectCTRL instanceof CreateEventController) {
-					CreateEventController q = (CreateEventController)objectCTRL;
+				if(objectCTRL instanceof CreateEventsController) {
+					CreateEventsController q = (CreateEventsController)objectCTRL;
 					q.fillLongLitude(fromGeocode);
 				}
 

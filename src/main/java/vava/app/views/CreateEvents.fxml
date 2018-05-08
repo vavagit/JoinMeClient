@@ -16,7 +16,7 @@
 <?import javafx.scene.control.DatePicker?>
 
 
-<AnchorPane styleClass="anchor,createEvent" stylesheets="/vava/app/views/Log.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="vava.app.controllers.CreateEventController">
+<AnchorPane styleClass="anchor,createEvent" stylesheets="/vava/app/views/Log.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="vava.app.controllers.CreateEventsController">
    <children>
       <Pane layoutX="20" layoutY="50" styleClass="createUserPane">
 	      	<children>

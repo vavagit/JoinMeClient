@@ -72,8 +72,8 @@ public class MainViewController implements Initializable {
      		RestTemplate template = context.getBean(RestTemplate.class);
      		((ConfigurableApplicationContext)context).close();     		
      		
-     		final String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
-     		final String url = "http://"+ip+":8009/events?lon={lon}&lat={lat}&radius={radius}";
+     		final String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
+     		final String url = "http://" + ip + ":8009/events?lon={lon}&lat={lat}&radius={radius}";
      		User loggedIn = Dataset.getInstance().getLoggedIn();
      		
      		Map<String, Object> map = new HashMap<>();
@@ -150,7 +150,6 @@ public class MainViewController implements Initializable {
 		Double longitude =null;
 
 		if(!selectedArea.isEmpty()) {
-			//GmComponent.getInstance().geocodingAddress(selectedArea, mwc);		
 			if(l == null) {
 				new Alert(AlertType.ERROR, "Poloha nebola najdena").showAndWait();
 				return;
@@ -158,15 +157,14 @@ public class MainViewController implements Initializable {
 			
 			latitude = l.getLatitude();
 			longitude = l.getLongitude();
-			//System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			System.out.println(l);
 		}
-				
+			
 		try {
      		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
      		RestTemplate template = context.getBean(RestTemplate.class);
      		((ConfigurableApplicationContext)context).close();     		
-     		String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
+     		String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
      		final String url = "http://"+ip+":8009/events?lon={lon}&lat={lat}&radius={radius}";
      		Map<String, Object> map = new HashMap<>();
      		map.put("lon", longitude);

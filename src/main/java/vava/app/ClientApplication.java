@@ -1,25 +1,11 @@
 package vava.app;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
-
-import com.lynden.gmapsfx.service.geocoding.GeocodingResult;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import netscape.javascript.JSObject;
 import vava.app.components.GmComponent;
 
 public class ClientApplication extends Application{
@@ -39,7 +25,6 @@ public class ClientApplication extends Application{
 	}
 
 	public static void main(String[] args) {
-		System.out.println(Locale.getDefault().getLanguage());
 		launch(args);
 	}
 }
