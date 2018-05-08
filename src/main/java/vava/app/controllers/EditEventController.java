@@ -81,7 +81,9 @@ public class EditEventController implements Initializable {
 		GmComponent gm = GmComponent.getInstance();
 		gmapsPane.getChildren().add(gm.mapComponent);
 		init();
-		gm.map.setCenter(new LatLong(Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude(),Dataset.getInstance().getLoggedIn().getAddressLocation().getLongitude()));
+		
+		this.location = new LatLong(Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude(),Dataset.getInstance().getLoggedIn().getAddressLocation().getLongitude());
+		gm.map.setCenter(this.location);
 		gm.map.setZoom(11);
 		EditEventController currentInstance = this;
 		
