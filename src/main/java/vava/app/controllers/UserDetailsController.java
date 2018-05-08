@@ -26,11 +26,8 @@ public class UserDetailsController implements Initializable {
 	private Label contactLabel;
 	@FXML
 	private Label registeredAtLabel;
-	@FXML
-	private Button cancelButton;
+
 	//datova cast
-	@FXML
-	private Label userNameDataLabel;
 	@FXML
 	private Label firstNameDataLabel;
 	@FXML
@@ -41,23 +38,27 @@ public class UserDetailsController implements Initializable {
 	private Label contactDataLabel;
 	@FXML
 	private Label registeredAtDataLabel;
-	
+	private User user;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//nastavenie textu mulilanguage
 		PropertyManager manager = new PropertyManager("");
 		manager.loadLanguageSet(getClass());
-		userNameLabel.setText(manager.getProperty("userNameLabel"));
+		
 		firstNameLabel.setText(manager.getProperty("firstNameLabel"));
 		lastNameLabel.setText(manager.getProperty("lastNameLabel"));
 		addressLabel.setText(manager.getProperty("addressLabel"));
 		contactLabel.setText(manager.getProperty("contactLabel"));
 		registeredAtLabel.setText(manager.getProperty("registeredAtLabel"));
-		cancelButton.setText(manager.getProperty("cancelButton"));
+	}
+	public void fillUserObject(User user) {
+		this.user = user;
+		setData(user);
 	}
 	
 	public void setData(User user) {
-		userNameDataLabel.setText(user.getUserName());
+		System.out.println(user);
+		userNameLabel.setText(user.getUserName());
 		firstNameDataLabel.setText(user.getName());
 		lastNameDataLabel.setText(user.getLastName());
 		addressDataLabel.setText(user.getAddress());
