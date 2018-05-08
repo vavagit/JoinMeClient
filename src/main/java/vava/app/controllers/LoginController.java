@@ -1,7 +1,5 @@
 package vava.app.controllers;
 
-
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -51,7 +49,8 @@ public class LoginController implements Initializable {
 	private Label errLabel;
 	@FXML 
 	private Hyperlink register;
-	
+	@FXML
+	private Label invitationLabel;
 	
 	public void initialize(URL location, ResourceBundle resources) {
 		passwordPF.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
@@ -70,6 +69,8 @@ public class LoginController implements Initializable {
 		userNameTF.setPromptText(manager.getProperty("userNameTF"));
 		passwordPF.setPromptText(manager.getProperty("passwordPF"));
 		logInLabel.setText(manager.getProperty("logInLabel"));
+		invitationLabel.setText(manager.getProperty("invitationLabel"));
+		register.setText(manager.getProperty("register"));
 	}
 	
 	@FXML

@@ -63,4 +63,19 @@ public class PropertyManager {
 			return "en";
 		}
 	}
+	
+	public String loadLanguageSet(String fileName) {
+		String computer_language = Locale.getDefault().getLanguage();
+		
+		File file = new File("src/main/resources/language/" + fileName + "_" + computer_language);
+		if(file.exists()) {
+			properties = loadFromFile(file.getPath());
+			return computer_language;
+		}
+		else {
+			file = new File("src/main/resources/language/" + fileName + "_en");
+			properties = loadFromFile(file.getPath());
+			return "en";
+		}
+	}
 }

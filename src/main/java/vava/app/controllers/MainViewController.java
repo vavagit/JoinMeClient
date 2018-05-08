@@ -19,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.lynden.gmapsfx.javascript.object.LatLong;
 
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,7 +34,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
@@ -67,6 +65,7 @@ public class MainViewController implements Initializable {
 	@FXML Hyperlink myEventsLink;
 	@FXML Hyperlink joinedEventsLink;
 	@FXML Button filterButton;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		mwc = this;
@@ -89,7 +88,7 @@ public class MainViewController implements Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				if(eventListView.getSelectionModel().getSelectedItem().ev.getCreatorId() != Dataset.getInstance().getLoggedIn().getId()) {
+				if(eventListView.getSelectionModel().getSelectedItem().getEvent().getCreatorId() != Dataset.getInstance().getLoggedIn().getId()) {
 					new Alert(AlertType.ERROR, "Nieste tvorcom vybrateho eventu").showAndWait();
 					return;
 				}
@@ -103,7 +102,7 @@ public class MainViewController implements Initializable {
 					Parent root = loader.load();
 					Scene scene = new Scene(root);
 			        EditEventController ec = loader.getController();
-			        ec.fillEventObject(eventListView.getSelectionModel().getSelectedItem().ev);
+			        ec.fillEventObject(eventListView.getSelectionModel().getSelectedItem().getEvent());
 					newS.setScene(scene);
 			        newS.show();
 				} catch (IOException e) {

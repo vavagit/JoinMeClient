@@ -18,39 +18,45 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import vava.app.PropertyManager;
 import vava.app.controllers.EventDescriptionController;
 import vava.app.model.Event;
 
 public class EventPaneComponent extends HBox{
-	String labelNumberOfUsers = "Pocet uzivatelov: ";
-	String labelDate = "Kedy ? : ";
-	String labelAddress = "Kde ? : ";
-     ImageView img = new ImageView();
-     Label title = new Label();
-     VBox vboxPicWithTitle = new VBox();
+	private ImageView img = new ImageView();
+    private Label title = new Label();
+    private VBox vboxPicWithTitle = new VBox();
      //--------druhy stlpec
-     VBox info = new VBox();
-     HBox infoR1 = new HBox();
-     HBox infoR2 = new HBox();
-     HBox infoR3 = new HBox();
-     Label date = new Label();
-     Label dateValue = new Label();
-     Label address = new Label();
-     Label valueOfAddress = new Label();
-     Label numberOfUsers = new Label();
-     Label numberOfUsersValue = new Label();
-    public Event ev;
+    private VBox info = new VBox();
+    private HBox infoR1 = new HBox();
+    private HBox infoR2 = new HBox();
+    private HBox infoR3 = new HBox();
+    private Label date = new Label();
+    private Label dateValue = new Label();
+    private Label address = new Label();
+    private Label valueOfAddress = new Label();
+    private Label numberOfUsers = new Label();
+    private Label numberOfUsersValue = new Label();
+    private Event event;
      //---------------------------------------
      
-     //-----------------treti stplec-----
-     Button buttonJoin = new Button();
-     Button detailBt = new Button();
-     VBox vboxBt = new VBox();
+    public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	//-----------------treti stplec-----
+    private Button buttonJoin = new Button();
+    private Button detailBt = new Button();
+    private VBox vboxBt = new VBox();
     
      private void init() {
     	 detailBt.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event) {
+			public void handle(MouseEvent ev) {
 				
 				Stage s =(Stage) detailBt.getScene().getWindow();
 				Stage newS = new Stage();
@@ -62,7 +68,7 @@ public class EventPaneComponent extends HBox{
 					Parent root = loader.load();
 					Scene scene = new Scene(root);
 			        EventDescriptionController ec = loader.getController();
-			        ec.fillEventObject(ev);
+			        ec.fillEventObject(event);
 					newS.setScene(scene);
 			        newS.show();
 				} catch (IOException e) {
@@ -77,7 +83,7 @@ public class EventPaneComponent extends HBox{
 		super();
 		init();
 		//init
-		ev=e;
+		event = e;
 		title.getStyleClass().add("vbLabel");
 		date.getStyleClass().add("vbLabel");
 		address.getStyleClass().add("vbLabel");
@@ -86,7 +92,6 @@ public class EventPaneComponent extends HBox{
 		valueOfAddress.getStyleClass().addAll("vbLabel","vbValueLabel");
 		numberOfUsersValue.getStyleClass().addAll("vbLabel","vbValueLabel");
 		// prvy vbox -------------------------
-	//	System.out.println("/img/categoryPictures/"+e.getEventId()+".png");
 		Image im = new Image(getClass().getResourceAsStream("/img/categoryPictures/"+e.getSportCategory().getId()+".png")); // naplnim obrazok so sportom
 		this.title.setText(e.getEventName()); // pridat mu este css style ak bude treba
 		img.setImage(im);
@@ -96,13 +101,15 @@ public class EventPaneComponent extends HBox{
 	    //------------------
 	    //mozno by sa hodil prazdny
 	    //-----druhy vbox---------
-	    numberOfUsers.setText(labelNumberOfUsers);
+	    PropertyManager manager = new PropertyManager("");
+	    manager.loadLanguageSet(getClass().getSimpleName());
+	    numberOfUsers.setText(manager.getProperty("numberOfUsers"));
 	    numberOfUsersValue.setText("0/"+e.getMaxUsersOnEvent()); // dorob pocet uzivatelov na dany event
 	    infoR1.getChildren().addAll(numberOfUsers,numberOfUsersValue);
-	    date.setText(labelDate);
+	    date.setText(manager.getProperty("date"));
 	    dateValue.setText(e.getDate().toString());
 	    infoR2.getChildren().addAll(date,dateValue);
-	    address.setText(labelAddress);
+	    address.setText(manager.getProperty("address"));
 	    valueOfAddress.setText(e.getAddress());
 	    infoR3.getChildren().addAll(address,valueOfAddress);
 	    
@@ -119,7 +126,7 @@ public class EventPaneComponent extends HBox{
 	    space.setPrefWidth(30);
 	    Pane space2 = new Pane();
 	    space.setMaxWidth(Double.MAX_VALUE);
-	    this.setHgrow(space2, Priority.ALWAYS);
+	    EventPaneComponent.setHgrow(space2, Priority.ALWAYS);
 	    vboxBt.setAlignment(Pos.CENTER_RIGHT);
 	    this.setAlignment(Pos.CENTER_RIGHT);
 	    this.getChildren().addAll(vboxPicWithTitle,space,info,space2 ,vboxBt);

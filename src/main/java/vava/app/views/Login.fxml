@@ -47,7 +47,7 @@
       </ImageView>
       <Pane layoutX="33.0" layoutY="349.0" prefHeight="21.0" prefWidth="239.0">
          <children>
-            <Label layoutX="14.0" layoutY="1.0" prefHeight="19.0" prefWidth="124.0" text="Don´t have account ?" textFill="#eeeeee" />
+            <Label fx:id="invitationLabel" layoutX="14.0" layoutY="1.0" prefHeight="19.0" prefWidth="124.0" text="Don´t have account ?" textFill="#eeeeee" />
             <Hyperlink fx:id="register" layoutX="161.0" layoutY="1.0" onAction="#registerHandle" text="Register HERE" textFill="#fcfcfc" />
          </children>
       </Pane>

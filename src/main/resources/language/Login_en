@@ -2,4 +2,5 @@ logInLabel = Login to our page
 userNameTF = Username...
 passwordPF = Password...
 logInButton = Log In
-
+invitationLabel = Don\u0027t have account ?
+register = Register HERE
