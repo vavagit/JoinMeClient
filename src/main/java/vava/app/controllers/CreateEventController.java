@@ -49,6 +49,7 @@ import vava.app.components.GmComponent;
 import vava.app.model.Dataset;
 import vava.app.model.Event;
 import vava.app.model.Location;
+//github.com/vavagit/JoinMeClient
 import vava.app.model.SportCategory;
 
 public class CreateEventController implements Initializable {
