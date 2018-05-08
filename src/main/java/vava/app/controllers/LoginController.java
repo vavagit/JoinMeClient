@@ -97,7 +97,7 @@ public class LoginController implements Initializable {
 			errLabel.setText("empty username or password");
 			return;
 		}
-/*		
+	
 		User user = new User(userName,password);
 		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 		RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
@@ -125,7 +125,7 @@ public class LoginController implements Initializable {
 			errLabel.setText("error connection. Try later");
 			return;
 		}
-*/		
+		
 		//prepnutie sceny na hlavne okno
 		Stage currentStage = (Stage) passwordPF.getScene().getWindow();
 		currentStage.close();
