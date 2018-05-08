@@ -29,6 +29,7 @@ import com.lynden.gmapsfx.service.geocoding.GeocodingServiceCallback;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import vava.app.controllers.CreateEventsController;
+import vava.app.controllers.EditEventController;
 import vava.app.controllers.MainViewController;
 import vava.app.controllers.RegisterController;
 
@@ -79,6 +80,10 @@ public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus st
 		}
 		else if(objectCTRL instanceof RegisterController) {
 			RegisterController q1 = (RegisterController)objectCTRL;
+			q1.fillLongLitude(fromGeocode);
+		}
+		else if(objectCTRL instanceof EditEventController) {
+			EditEventController q1 = (EditEventController)objectCTRL;
 			q1.fillLongLitude(fromGeocode);
 		}
 	}

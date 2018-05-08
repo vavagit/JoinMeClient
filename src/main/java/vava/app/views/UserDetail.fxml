@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<AnchorPane  styleClass="anchor,anchorDetailDescription" stylesheets="/vava/app/views/Log.css" fx:controller="vava.app.controllers.UserDetailsController" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+   	<Pane styleClass = "paneUnderDetailsUser" layoutX="20" layoutY="20">
+   		<children>
+   		  <Pane styleClass="titlePaneUnderDetailsUser" layoutX="0" layoutY="0">
+   		  	<children>
+   		  		<Label fx:id="userNameLabel" 	layoutX="10" layoutY="25" styleClass="titleLabel"/>
+   		  	</children>
+   		  </Pane>
+   		  <VBox layoutX="5" layoutY="75">
+   		  	<children>
+		      <Label fx:id="firstNameLabel" styleClass="eventdescriptionLabel" text="Date:" />
+		      <Label fx:id="firstNameDataLabel" styleClass="eventdescriptionDataLabel"/>
+		      <Pane styleClass="eventDescriptionSpace"/>
+		      
+		      <Label fx:id="lastNameLabel" styleClass="eventdescriptionLabel" text="Sport:" />
+		       <Label fx:id="lastNameDataLabel" styleClass="eventdescriptionDataLabel" />
+				<Pane styleClass="eventDescriptionSpace"/>
+		      <Label fx:id="addressLabel" styleClass="eventdescriptionLabel" text="Age limit:" />
+		      <Label fx:id="addressDataLabel" styleClass="eventdescriptionDataLabel"/>
+		      <Pane styleClass="eventDescriptionSpace"/>
+		       <Label fx:id="contactLabel" styleClass="eventdescriptionLabel" text="Address:" />
+		      <Label fx:id="contactDataLabel" styleClass="eventdescriptionDataLabel"/>
+		      <Pane styleClass="eventDescriptionSpace"/>
+		      <Label fx:id="registeredAtLabel" styleClass="eventdescriptionLabel" text="Creator:" />
+		      <Label fx:id="registeredAtDataLabel"  styleClass="eventdescriptionDataLabel"/>
+		      <Pane styleClass="eventDescriptionSpace"/>
+			</children>
+	      </VBox>
+   		</children>
+   	</Pane>
+   </children>
+</AnchorPane>

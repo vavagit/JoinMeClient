@@ -236,7 +236,6 @@
 .paneUnderDetails{
 	-fx-min-width: 250px;
 	-fx-max-width: 250px;
-	-fx-pref-tile-width: 250px;
 	-fx-pref-height: 450px;
 	-fx-min-height: 450px;
 	-fx-max-height: 450px;
@@ -307,4 +306,23 @@
 .menu-item:focused .label {
   -fx-text-fill: white;
   -fx-background-color: #6dcde9;
+}
+
+/*--------------------------------------user detail description --------------------------------- */
+.anchorDetailDescription{
+	-fx-min-width: 300px;
+	-fx-max-width: 300px;
+	-fx-max-height: 500px;
+	
+}
+.paneUnderDetailsUser{
+	-fx-min-width: 250px;
+	-fx-max-width: 250px;
+	-fx-max-height: 450 px;
+}
+.titlePaneUnderDetailsUser{
+	-fx-min-width: 250px;
+	-fx-max-width: 250px;
+	-fx-min-height: 50px;
+	-fx-max-height: 50px;
 }
