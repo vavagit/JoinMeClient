@@ -69,7 +69,7 @@ public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus st
 		}
 		if(objectCTRL instanceof CreateEventController) {
 			CreateEventController q1 = (CreateEventController)objectCTRL;
-			q1.fillLonglitude(fromGeocode);
+			q1.fillLongLitude(fromGeocode);
 		}
 		/*MarkerOptions mo = new MarkerOptions();
 		mo.position(fromGeocode).visible(true);
@@ -185,7 +185,7 @@ public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus st
 				map.addMarker(myMarker2);
 				if(objectCTRL instanceof CreateEventController) {
 					CreateEventController q = (CreateEventController)objectCTRL;
-					q.fillLonglitude(fromGeocode);
+					q.fillLongLitude(fromGeocode);
 				}
 
 		});

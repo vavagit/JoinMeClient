@@ -15,6 +15,8 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.lynden.gmapsfx.javascript.object.LatLong;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -45,6 +47,8 @@ public class LoginController implements Initializable {
 	@FXML PasswordField passwordPF;
 	@FXML Label errLabel;
 	@FXML Hyperlink register;
+	
+	
 	public void initialize(URL location, ResourceBundle resources) {
 		passwordPF.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			 public void handle(KeyEvent ke) {
@@ -141,4 +145,5 @@ public class LoginController implements Initializable {
 			return;
 		}
 	}
+	
 }

@@ -17,7 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.lynden.gmapsfx.javascript.object.LatLong;
+
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,12 +38,15 @@ import javafx.stage.Stage;
 import vava.app.Config;
 import vava.app.PropertyManager;
 import vava.app.components.EventPaneComponent;
+import vava.app.components.GmComponent;
 import vava.app.model.Dataset;
 import vava.app.model.Event;
 import vava.app.model.User;
 
 
 public class MainViewController implements Initializable {
+	MainViewController mwc;
+	private LatLong l;
 	Stage s;
 	String leftTitle = "Hi!";
 	String nameUser = "Damian Majercak";
@@ -55,6 +61,7 @@ public class MainViewController implements Initializable {
 	@FXML Button filterButton;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		mwc = this;
 		titleLeftLabel.setText(leftTitle);
 		nameOfUserLabel.setText(nameUser);
 		locationLabel.setText(locationLabelS);
@@ -78,7 +85,10 @@ public class MainViewController implements Initializable {
      		for(Event current : returnedEntity.getBody()) {
      			list.add(new EventPaneComponent(current));
      		}
-     	}catch(RestClientException e) {
+     		ObservableList<EventPaneComponent> listEventPane = FXCollections.observableArrayList(list);
+     		eventListView.setItems(listEventPane);
+     	}
+       catch(RestClientException e) {
      		e.printStackTrace();
      	}
 
@@ -116,6 +126,7 @@ public class MainViewController implements Initializable {
 		String selectedArea = locationTextField.getText();
 		String rangeString = rangeTextField.getText();
 		
+		
 		if(rangeString.isEmpty()) {
 			new Alert(AlertType.ERROR, "Je nutne vyplnit rozsah vyhladavania filtra").showAndWait();
 			return;
@@ -128,27 +139,27 @@ public class MainViewController implements Initializable {
 			return;
 		}
 		
-		Double latitude = Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude();
-		Double longitude = Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude();
+		Double latitude = null ;
+		Double longitude =null;
 
 		if(!selectedArea.isEmpty()) {
-			/*LatLong cordidnates = GmComponent.getInstance().geocodingAddress(selectedArea);
-			//adresa nebola najdena
-			if(cordidnates == null) {
+			GmComponent.getInstance().geocodingAddress(selectedArea, mwc);		
+			if(l == null) {
 				new Alert(AlertType.ERROR, "Poloha nebola najdena").showAndWait();
 				return;
 			}
 			
-			latitude = cordidnates.getLatitude();
-			longitude = cordidnates.getLongitude();*/
+			latitude = l.getLatitude();
+			longitude = l.getLongitude();
+			System.out.println(l);
 		}
 				
 		try {
      		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
      		RestTemplate template = context.getBean(RestTemplate.class);
      		((ConfigurableApplicationContext)context).close();     		
-     		
-     		final String url = "http://localhost:8009/events?lon={lon}&lat={lat}&radius={radius}";
+     		String ip = new PropertyManager(getClass().getResourceAsStream("/connectionConfig")).getProperty("host");
+     		final String url = "http://"+ip+":8009/events?lon={lon}&lat={lat}&radius={radius}";
      		Map<String, Object> map = new HashMap<>();
      		map.put("lon", longitude);
      		map.put("lat", latitude);
@@ -159,12 +170,14 @@ public class MainViewController implements Initializable {
      		for(Event current : returnedEntity.getBody()) {
      			list.add(new EventPaneComponent(current));
      		}
-  
      		eventListView.setItems(FXCollections.observableList(list));
         	
      	}catch(RestClientException e) {
      		e.printStackTrace();
      	}
+	}
+	public void fillLongLitude(LatLong l) {
+		this.l = l;
 	}
 	
 }

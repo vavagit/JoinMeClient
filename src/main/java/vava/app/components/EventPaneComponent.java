@@ -48,7 +48,8 @@ public class EventPaneComponent extends HBox{
 		valueOfAddress.getStyleClass().addAll("vbLabel","vbValueLabel");
 		numberOfUsersValue.getStyleClass().addAll("vbLabel","vbValueLabel");
 		// prvy vbox -------------------------
-		Image im = new Image(getClass().getResourceAsStream("/img/categoryPictures/"+e.getCreatorId()+".png")); // naplnim obrazok so sportom
+	//	System.out.println("/img/categoryPictures/"+e.getEventId()+".png");
+		Image im = new Image(getClass().getResourceAsStream("/img/categoryPictures/"+e.getSportCategory().getId()+".png")); // naplnim obrazok so sportom
 		this.title.setText(e.getEventName()); // pridat mu este css style ak bude treba
 		img.setImage(im);
 		img.setFitWidth(50);

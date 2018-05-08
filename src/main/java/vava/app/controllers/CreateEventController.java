@@ -48,6 +48,7 @@ import vava.app.Config;
 import vava.app.PropertyManager;
 import vava.app.components.EventPaneComponent;
 import vava.app.components.GmComponent;
+import vava.app.components.GmReturn;
 import vava.app.model.Event;
 import vava.app.model.SportCategory;
 
@@ -151,7 +152,7 @@ public class CreateEventController implements Initializable{
 		Tooltip e = new Tooltip(pm.getProperty("sportCategoryChB"));
 		sportCategoryChB.setTooltip(e);
 	}
-	public void fillLonglitude(LatLong l) {
+	public void fillLongLitude(LatLong l) {
 		this.l = l;
 		descriptionTA.setText(this.l.toString());
 		addMarker(this.l);
