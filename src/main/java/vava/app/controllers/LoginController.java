@@ -3,7 +3,6 @@ package vava.app.controllers;
 
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -14,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import com.lynden.gmapsfx.javascript.object.LatLong;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
