@@ -1,17 +1,10 @@
 package vava.app.controllers;
 
-import java.lang.Character.UnicodeBlock;
 import java.net.URL;
-import java.rmi.server.Skeleton;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
-
-import javax.swing.ToolTipManager;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -22,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.lynden.gmapsfx.javascript.object.Animation;
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
@@ -30,7 +22,6 @@ import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -47,10 +38,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
 import vava.app.Config;
 import vava.app.PropertyManager;
-import vava.app.components.EventPaneComponent;
 import vava.app.components.GmComponent;
-import vava.app.components.GmReturn;
-import vava.app.model.Event;
 import vava.app.model.SportCategory;
 
 public class CreateEventController implements Initializable{
@@ -65,8 +53,8 @@ public class CreateEventController implements Initializable{
 	@FXML private DatePicker eventDateDP;
 	@FXML private Button createButton;
 	@FXML private ChoiceBox<SportCategory> sportCategoryChB;
-	CreateEventController e;
-	LatLong l;
+	private CreateEventController e;
+	private LatLong l;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		e = this;

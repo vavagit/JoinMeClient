@@ -50,7 +50,7 @@ import vava.app.model.User;
 
 
 public class MainViewController implements Initializable {
-	MainViewController mwc;
+	private MainViewController mwc;
 	private LatLong l;
 	Stage s;
 	String leftTitle = "Hi!";
