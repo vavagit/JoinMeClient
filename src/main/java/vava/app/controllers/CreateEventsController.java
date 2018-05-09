@@ -88,7 +88,7 @@ public class CreateEventsController implements Initializable {
 		//pridanie mapy do okna
 		GmComponent gm = GmComponent.getInstance();
 		gmapsPane.getChildren().add(gm.mapComponent);
-		
+		gm.map.clearMarkers();
 		init();
 		gm.map.setCenter(new LatLong(Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude(),Dataset.getInstance().getLoggedIn().getAddressLocation().getLongitude()));
 		gm.map.setZoom(11);
@@ -109,10 +109,8 @@ public class CreateEventsController implements Initializable {
 		gm.map.setZoom(7);
 		addressTF.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent ke) {
-				if (ke.getCode() == KeyCode.ENTER) {
 					logger.debug("handle2, zistujem suradnice: " + addressTF.getText());
 					gm.geocodingAddress(addressTF.getText(), currentInstance);
-				}
 			}
 		});
 

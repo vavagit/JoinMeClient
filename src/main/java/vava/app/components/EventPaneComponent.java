@@ -14,6 +14,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import ch.qos.logback.classic.Logger;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -72,7 +73,7 @@ public class EventPaneComponent extends HBox{
     private Button detailBt = new Button();
     private VBox vboxBt = new VBox();
     private List<User> joinedUser = new ArrayList<>();
-    
+    private String buttonJoinedS = "";
      private void init() {
     	 title.setWrapText(true);
     	 buttonJoin.setMaxWidth(Double.MAX_VALUE);
@@ -136,9 +137,7 @@ public class EventPaneComponent extends HBox{
 				final String url = "http://" + ip + ":"+port+"/users/"+Dataset.getInstance().getLoggedIn().getId()+"/event/"+EventPaneComponent.this.event.getEventId();
 				try {
 					template.postForEntity(url, null, Void.class);
-					PropertyManager pm = new PropertyManager("");
-					pm.loadLanguageSet(getClass().getSimpleName());
-					buttonJoin.setText(pm.getProperty("buttonJoined"));
+					buttonJoin.setText(buttonJoinedS);
 					buttonJoin.setDisable(true);
 				} catch (HttpStatusCodeException e) {
 					new Alert(AlertType.ERROR, "Nepodarilo sa pripojic").showAndWait();
@@ -184,6 +183,7 @@ public class EventPaneComponent extends HBox{
 	    //-----druhy vbox---------
 	    PropertyManager manager = new PropertyManager("");
 	    manager.loadLanguageSet(getClass().getSimpleName());
+	    buttonJoinedS = manager.getProperty("buttonJoined");
 	    numberOfUsers.setText(manager.getProperty("numberOfUsers"));
 	    numberOfUsersValue.setText(joinedUser.size()+"/"+e.getMaxUsersOnEvent()); // dorob pocet uzivatelov na dany event
 	    infoR1.getChildren().addAll(numberOfUsers,numberOfUsersValue);
