@@ -39,7 +39,7 @@
 		      <Label fx:id="dataDescriptionLabel" styleClass="eventdescriptionDataLabel"/>
 		      <Pane styleClass="eventDescriptionSpace"/>
 		      <Pane styleClass="eventDescriptionSpace"/>
-		      <Button fx:id = "joinButton" styleClass="buttonSize" onAction="#joinButtonHandle"/>
+		      <Button fx:id = "joinButton" styleClass="buttonSize"/>
 		       <Pane styleClass="eventDescriptionSpace"/>
 		      <Button fx:id = "joinedUsersButton" styleClass="buttonSize" onAction="#joinedUsersButtonHandle"/>
 		      <Pane styleClass="eventDescriptionSpace"/>

@@ -33,29 +33,19 @@ import vava.app.controllers.EditEventController;
 import vava.app.controllers.MainViewController;
 import vava.app.controllers.RegisterController;
 
-public class GmComponent implements MapComponentInitializedListener, ElevationServiceCallback,
-GeocodingServiceCallback, DirectionsServiceCallback {
+public class GmComponent implements MapComponentInitializedListener,
+GeocodingServiceCallback{
 
 	public GoogleMapView mapComponent;
 	public GoogleMap map;
 	public GeocodingService gs;
-	protected DirectionsPane directions;
-	private MarkerOptions markerOptions2;
-	private Marker myMarker2;
 	public LatLong fromGeocode;
 	Object objectCTRL;
 	private static GmComponent gm = null;
+	
+	//callback na geocodovanie nazvu podla suradnic
 	@Override
-	public void elevationsReceived(ElevationResult[] results, ElevationStatus status) {
-		if (status.equals(ElevationStatus.OK)) {
-			for (ElevationResult e : results) {
-				System.out.println(" Elevation on " + e.getLocation().toString() + " is " + e.getElevation());
-			}
-		}
-	}
-
-	@Override
-public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
+	public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
 	//System.out.println(Thread.currentThread().getName()+"  "+Thread.currentThread().getId());
 		LatLong temp = null;
 		if (status.equals(GeocoderStatus.OK)) {
@@ -99,113 +89,35 @@ public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus st
 		//gs = new GeocodingService();
 		mapComponent.addMapInitializedListener(this);
 	}
-	
-	public void directionsReceived(DirectionsResult results, DirectionStatus status) {
-		if (status.equals(DirectionStatus.OK)) {
-			mapComponent.getMap().showDirectionsPane();
-			System.out.println("OK");
-
-			DirectionsResult e = results;
-			
-
-			System.out.println("SIZE ROUTES: " + e.getRoutes().size() + "\n" + "ORIGIN: "
-					+ e.getRoutes().get(0).getLegs().get(0).getStartLocation());
-			// gs.reverseGeocode(e.getRoutes().get(0).getLegs().get(0).getStartLocation().getLatitude(),
-			// e.getRoutes().get(0).getLegs().get(0).getStartLocation().getLongitude(),
-			// this);
-			System.out.println("LEGS SIZE: " + e.getRoutes().get(0).getLegs().size());
-			System.out.println("WAYPOINTS " + e.getGeocodedWaypoints().size());
-			/*
-			 * double d = 0; for(DirectionsLeg g : e.getRoutes().get(0).getLegs()){ d +=
-			 * g.getDistance().getValue(); System.out.println("DISTANCE " +
-			 * g.getDistance().getValue()); }
-			 */
-			try {
-				System.out
-						.println("Distancia total = " + e.getRoutes().get(0).getLegs().get(0).getDistance().getText());
-			} catch (Exception ex) {
-				System.out.println("ERRO: " + ex.getMessage());
-			}
-			System.out.println("LEG(0)");
-			System.out.println(e.getRoutes().get(0).getLegs().get(0).getSteps().size());
-			/*
-			 * for(DirectionsSteps ds : e.getRoutes().get(0).getLegs().get(0).getSteps()){
-			 * System.out.println(ds.getStartLocation().toString() + " x " +
-			 * ds.getEndLocation().toString()); MarkerOptions markerOptions = new
-			 * MarkerOptions(); markerOptions.position(ds.getStartLocation())
-			 * .title(ds.getInstructions()) .animation(Animation.DROP) .visible(true);
-			 * Marker myMarker = new Marker(markerOptions); map.addMarker(myMarker); }
-			 */
-		}
-	}
-	
+		
 	@Override
 	public void mapInitialized() {
 
-		// System.out.println("MainApp.mapInitialised....");
-
-		// Once the map has been loaded by the Webview, initialize the map details.
-		LatLong center = new LatLong(47.606189, -122.335842);
-		mapComponent.addMapReadyListener(() -> {
-			// This call will fail unless the map is completely ready.
-			checkCenter(center);
-		});
 
 		MapOptions options = new MapOptions();
-		options.center(center).mapMarker(true).zoom(9).overviewMapControl(false).keyboardShortcuts(true)
+		options.mapMarker(true).zoom(9).overviewMapControl(false).keyboardShortcuts(true)
 				.panControl(false).rotateControl(false).scaleControl(false).streetViewControl(false).zoomControl(true)
 				.mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).disableDefaultUI(true)
 				.disableDoubleClickZoom(true);
 
 		map = mapComponent.createMap(options, false);
-		directions = mapComponent.getDirec();
+		//directions = mapComponent.getDirec();
 		mapComponent.setPrefSize(300, 300);
 		map.setHeading(123.2);
 		
-//	        System.out.println("Heading is: " + map.getHeading() );
-	//	gs = new GeocodingService();
-		MarkerOptions markerOptions = new MarkerOptions();
-		LatLong markerLatLong = new LatLong(47.606189, -122.335842);
-		markerOptions.position(markerLatLong).title("My new Marker").icon("mymarker.png").animation(Animation.DROP)
-				.visible(true);
-
-		final Marker myMarker = new Marker(markerOptions);
-
-		map.fitBounds(new LatLongBounds(new LatLong(40, 120), center)); // vytiahne taku mapu aby sa vosla do okna
-//	        System.out.println("Bounds : " + map.getBounds());
-
-		// liseneer ktory vrati suradnice po kliknuti
-		/*map.addUIEventHandler(UIEventType.click, (JSObject obj) -> { // liseneer ktory vrati suradnice po kliknuti
-			LatLong ll = new LatLong((JSObject) obj.getMember("latLng"));
-			System.out.println("LatLong: lat: " + ll.getLatitude() + " lng: " + ll.getLongitude());
-			// lblClick.setText(ll.toString());
-		});*/
-
 		map.addUIEventHandler(UIEventType.dblclick, (JSObject obj) -> { // liseneer ktory vrati suradnice po kliknuti
 			LatLong ll = new LatLong((JSObject) obj.getMember("latLng"));
 			fromGeocode = ll;
-			map.clearMarkers();
-				markerOptions2 = new MarkerOptions();
-				markerOptions2.position(ll).title("My new Marker").visible(true).draggable(true);
-				myMarker2 = new Marker(markerOptions2);
-				map.addMarker(myMarker2);
-				if(objectCTRL instanceof CreateEventsController) {
-					CreateEventsController q = (CreateEventsController)objectCTRL;
-					q.fillLongLitude(fromGeocode);
-				}
-
+			map.clearMarkers();	
+			if(objectCTRL instanceof CreateEventsController) {
+				CreateEventsController q = (CreateEventsController)objectCTRL;
+				q.fillLongLitude(fromGeocode);
+			}
 		});
-		//System.out.println("skus");
 		gs=new GeocodingService();
 	}
 
-	private void checkCenter(LatLong center) {
-//	        System.out.println("Testing fromLatLngToPoint using: " + center);
-//	        Point2D p = map.fromLatLngToPoint(center);
-//	        System.out.println("Testing fromLatLngToPoint result: " + p);
-//	        System.out.println("Testing fromLatLngToPoint expected: " + mapComponent.getWidth()/2 + ", " + mapComponent.getHeight()/2);
-	}
-public void geocodingAddress(String place,Object e) {
+	public void geocodingAddress(String place,Object e) {
 		//GeocodingService gs = new GeocodingService();
 		this.objectCTRL = e;
 		gs.geocode(place, this);
@@ -216,5 +128,7 @@ public void geocodingAddress(String place,Object e) {
 		objectCTRL = e;
 	}
 
-
+	public void reverseGeocoding(LatLong q) {
+		
+	}
 }

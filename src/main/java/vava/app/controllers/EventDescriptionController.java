@@ -21,16 +21,17 @@ import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -64,7 +65,11 @@ public class EventDescriptionController implements Initializable {
 	@FXML Button joinedUsersButton;
 	@FXML Pane gmaps;
 	Event event;
-	
+	private	EventHandler<MouseEvent> join;
+	private EventHandler<MouseEvent> leave;
+	private String buttonJoinedS;
+	private String buttonJoinS;
+	private List<User> joinedUser;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -75,6 +80,8 @@ public class EventDescriptionController implements Initializable {
 	public void fillEventObject(Event event) {
 		this.event = event;
 		User user;
+		
+		//naplnenie create usera
 		try {
 			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 			RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
@@ -92,6 +99,7 @@ public class EventDescriptionController implements Initializable {
 			p.printStackTrace();
 			return;
 		}
+		
 		PropertyManager pm = new PropertyManager("");
 		pm.loadLanguageSet(getClass());
 		dateLabel.setText(pm.getProperty("dateLabel"));
@@ -109,42 +117,13 @@ public class EventDescriptionController implements Initializable {
 		dataDescriptionLabel.setText(event.getDescription());
 		dataDateLabel.setText(event.getDate().toString());
 		dataCreatorLabel.setText(user.getUserName());
-		
+		buttonJoinedS=pm.getProperty("joinButtonJoined");
+		buttonJoinS=pm.getProperty("joinButton");
 		//joinButton.setText();
-		List<User> joinedUser = new ArrayList<>();
-		try {
-			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-			RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
-			RestTemplate template = factory.getObject();
-			String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
-			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
-
-			String url = "http://"+ip+":"+port+"/events/" + event.getEventId() + "/users";
-			ResponseEntity<List<User>> returnedEntity = template.exchange(url, HttpMethod.GET, null,new ParameterizedTypeReference<List<User>>() {});
-			for(User u : returnedEntity.getBody()) {
-				System.out.println("nejde---------");
-				joinedUser.add(u);
-			}
-			((ConfigurableApplicationContext)context).close();
-		}
-		catch(RestClientException p){
-			p.printStackTrace();
-			return;
-		}
+		refillJoinedUser();
 		
-		for(User s : joinedUser) {
-			System.out.println("id uzivatela v liste " +s.getId());
-		}
 		
-		if(joinedUser.contains(Dataset.getInstance().getLoggedIn())) {
-			joinButton.setText(pm.getProperty("joinButtonJoined"));
-			joinButton.setDisable(true);
-		}
-		else{
-			String buttontext = pm.getProperty("joinButton");
-			buttontext = buttontext + " ("+joinedUser.size()+"/"+event.getMaxUsersOnEvent()+")";
-			joinButton.setText(buttontext);
-		}
+		
 		
 		String language = "sk";
 		if("sk".equals(language)) {
@@ -158,32 +137,75 @@ public class EventDescriptionController implements Initializable {
 		GmComponent.getInstance().map.addMarker(new Marker(new MarkerOptions().position(l)));
 		GmComponent.getInstance().map.setCenter(l);
 		GmComponent.getInstance().map.setZoom(12);
-	}
-	
-	
-	@FXML
-	private void joinButtonHandle(ActionEvent event) {
-		//users/idUsera/event/ideventu
-		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-		RestTemplate template = context.getBean(RestTemplate.class);
-		((ConfigurableApplicationContext) context).close();
 		
-		String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-		String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
-		final String url = "http://" + ip + ":"+port+"/users/"+Dataset.getInstance().getLoggedIn().getId()+"/event/"+this.event.getEventId();
-		try {
-			template.postForEntity(url, null, Void.class);
-			PropertyManager pm = new PropertyManager("");
-			pm.loadLanguageSet(getClass());
-			joinButton.setText(pm.getProperty("joinButtonJoined"));
-			joinButton.setDisable(true);
-		} catch (HttpStatusCodeException e) {
-			new Alert(AlertType.ERROR, "Nepodarilo sa pripojic").showAndWait();
-			return;
-		} catch (RestClientException e) {
-			new Alert(AlertType.ERROR, "Chyba spojenia").showAndWait();
-			return;
-		}
+		//event handlery pre prihlasenie a odhlasenie 
+		 join = new EventHandler<MouseEvent>() {
+	 			@Override
+	 			public void handle(MouseEvent event) {
+	 				//users/idUsera/event/ideventu
+	 				ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+	 				RestTemplate template = context.getBean(RestTemplate.class);
+	 				((ConfigurableApplicationContext) context).close();
+	 				
+	 				String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
+	 				String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+	 				final String url = "http://" + ip + ":"+port+"/users/"+Dataset.getInstance().getLoggedIn().getId()+"/event/"+EventDescriptionController.this.event.getEventId();
+	 				try {
+	 					template.postForEntity(url, null, Void.class);
+	 					joinButton.setText(buttonJoinedS);
+	 					joinButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, join);
+	 					joinButton.addEventHandler(MouseEvent.MOUSE_CLICKED, leave);
+	 				} catch (HttpStatusCodeException e) {
+	 					new Alert(AlertType.ERROR, "Nepodarilo sa pripojic").showAndWait();
+	 					return;
+	 				} catch (RestClientException e) {
+	 					new Alert(AlertType.ERROR, "Chyba spojenia").showAndWait();
+	 					return;
+	 				}
+	 				
+	 			}
+	     		 
+	 		};
+	 	leave = new EventHandler<MouseEvent>() {
+	 			@Override
+	 			public void handle(MouseEvent event) {
+	 				//users/idUsera/event/ideventu
+	 				ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+	 				RestTemplate template = context.getBean(RestTemplate.class);
+	 				((ConfigurableApplicationContext) context).close();
+	 				
+	 				String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
+	 				String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+	 				final String url = "http://" + ip + ":"+port+"/users/"+Dataset.getInstance().getLoggedIn().getId()+"/event/"+EventDescriptionController.this.event.getEventId();
+	 				try {
+	 					template.delete(url, null, Void.class);
+	 					refillJoinedUser();
+	 					joinButton.setText("("+joinedUser.size()+"/"+EventDescriptionController.this.event.getMaxUsersOnEvent()+")"+buttonJoinS);
+	 					joinButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, leave);
+	 					joinButton.addEventHandler(MouseEvent.MOUSE_CLICKED, join);
+	 				} catch (HttpStatusCodeException e) {
+	 					new Alert(AlertType.ERROR, "Nepodarilo sa leavnut").showAndWait();
+	 					return;
+	 				} catch (RestClientException e) {
+	 					new Alert(AlertType.ERROR, "Chyba spojenia").showAndWait();
+	 					return;
+	 				}
+	 				
+	 			}
+	     		 
+	 		};
+	 		
+	 		
+	 		if(joinedUser.contains(Dataset.getInstance().getLoggedIn())) {
+				joinButton.setText(buttonJoinedS);
+				joinButton.addEventHandler(MouseEvent.MOUSE_CLICKED, leave);
+			}
+			else{
+				String buttontext = buttonJoinS;
+				buttontext = buttontext + " ("+joinedUser.size()+"/"+event.getMaxUsersOnEvent()+")";
+				joinButton.setText(buttontext);
+				joinButton.addEventHandler(MouseEvent.MOUSE_CLICKED, join);
+			}
 	}
 	@FXML
 	private void joinedUsersButtonHandle(ActionEvent event) {
@@ -211,6 +233,28 @@ public class EventDescriptionController implements Initializable {
 			return;
 		}
 		
+	}
+	
+	private void refillJoinedUser() {
+		joinedUser = new ArrayList<>();
+		try {
+			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+			RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
+			RestTemplate template = factory.getObject();
+			String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
+			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+
+			String url = "http://"+ip+":"+port+"/events/" + event.getEventId() + "/users";
+			ResponseEntity<List<User>> returnedEntity = template.exchange(url, HttpMethod.GET, null,new ParameterizedTypeReference<List<User>>() {});
+			for(User q: returnedEntity.getBody()) {
+				joinedUser.add(q);
+			}
+			((ConfigurableApplicationContext)context).close();
+		}
+		catch(RestClientException p){
+			p.printStackTrace();
+			return;
+		}
 	}
 
 }

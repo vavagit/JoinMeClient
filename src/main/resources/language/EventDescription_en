@@ -6,5 +6,5 @@ addressLabel = Address:
 ageLabel = Age limit:
 creatorLabel = Creator:
 joinButton = Join!
-joinButtonJoined = You are joined!
+joinButtonJoined = Leave!
 joinedUsersButton = Show joined users!
