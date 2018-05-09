@@ -70,6 +70,7 @@ public class EventDescriptionController implements Initializable {
 	private String buttonJoinedS;
 	private String buttonJoinS;
 	private List<User> joinedUser;
+	private MainViewController mwc;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -77,9 +78,10 @@ public class EventDescriptionController implements Initializable {
 		gmaps.getChildren().add(gm.mapComponent);
 	}
 	
-	public void fillEventObject(Event event) {
+	public void fillEventObject(Event event,MainViewController c) {
 		this.event = event;
 		User user;
+		mwc = c;
 		
 		//naplnenie create usera
 		try {
@@ -136,7 +138,7 @@ public class EventDescriptionController implements Initializable {
 		GmComponent.getInstance().map.clearMarkers();
 		GmComponent.getInstance().map.addMarker(new Marker(new MarkerOptions().position(l)));
 		GmComponent.getInstance().map.setCenter(l);
-		GmComponent.getInstance().map.setZoom(12);
+		GmComponent.getInstance().map.setZoom(14);
 		
 		//event handlery pre prihlasenie a odhlasenie 
 		 join = new EventHandler<MouseEvent>() {
@@ -155,6 +157,7 @@ public class EventDescriptionController implements Initializable {
 	 					joinButton.setText(buttonJoinedS);
 	 					joinButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, join);
 	 					joinButton.addEventHandler(MouseEvent.MOUSE_CLICKED, leave);
+	 					mwc.loadEvents(Dataset.getInstance().getLoggedIn().getAddressLocation(), 1000);
 	 				} catch (HttpStatusCodeException e) {
 	 					new Alert(AlertType.ERROR, "Nepodarilo sa pripojic").showAndWait();
 	 					return;
@@ -182,6 +185,7 @@ public class EventDescriptionController implements Initializable {
 	 					joinButton.setText("("+joinedUser.size()+"/"+EventDescriptionController.this.event.getMaxUsersOnEvent()+")"+buttonJoinS);
 	 					joinButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, leave);
 	 					joinButton.addEventHandler(MouseEvent.MOUSE_CLICKED, join);
+	 					mwc.loadEvents(Dataset.getInstance().getLoggedIn().getAddressLocation(), 1000);
 	 				} catch (HttpStatusCodeException e) {
 	 					new Alert(AlertType.ERROR, "Nepodarilo sa leavnut").showAndWait();
 	 					return;

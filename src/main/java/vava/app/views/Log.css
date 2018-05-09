@@ -238,7 +238,8 @@
 	-fx-max-width: 250px;
 	
 	-fx-min-height: 450px;
-	-fx-max-height: 475px;
+	-fx-pref-height: 490px;
+	-fx-max-height: 490px;
 	-fx-background-color: #EEE;
 }
 .titlePaneUnderDetails{

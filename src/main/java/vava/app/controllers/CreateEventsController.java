@@ -189,6 +189,7 @@ public class CreateEventsController implements Initializable {
 		this.location = l;
 		//pridanie markera na mapu
 		addMarker(this.location);
+		
 	}
 
 	private void addMarker(LatLong l) {
@@ -196,6 +197,7 @@ public class CreateEventsController implements Initializable {
 		GmComponent.getInstance().map.clearMarkers();
 		GmComponent.getInstance().map.addMarker(new Marker(new MarkerOptions().position(l)));
 		GmComponent.getInstance().map.setCenter(l);
+		GmComponent.getInstance().map.setZoom(14);
 	}
 
 	@FXML

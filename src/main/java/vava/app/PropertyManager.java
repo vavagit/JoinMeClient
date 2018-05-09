@@ -68,6 +68,7 @@ public class PropertyManager {
 	 */
 	public String loadLanguageSet(Class<?> c) {
 		String computerLanguage = Locale.getDefault().getLanguage();
+		computerLanguage = "en";
 		logger.debug("loadLanguageSet, default jazyk : " + computerLanguage);
 		
 		File file = new File("src/main/resources/language/" + c.getSimpleName().replaceAll("Controller", "") + "_" + computerLanguage);

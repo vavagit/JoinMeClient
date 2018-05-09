@@ -104,7 +104,7 @@ public class EventPaneComponent extends HBox{
 					Parent root = loader.load();
 					Scene scene = new Scene(root);
 			        EventDescriptionController ec = loader.getController();
-			        ec.fillEventObject(event);
+			        ec.fillEventObject(event,mwc);
 					newS.setScene(scene);
 			        newS.show();
 				} catch (IOException e) {
