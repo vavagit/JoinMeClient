@@ -5,6 +5,9 @@ import java.net.URL;
 import java.sql.Date;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -50,15 +53,18 @@ public class RegisterController implements Initializable {
 	@FXML private Label signUpLabel;
 	@FXML private Label fillInLabel;
 	
+	private Logger logger = LogManager.getLogger(PropertyManager.class);
 	private RegisterController rc;
 	private LatLong address;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		rc = this;
 		
 		//multilanguage
 		PropertyManager manager = new PropertyManager("");
-		manager.loadLanguageSet(getClass());
+		String language = manager.loadLanguageSet(getClass());
+		logger.debug("initialize, Nastavenie multilanguage: " + language);
 		//nastavenie nazvov podla jazyku
 		userNameTF.setPromptText(manager.getProperty("userNameTF"));
 		passwordPF.setPromptText(manager.getProperty("passwordPF"));
@@ -81,15 +87,19 @@ public class RegisterController implements Initializable {
 		String lastNameString = lastNameTF.getText();
 		String addressString = addressTF.getText();
 		
+		//kontorola vyplnenia udajov
 		if(passwordString.isEmpty() || passwordStringAgain.isEmpty() || usernameString.isEmpty()
 				|| contactString.isEmpty() || firstNameString.isEmpty() || lastNameString.isEmpty()
 				|| addressString.isEmpty()) {
+			logger.debug("signUpHandle, nevyplnene udaje");
 			new Alert(AlertType.ERROR, "je nutne vyplnit vsetky udaje").showAndWait();
 			return;
 		}
-		
+		logger.info("signUpHandle, Pokus o prihlasenie uzivatela " + usernameString);
+
 		//kontrola zhody zadaneho hesla
 		if(!passwordString.equals(passwordStringAgain)) {
+			logger.debug("signUpHandle, nezhodne hesla");
 			new Alert(AlertType.ERROR, "Hesla sa nezhoduju").showAndWait();
 			return;
 		}
@@ -102,27 +112,36 @@ public class RegisterController implements Initializable {
 			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 			RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
 			RestTemplate template = factory.getObject();
+			
+			logger.debug("signUpHandle, vytvorenie spojenia");
+			
+			//vratenie konfiguracie pripojenia
 			String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
 			ResponseEntity<User> returnedEntity = template.postForEntity("http://" + ip + ":8009/register", user, User.class);
 			
+			logger.info("signUpHandle, uzivatel " + usernameString + " uspesne prihlaseny");
 			user.setId(returnedEntity.getBody().getId());
 			//ulozenie prihlaseneho uzivatela
 			Dataset.getInstance().setLoggedIn(user);
+			logger.debug("signUpHandle, ulozenie prihlaseneho uzivatela");
 			//uzatvorenie contextu
 			((ConfigurableApplicationContext)context).close();
 		}catch(HttpClientErrorException e){
 			new Alert(AlertType.ERROR, "Registracia sa nepodarila. Uzivatelske meno uz existuje").showAndWait();
-			e.printStackTrace();
+			logger.catching(Level.ERROR, e);
 			return;
 		}
 		catch(RestClientException p){
 			new Alert(AlertType.ERROR, "Registracia sa nepodarila. Pripojenie je nefungujuce").showAndWait();
+			logger.catching(Level.ERROR, p);
 			return;
 		}
 		
 		//prepnutie sceny na hlavne okno
 		Stage currentStage = (Stage) passwordPF.getScene().getWindow();
 		currentStage.close();
+		
+		logger.info("signUpHandle, Otvorenie hlavneho okna");
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/MainView.fxml"));
@@ -131,7 +150,7 @@ public class RegisterController implements Initializable {
 	        currentStage.setScene(scene);
 	        currentStage.show();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.catching(Level.ERROR, e);
 			return;
 		}
 	}

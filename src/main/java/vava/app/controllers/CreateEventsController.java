@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Level;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -42,6 +45,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import vava.app.ClientApplication;
 import vava.app.Config;
 import vava.app.PropertyManager;
 import vava.app.components.GmComponent;
@@ -78,19 +82,25 @@ public class CreateEventsController implements Initializable {
 	
 	private LatLong location;
 
+	private static Logger logger = LogManager.getLogger(ClientApplication.class);
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//pridanie mapy do okna
 		GmComponent gm = GmComponent.getInstance();
 		gmapsPane.getChildren().add(gm.mapComponent);
+		
 		init();
 		gm.map.setCenter(new LatLong(Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude(),Dataset.getInstance().getLoggedIn().getAddressLocation().getLongitude()));
 		gm.map.setZoom(11);
+		logger.debug("initialize, nastavenie mapy na polohu uzivatela");
 		CreateEventsController currentInstance = this;
 		
 		gmapsPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.getClickCount() == 2) {
+					logger.debug("handle2, Nastavujem lokaciu");
 					GmComponent.getInstance().refillLatLong(currentInstance);
 				}
 
@@ -101,6 +111,7 @@ public class CreateEventsController implements Initializable {
 		addressTF.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent ke) {
 				if (ke.getCode() == KeyCode.ENTER) {
+					logger.debug("handle2, zistujem suradnice: " + addressTF.getText());
 					gm.geocodingAddress(addressTF.getText(), currentInstance);
 				}
 			}
@@ -115,12 +126,18 @@ public class CreateEventsController implements Initializable {
 		PropertyManager pm = new PropertyManager("");
 		String language = pm.loadLanguageSet(getClass());
 		
+		logger.debug("init, Nastavenie jazyka: " + language);
 		try {
 			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 			RestTemplate template = context.getBean(RestTemplate.class);
 			((ConfigurableApplicationContext) context).close();
+			
+			//ziskanie konfiguracie
 			String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
 			final String url = "http://" + ip + ":8009/events/categories";
+			
+			//odoslanie poziadavky na server
+			logger.debug("init, ziskanie sportovych kategorii: " + url);
 			ResponseEntity<List<SportCategory>> returnedEntity = template.exchange(url, HttpMethod.GET, null,
 					new ParameterizedTypeReference<List<SportCategory>>() {
 					});
@@ -129,10 +146,13 @@ public class CreateEventsController implements Initializable {
 			for (SportCategory current : returnedEntity.getBody()) {
 				list.add(current);
 			}
+			logger.debug("init, Kategorie pridane do listu");
 		} catch (RestClientException e) {
-			e.printStackTrace();
+			logger.catching(Level.ERROR, e);
+			new Alert(AlertType.ERROR, pm.getProperty("connectionError")).showAndWait();
 		}
 		ObservableList<SportCategory> list2 = FXCollections.observableArrayList(list);
+		//nastavenie convertera
 		sportCategoryChB.setConverter(new StringConverter<SportCategory>() {
 
 			@Override
@@ -149,9 +169,11 @@ public class CreateEventsController implements Initializable {
 			}
 		});
 
+		//nastavenie obsahu okna
 		sportCategoryChB.setItems(list2);
 		sportCategoryChB.getSelectionModel().selectFirst();
 		
+		logger.debug("init, nastavenie textu komponentom: multilanguage");
 		
 		titleLabel.setText(pm.getProperty("titleLabel"));
 		titleDescriptionLabel.setText(pm.getProperty("titleDescriptionLabel"));
@@ -168,10 +190,12 @@ public class CreateEventsController implements Initializable {
 
 	public void fillLongLitude(LatLong l) {
 		this.location = l;
+		//pridanie markera na mapu
 		addMarker(this.location);
 	}
 
 	private void addMarker(LatLong l) {
+		logger.debug("addMarker, nastavenie markera: (" + l.getLatitude() + ", " + l.getLongitude() + ")");
 		GmComponent.getInstance().map.clearMarkers();
 		GmComponent.getInstance().map.addMarker(new Marker(new MarkerOptions().position(l)));
 		GmComponent.getInstance().map.setCenter(l);
@@ -201,9 +225,12 @@ public class CreateEventsController implements Initializable {
 			maxUsers = Integer.parseInt(maxUserString);
 			neccesaryAge = Integer.parseInt(neccesaryAgeString);
 		} catch(NumberFormatException e) {
-			new Alert(AlertType.ERROR, "Nespravne vyplnene udaje").showAndWait();
+			new Alert(AlertType.ERROR, "Nespravne vyplnene ciselne udaje").showAndWait();
+			logger.debug("Nespravne vyplnene ciselne udaje");
 			return;
 		}
+		
+		logger.info("createEventHandle, Poziadavka na vytvorenie eventu " + eventNameString );
 		
 		//vytvorenie noveho eventu
 		Event created = new Event(0, maxUsers, eventNameString, descriptionString, Date.valueOf(date),
@@ -214,18 +241,27 @@ public class CreateEventsController implements Initializable {
 		RestTemplate template = context.getBean(RestTemplate.class);
 		((ConfigurableApplicationContext) context).close();
 		
+		//ziskanie konfiguracie
 		String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
 		final String url = "http://" + ip + ":8009/events";
+		
+		logger.debug("createEventHandle, Konfiguracia ziskana: " + url);
+		
 		try {
-			template.put(url, created, Void.class);
+			//odoslanie poziadavky
+			template.postForEntity(url, created, Void.class);
+			logger.info("createEventHandle, Poziadavka spracovana event vytvoreny");
 		} catch (HttpStatusCodeException e) {
 			new Alert(AlertType.ERROR, "Event sa nepodarilo vytvorit").showAndWait();
+			logger.info("createEventHandle, Poziadavka spracovana nastala chyba");
 			return;
 		} catch (RestClientException e) {
 			new Alert(AlertType.ERROR, "Chyba spojenia").showAndWait();
+			logger.catching(Level.ERROR, e);
 			return;
 		}
 		
+		logger.debug("createEventHandle, zatvaram okno");
 		//zatvorenie okna
 		Stage currentStage = (Stage) createButton.getScene().getWindow();
 		currentStage.close();

@@ -8,3 +8,4 @@ firstNameTF = first name..
 lastNameTF = last name..
 addressTF = address..
 signUpButton = Sign me up!
+connectionError = Connection has been lost
