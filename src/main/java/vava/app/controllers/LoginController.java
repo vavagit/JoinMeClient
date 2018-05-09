@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -52,6 +55,8 @@ public class LoginController implements Initializable {
 	@FXML
 	private Label invitationLabel;
 	
+	private static Logger logger = LogManager.getLogger(LoginController.class);
+	
 	public void initialize(URL location, ResourceBundle resources) {
 		passwordPF.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			 public void handle(KeyEvent ke) {
@@ -61,9 +66,15 @@ public class LoginController implements Initializable {
 		        }
 		});
 		
+		logger.info("Prihlasenie uzivatela");
+		
 		//multilanguage
 		PropertyManager manager = new PropertyManager("");
-		manager.loadLanguageSet(getClass());
+		String language = manager.loadLanguageSet(getClass());
+		
+		logger.info("Nastaveny jazyk: " + language);
+		
+		logger.debug("initialize, Nastavenie multilanguage");
 		//nastavenie nazvov podla jazyku
 		logInButton.setText(manager.getProperty("logInButton"));
 		userNameTF.setPromptText(manager.getProperty("userNameTF"));
@@ -75,19 +86,24 @@ public class LoginController implements Initializable {
 	
 	@FXML
 	private void registerHandle(ActionEvent event) {
+		//zatvorenie aktualneho okna
 		Stage s = (Stage)logInButton.getScene().getWindow();
 		s.close();
+		
+		//nacitanie novej sceny 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/Register.fxml"));
-		AnchorPane root=null;
+		AnchorPane root = null;
 		try {
 			root = loader.load();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.catching(Level.ERROR, e);
 		}
+		
+		logger.debug("registerHandle, Ovorenie okna registracie");
 		Scene scene = new Scene(root);
-        s.setTitle("JoinMe - REGISTER");
+        s.setTitle("Join me - REGISTER");
         s.setScene(scene);
-        
+        //otvorenie noveho okna
         s.show();
 	}
 	
@@ -110,17 +126,29 @@ public class LoginController implements Initializable {
 		String password = null;
 		userName = userNameTF.getText();
 		password = passwordPF.getText();
+		
+		//kontrola vyplnenia udajov
 		if(userName.isEmpty() || password.isEmpty()) {
 			errLabel.setText("empty username or password");
 			return;
 		}
 	
+		logger.debug("logInHandle, Overenie udajov uspesne");
+		
+		logger.info("logInHandle, Poziadavka na prihlasenie uzivatela");
+		
+		//vytvorenie objektu uzivatela
 		User user = new User(userName,password);
 		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 		RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
 		RestTemplate template = factory.getObject();
 		
 		((ConfigurableApplicationContext) context).close();
+		
+		PropertyManager manager = new PropertyManager("");
+		String language = manager.loadLanguageSet(getClass());
+		
+		logger.debug("logInHandle, Nastavenie jazyka: " + language);
 		
 		try {
 			String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
@@ -131,15 +159,18 @@ public class LoginController implements Initializable {
 			returnedUser.setPassword(password);
 			returnedUser.setUserName(userName);
 			Dataset.getInstance().setLoggedIn(returnedUser);
+			logger.info("logInHandle, prihlasenie uspesne " + returnedUser.getId());
 		}
 		catch(HttpStatusCodeException e){
-			errLabel.setText("Invalid username or password");
+			errLabel.setText(manager.getProperty("invalidAuth"));
+			logger.debug("logInHandle, Prihlasenie neuspesne");
 			userNameTF.clear();
 			passwordPF.clear();
 			return;
 		}
 		catch(RestClientException p){
-			errLabel.setText("error connection. Try later");
+			errLabel.setText(manager.getProperty("connectionError"));
+			logger.catching(Level.ERROR, p);
 			return;
 		}
 		
@@ -147,6 +178,7 @@ public class LoginController implements Initializable {
 		Stage currentStage = (Stage) passwordPF.getScene().getWindow();
 		currentStage.close();
 				
+		//otvorenie noveho okna
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/MainView.fxml"));
 			Parent root = loader.load();
