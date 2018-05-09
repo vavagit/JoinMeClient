@@ -104,8 +104,6 @@ public class UserPaneComponent extends HBox{
 	    this.setHgrow(space2, Priority.ALWAYS);
 	    this.getChildren().addAll(vboxPicWithTitle,space,infoName,space1,infoR2,space2,detailUserBt);
 	    
-	    
-	    
     }
 	
 }
