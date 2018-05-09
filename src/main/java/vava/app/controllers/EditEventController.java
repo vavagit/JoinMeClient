@@ -135,7 +135,8 @@ public class EditEventController implements Initializable {
 			RestTemplate template = context.getBean(RestTemplate.class);
 			((ConfigurableApplicationContext) context).close();
 			String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-			final String url = "http://" + ip + ":8009/events/categories";
+			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+			final String url = "http://" + ip + ":"+port+"/events/categories";
 			ResponseEntity<List<SportCategory>> returnedEntity = template.exchange(url, HttpMethod.GET, null,
 					new ParameterizedTypeReference<List<SportCategory>>() {
 					});
@@ -232,7 +233,8 @@ public class EditEventController implements Initializable {
 		((ConfigurableApplicationContext) context).close();
 		
 		String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-		final String url = "http://" + ip + ":8009/events/update";
+		String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+		final String url = "http://" + ip + ":"+port+"/events/update";
 		try {
 			template.put(url, event, Void.class);
 		} catch (HttpStatusCodeException e) {

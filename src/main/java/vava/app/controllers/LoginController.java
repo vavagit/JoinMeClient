@@ -151,8 +151,10 @@ public class LoginController implements Initializable {
 		logger.debug("logInHandle, Nastavenie jazyka: " + language);
 		
 		try {
-			String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
-			String url = "http://" + ip + ":8009/login";
+			String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
+			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+
+			String url = "http://" + ip + ":"+port+"/login";
 			ResponseEntity<User> returnedEntity = template.postForEntity(url, user, User.class);
 			//nastavenie autorizacnych udajov pre dalsiu komunikaciu
 			User returnedUser = returnedEntity.getBody();

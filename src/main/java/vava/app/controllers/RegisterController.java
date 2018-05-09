@@ -116,8 +116,9 @@ public class RegisterController implements Initializable {
 			logger.debug("signUpHandle, vytvorenie spojenia");
 			
 			//vratenie konfiguracie pripojenia
-			String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
-			ResponseEntity<User> returnedEntity = template.postForEntity("http://" + ip + ":8009/register", user, User.class);
+			String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
+			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+			ResponseEntity<User> returnedEntity = template.postForEntity("http://" + ip + ":"+port+"/register", user, User.class);
 			
 			logger.info("signUpHandle, uzivatel " + usernameString + " uspesne prihlaseny");
 			user.setId(returnedEntity.getBody().getId());

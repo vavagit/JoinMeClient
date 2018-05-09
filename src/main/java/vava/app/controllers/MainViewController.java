@@ -130,8 +130,10 @@ public class MainViewController implements Initializable {
      		RestTemplate template = context.getBean(RestTemplate.class);
      		((ConfigurableApplicationContext)context).close();     		
      		
-     		final String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
-     		final String url = "http://" + ip + ":8009/events?lon={lon}&lat={lat}&radius={radius}";
+     		final String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
+			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+
+     		final String url = "http://" + ip + ":"+port+"/events?lon={lon}&lat={lat}&radius={radius}";
      		
      		Map<String, Object> map = new HashMap<>();
      		map.put("lon", location.getLongitude());
@@ -242,8 +244,9 @@ public class MainViewController implements Initializable {
      		RestTemplate template = context.getBean(RestTemplate.class);
      		((ConfigurableApplicationContext)context).close();     		
      		
-     		final String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
-     		final String url = "http://" + ip + ":8009/users/" + Dataset.getInstance().getLoggedIn().getId() + "/created";
+     		final String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
+     		String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+     		final String url = "http://" + ip + ":"+port+"/users/" + Dataset.getInstance().getLoggedIn().getId() + "/created";
      		
      		ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {});
     		List<EventPaneComponent> list = new ArrayList<>();
@@ -265,8 +268,9 @@ public class MainViewController implements Initializable {
      		RestTemplate template = context.getBean(RestTemplate.class);
      		((ConfigurableApplicationContext)context).close();     		
      		
-     		final String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
-     		final String url = "http://" + ip + ":8009/users/" + Dataset.getInstance().getLoggedIn().getId()+ "/events";
+     		final String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
+     		String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+     		final String url = "http://" + ip + ":"+port+"/users/" + Dataset.getInstance().getLoggedIn().getId()+ "/events";
      	  		
      		ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {});
     		List<EventPaneComponent> list = new ArrayList<>();

@@ -80,8 +80,9 @@ public class EventPaneComponent extends HBox{
  			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
  			RestTemplateFactory factory = context.getBean(RestTemplateFactory.class);
  			RestTemplate template = factory.getObject();
- 			String ip = new PropertyManager("src/main/resources/connectionConfig").getProperty("host");
- 			String url = "http://"+ip+":8009/events/" + this.event.getEventId() + "/users";
+ 			String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
+ 			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+ 			String url = "http://"+ip+":"+port+"/events/" + this.event.getEventId() + "/users";
  			ResponseEntity<List<User>> returnedEntity = template.exchange(url, HttpMethod.GET, null,new ParameterizedTypeReference<List<User>>() {});
  			for(User u : returnedEntity.getBody()) {
  				//System.out.println("nejde---------");
@@ -131,7 +132,8 @@ public class EventPaneComponent extends HBox{
 				((ConfigurableApplicationContext) context).close();
 				
 				String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-				final String url = "http://" + ip + ":8009/users/"+Dataset.getInstance().getLoggedIn().getId()+"/event/"+EventPaneComponent.this.event.getEventId();
+				String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+				final String url = "http://" + ip + ":"+port+"/users/"+Dataset.getInstance().getLoggedIn().getId()+"/event/"+EventPaneComponent.this.event.getEventId();
 				try {
 					template.postForEntity(url, null, Void.class);
 					PropertyManager pm = new PropertyManager("");

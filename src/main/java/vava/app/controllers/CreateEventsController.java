@@ -132,8 +132,9 @@ public class CreateEventsController implements Initializable {
 			((ConfigurableApplicationContext) context).close();
 			
 			//ziskanie konfiguracie
+			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
 			String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-			final String url = "http://" + ip + ":8009/events/categories";
+			final String url = "http://" + ip + ":"+port+"/events/categories";
 			
 			//odoslanie poziadavky na server
 			logger.debug("init, ziskanie sportovych kategorii: " + url);
@@ -245,7 +246,8 @@ public class CreateEventsController implements Initializable {
 		
 		//ziskanie konfiguracie
 		String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-		final String url = "http://" + ip + ":8009/events";
+		String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+		final String url = "http://" + ip + ":"+port+"/events";
 		
 		logger.debug("createEventHandle, Konfiguracia ziskana: " + url);
 		
