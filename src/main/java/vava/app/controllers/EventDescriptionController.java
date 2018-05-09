@@ -162,7 +162,6 @@ public class EventDescriptionController implements Initializable {
 	 					new Alert(AlertType.ERROR, "Chyba spojenia").showAndWait();
 	 					return;
 	 				}
-	 				
 	 			}
 	     		 
 	 		};

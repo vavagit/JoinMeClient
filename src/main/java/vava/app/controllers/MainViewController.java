@@ -51,28 +51,37 @@ import vava.app.model.Event;
 import vava.app.model.Location;
 import vava.app.model.User;
 
-
 public class MainViewController implements Initializable {
 	private MainViewController mwc;
 	private LatLong location;
-	@FXML ListView<EventPaneComponent> eventListView;
-	@FXML Label titleLeftLabel;
-	@FXML Label nameOfUserLabel;
-	@FXML Label locationLabel;
-	@FXML TextField locationTextField;
-	@FXML Label rangeLabel;
-	@FXML TextField rangeTextField;
-	@FXML Hyperlink createEventLink;
-	@FXML Hyperlink myEventsLink;
-	@FXML Hyperlink joinedEventsLink;
-	@FXML Button filterButton;
-	
+	@FXML
+	ListView<EventPaneComponent> eventListView;
+	@FXML
+	Label titleLeftLabel;
+	@FXML
+	Label nameOfUserLabel;
+	@FXML
+	Label locationLabel;
+	@FXML
+	TextField locationTextField;
+	@FXML
+	Label rangeLabel;
+	@FXML
+	TextField rangeTextField;
+	@FXML
+	Hyperlink createEventLink;
+	@FXML
+	Hyperlink myEventsLink;
+	@FXML
+	Hyperlink joinedEventsLink;
+	@FXML
+	Button filterButton;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		mwc = this;
-		
 		User user = Dataset.getInstance().getLoggedIn();
-		//multilanguage
+		// multilanguage
 		PropertyManager manager = new PropertyManager("");
 		manager.loadLanguageSet(getClass());
 		createEventLink.setText(manager.getProperty("createEventLink"));
@@ -82,24 +91,25 @@ public class MainViewController implements Initializable {
 		locationLabel.setText(manager.getProperty("locationLabel"));
 		rangeLabel.setText(manager.getProperty("rangeLabel"));
 		titleLeftLabel.setText(user.getName() + " " + user.getLastName());
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem editItem = new MenuItem();
-        editItem.setText("Edituj");
-        editItem.setOnAction(new EventHandler<ActionEvent>() {
-			
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem editItem = new MenuItem();
+		editItem.setText("Edituj");
+		editItem.setOnAction(new EventHandler<ActionEvent>() {
+
 			@Override
 			public void handle(ActionEvent event) {
-				if(eventListView.getSelectionModel().getSelectedItem().getEvent().getCreatorId() != Dataset.getInstance().getLoggedIn().getId()) {
+				if (eventListView.getSelectionModel().getSelectedItem().getEvent().getCreatorId() != Dataset
+						.getInstance().getLoggedIn().getId()) {
 					new Alert(AlertType.ERROR, "Nieste tvorcom vybrateho eventu").showAndWait();
 					return;
 				}
-				Stage s =(Stage) filterButton.getScene().getWindow();
+				Stage s = (Stage) filterButton.getScene().getWindow();
 				Stage newS = new Stage();
-				 newS.setTitle("JoinMe - Edit event");
-			        newS.setResizable(false);
-			        //nastavenie ikony
-			        Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
-			        newS.getIcons().add(image);
+				newS.setTitle("JoinMe - Edit event");
+				newS.setResizable(false);
+				// nastavenie ikony
+				Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
+				newS.getIcons().add(image);
 				newS.initOwner(s);
 				newS.setAlwaysOnTop(true);
 				newS.initModality(Modality.WINDOW_MODAL);
@@ -107,83 +117,87 @@ public class MainViewController implements Initializable {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/EditEvent.fxml"));
 					Parent root = loader.load();
 					Scene scene = new Scene(root);
-			        EditEventController ec = loader.getController();
-			        ec.fillEventObject(eventListView.getSelectionModel().getSelectedItem().getEvent());
+					EditEventController ec = loader.getController();
+					ec.fillEventObject(eventListView.getSelectionModel().getSelectedItem().getEvent());
 					newS.setScene(scene);
-			        newS.show();
+					newS.show();
 				} catch (IOException e) {
 					e.printStackTrace();
 					return;
 				}
-				
+
 			}
 		});
-        contextMenu.getItems().add(editItem);
+		contextMenu.getItems().add(editItem);
 		eventListView.contextMenuProperty().set(contextMenu);
-		//nastavenie nazvov podla jazyku
+		// nastavenie nazvov podla jazyku
 		loadEvents(Dataset.getInstance().getLoggedIn().getAddressLocation(), 1000);
 	}
-	
-	private void loadEvents(Location location, int radius) {
-		try {
-     		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-     		RestTemplate template = context.getBean(RestTemplate.class);
-     		((ConfigurableApplicationContext)context).close();     		
-     		
-     		final String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
 
-     		final String url = "http://" + ip + ":"+port+"/events?lon={lon}&lat={lat}&radius={radius}";
-     		
-     		Map<String, Object> map = new HashMap<>();
-     		map.put("lon", location.getLongitude());
-     		map.put("lat", location.getLatitude());
-     		map.put("radius", radius);
-     		
-     		ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {}, map);
-    		List<EventPaneComponent> list = new ArrayList<>();
-     		for(Event current : returnedEntity.getBody()) {
-     			list.add(new EventPaneComponent(current));
-     		}
-     		ObservableList<EventPaneComponent> listEventPane = FXCollections.observableArrayList(list);
-     		eventListView.setItems(listEventPane);
-     	}
-       catch(RestClientException e) {
-     		e.printStackTrace();
-     	}
+	public void loadEvents(Location location, int radius) {
+		try {
+			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+			RestTemplate template = context.getBean(RestTemplate.class);
+			((ConfigurableApplicationContext) context).close();
+
+			final String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile())
+					.getProperty("host");
+			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile())
+					.getProperty("port");
+
+			final String url = "http://" + ip + ":" + port + "/events?lon={lon}&lat={lat}&radius={radius}";
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("lon", location.getLongitude());
+			map.put("lat", location.getLatitude());
+			map.put("radius", radius);
+
+			ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null,
+					new ParameterizedTypeReference<List<Event>>() {
+					}, map);
+			List<EventPaneComponent> list = new ArrayList<>();
+			for (Event current : returnedEntity.getBody()) {
+				list.add(new EventPaneComponent(current, mwc));
+			}
+
+			ObservableList<EventPaneComponent> listEventPane = FXCollections.observableArrayList(list);
+			eventListView.setItems(listEventPane);
+		} catch (RestClientException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	@FXML
 	private void mouseEnteredFilterBt(MouseEvent event) {
 		filterButton.setStyle("-fx-background-color: #6dcde9");
-		//filterButton.getStyleClass().add("buttonChange");
+		// filterButton.getStyleClass().add("buttonChange");
 	}
-	
+
 	@FXML
 	private void mouseExitedFilterBt(MouseEvent event) {
 		filterButton.setStyle("-fx-background-color: #19b9e7");
-		//filterButton.getStyleClass().remove("buttonChange");
+		// filterButton.getStyleClass().remove("buttonChange");
 	}
-	
-	@FXML 
-	private void inputHandle(KeyEvent event) {
-			String place = locationTextField.getText();
-			System.out.println("text-------- "+place);
-			GmComponent.getInstance().geocodingAddress(locationTextField.getText(), mwc);
-	}
-	
+
 	@FXML
-	private void createEventHandle(ActionEvent event) {
+	private void inputHandle(KeyEvent event) {
+		String place = locationTextField.getText();
+		// System.out.println("text-------- "+place);
+		GmComponent.getInstance().geocodingAddress(locationTextField.getText(), mwc);
+	}
+
+	@FXML
+	protected void createEventHandle(ActionEvent event) {
 		Stage newS = new Stage();
 		Stage s = (Stage) locationLabel.getScene().getWindow();
 		try {
 			newS.initOwner(s);
 			newS.initModality(Modality.WINDOW_MODAL);
 			newS.setTitle("JoinMe - Create Event");
-	        newS.setResizable(false);
-	        //nastavenie ikony
-	        Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
-	        newS.getIcons().add(image);
+			newS.setResizable(false);
+			// nastavenie ikony
+			Image image = new Image(getClass().getResourceAsStream("/img/titleIco.jpg"));
+			newS.getIcons().add(image);
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/vava/app/views/CreateEvents.fxml"));
 			Parent root = loader.load();
 			Scene scene = new Scene(root);
@@ -193,97 +207,104 @@ public class MainViewController implements Initializable {
 			e.printStackTrace();
 			return;
 		}
-		
+
 	}
-		
+
 	@FXML
 	private void filterHandle(ActionEvent event) {
 		String selectedArea = locationTextField.getText();
 		String rangeString = rangeTextField.getText();
-		
-		
-		if(rangeString.isEmpty()) {
+
+		if (rangeString.isEmpty()) {
 			new Alert(AlertType.ERROR, "Je nutne vyplnit rozsah vyhladavania filtra").showAndWait();
 			return;
 		}
-		
+
 		int range = 0;
 		try {
 			range = Integer.parseInt(rangeString);
-		}catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			new Alert(AlertType.ERROR, "Nespravne vyplnene hodnoty").showAndWait();
 			return;
 		}
-		
-		double latitude = Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude();
-		double longitude =Dataset.getInstance().getLoggedIn().getAddressLocation().getLongitude();
 
-		if(!selectedArea.isEmpty()) {
-			if(location == null) {
+		double latitude = Dataset.getInstance().getLoggedIn().getAddressLocation().getLatitude();
+		double longitude = Dataset.getInstance().getLoggedIn().getAddressLocation().getLongitude();
+
+		if (!selectedArea.isEmpty()) {
+			if (location == null) {
 				new Alert(AlertType.ERROR, "Poloha nebola najdena").showAndWait();
 				return;
 			}
-			
+
 			latitude = location.getLatitude();
 			longitude = location.getLongitude();
 			System.out.println(location);
 		}
-			
-		loadEvents(new Location(latitude,longitude), range);
+
+		loadEvents(new Location(latitude, longitude), range);
 	}
-	
+
 	public void fillLongLitude(LatLong l) {
 		this.location = l;
-		System.out.println("Naplnam polohu "+l);
+		System.out.println("Naplnam polohu " + l);
 	}
-	
+
 	@FXML
 	private void showMyHandle(ActionEvent event) {
 		try {
-     		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-     		RestTemplate template = context.getBean(RestTemplate.class);
-     		((ConfigurableApplicationContext)context).close();     		
-     		
-     		final String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-     		String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
-     		final String url = "http://" + ip + ":"+port+"/users/" + Dataset.getInstance().getLoggedIn().getId() + "/created";
-     		
-     		ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {});
-    		List<EventPaneComponent> list = new ArrayList<>();
-     		for(Event current : returnedEntity.getBody()) {
-     			list.add(new EventPaneComponent(current));
-     		}
-     		ObservableList<EventPaneComponent> listEventPane = FXCollections.observableArrayList(list);
-     		eventListView.setItems(listEventPane);
-     	}
-       catch(RestClientException e) {
-     		e.printStackTrace();
-     	}
+			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+			RestTemplate template = context.getBean(RestTemplate.class);
+			((ConfigurableApplicationContext) context).close();
+
+			final String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile())
+					.getProperty("host");
+			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile())
+					.getProperty("port");
+			final String url = "http://" + ip + ":" + port + "/users/" + Dataset.getInstance().getLoggedIn().getId()
+					+ "/created";
+
+			ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null,
+					new ParameterizedTypeReference<List<Event>>() {
+					});
+			List<EventPaneComponent> list = new ArrayList<>();
+			for (Event current : returnedEntity.getBody()) {
+				list.add(new EventPaneComponent(current, mwc));
+			}
+
+			ObservableList<EventPaneComponent> listEventPane = FXCollections.observableArrayList(list);
+			eventListView.setItems(listEventPane);
+		} catch (RestClientException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	@FXML
 	private void showJoinedHandle(ActionEvent event) {
 		try {
-     		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-     		RestTemplate template = context.getBean(RestTemplate.class);
-     		((ConfigurableApplicationContext)context).close();     		
-     		
-     		final String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-     		String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
-     		final String url = "http://" + ip + ":"+port+"/users/" + Dataset.getInstance().getLoggedIn().getId()+ "/events";
-     	  		
-     		ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Event>>() {});
-    		List<EventPaneComponent> list = new ArrayList<>();
-     		for(Event current : returnedEntity.getBody()) {
-     			list.add(new EventPaneComponent(current));
-     		}
-     		ObservableList<EventPaneComponent> listEventPane = FXCollections.observableArrayList(list);
-     		eventListView.setItems(listEventPane);
+			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+			RestTemplate template = context.getBean(RestTemplate.class);
+			((ConfigurableApplicationContext) context).close();
+
+			final String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile())
+					.getProperty("host");
+			String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile())
+					.getProperty("port");
+			final String url = "http://" + ip + ":" + port + "/users/" + Dataset.getInstance().getLoggedIn().getId()
+					+ "/events";
+
+			ResponseEntity<List<Event>> returnedEntity = template.exchange(url, HttpMethod.GET, null,
+					new ParameterizedTypeReference<List<Event>>() {
+					});
+			List<EventPaneComponent> list = new ArrayList<>();
+			for (Event current : returnedEntity.getBody()) {
+				list.add(new EventPaneComponent(current, mwc));
+			}
+			ObservableList<EventPaneComponent> listEventPane = FXCollections.observableArrayList(list);
+			eventListView.setItems(listEventPane);
+		} catch (RestClientException e) {
+			e.printStackTrace();
 		}
-		catch(RestClientException e) {
-     		e.printStackTrace();
-     	}
 	}
-	
-	
+
 }
