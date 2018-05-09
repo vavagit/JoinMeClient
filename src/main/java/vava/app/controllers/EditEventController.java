@@ -73,7 +73,6 @@ public class EditEventController implements Initializable {
 	private Button updateButton;
 	@FXML
 	private ChoiceBox<SportCategory> sportCategoryChB;
-	
 	private LatLong location;
 	private Event event;
 	
