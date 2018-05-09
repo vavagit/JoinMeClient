@@ -121,7 +121,7 @@ public class MainViewController implements Initializable {
         contextMenu.getItems().add(editItem);
 		eventListView.contextMenuProperty().set(contextMenu);
 		//nastavenie nazvov podla jazyku
-		loadEvents(Dataset.getInstance().getLoggedIn().getAddressLocation(), 20);
+		loadEvents(Dataset.getInstance().getLoggedIn().getAddressLocation(), 1000);
 	}
 	
 	private void loadEvents(Location location, int radius) {
