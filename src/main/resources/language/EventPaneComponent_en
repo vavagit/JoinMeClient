@@ -1,3 +1,5 @@
 address = Where ? : 
 date = When ? : 
 numberOfUsers = Number of Users: 
+buttonJoined = Joined!
+buttonJoin = Join!
