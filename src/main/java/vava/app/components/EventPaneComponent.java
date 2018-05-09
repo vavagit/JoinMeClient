@@ -58,6 +58,8 @@ public class EventPaneComponent extends HBox{
     private Label numberOfUsers = new Label();
     private Label numberOfUsersValue = new Label();
     private Event event;
+    private EventHandler<MouseEvent> join;
+    EventHandler<MouseEvent> leave;
      //---------------------------------------
      
     public Event getEvent() {
@@ -74,6 +76,7 @@ public class EventPaneComponent extends HBox{
     private VBox vboxBt = new VBox();
     private List<User> joinedUser = new ArrayList<>();
     private String buttonJoinedS = "";
+    private String buttonJoinS = "";
      private void init() {
     	 title.setWrapText(true);
     	 buttonJoin.setMaxWidth(Double.MAX_VALUE);
@@ -124,39 +127,72 @@ public class EventPaneComponent extends HBox{
 				}
 			}
 		});
-    	 buttonJoin.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				//users/idUsera/event/ideventu
-				ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-				RestTemplate template = context.getBean(RestTemplate.class);
-				((ConfigurableApplicationContext) context).close();
-				
-				String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
-				String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
-				final String url = "http://" + ip + ":"+port+"/users/"+Dataset.getInstance().getLoggedIn().getId()+"/event/"+EventPaneComponent.this.event.getEventId();
-				try {
-					template.postForEntity(url, null, Void.class);
-					buttonJoin.setText(buttonJoinedS);
-					buttonJoin.setDisable(true);
-				} catch (HttpStatusCodeException e) {
-					new Alert(AlertType.ERROR, "Nepodarilo sa pripojic").showAndWait();
-					return;
-				} catch (RestClientException e) {
-					new Alert(AlertType.ERROR, "Chyba spojenia").showAndWait();
-					return;
-				}
-				
-			}
-    		 
-		});
+    	 join = new EventHandler<MouseEvent>() {
+ 			@Override
+ 			public void handle(MouseEvent event) {
+ 				//users/idUsera/event/ideventu
+ 				ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+ 				RestTemplate template = context.getBean(RestTemplate.class);
+ 				((ConfigurableApplicationContext) context).close();
+ 				
+ 				String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
+ 				String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+ 				final String url = "http://" + ip + ":"+port+"/users/"+Dataset.getInstance().getLoggedIn().getId()+"/event/"+EventPaneComponent.this.event.getEventId();
+ 				try {
+ 					template.postForEntity(url, null, Void.class);
+ 					
+ 					buttonJoin.setText(buttonJoinedS);
+ 					buttonJoin.removeEventHandler(MouseEvent.MOUSE_CLICKED, join);
+ 					buttonJoin.addEventHandler(MouseEvent.MOUSE_CLICKED, leave);
+ 				} catch (HttpStatusCodeException e) {
+ 					new Alert(AlertType.ERROR, "Nepodarilo sa pripojic").showAndWait();
+ 					return;
+ 				} catch (RestClientException e) {
+ 					new Alert(AlertType.ERROR, "Chyba spojenia").showAndWait();
+ 					return;
+ 				}
+ 				
+ 			}
+     		 
+ 		};
+ 		leave = new EventHandler<MouseEvent>() {
+ 			@Override
+ 			public void handle(MouseEvent event) {
+ 				//users/idUsera/event/ideventu
+ 				ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+ 				RestTemplate template = context.getBean(RestTemplate.class);
+ 				((ConfigurableApplicationContext) context).close();
+ 				
+ 				String ip = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("host");
+ 				String port = new PropertyManager(getClass().getResource("/connectionConfig").getFile()).getProperty("port");
+ 				final String url = "http://" + ip + ":"+port+"/users/"+Dataset.getInstance().getLoggedIn().getId()+"/event/"+EventPaneComponent.this.event.getEventId();
+ 				try {
+ 					template.delete(url, null, Void.class);
+ 					
+ 					buttonJoin.setText(buttonJoinS);
+ 					buttonJoin.removeEventHandler(MouseEvent.MOUSE_CLICKED, leave);
+ 					buttonJoin.addEventHandler(MouseEvent.MOUSE_CLICKED, join);
+ 				} catch (HttpStatusCodeException e) {
+ 					new Alert(AlertType.ERROR, "Nepodarilo sa leavnut").showAndWait();
+ 					return;
+ 				} catch (RestClientException e) {
+ 					new Alert(AlertType.ERROR, "Chyba spojenia").showAndWait();
+ 					return;
+ 				}
+ 				
+ 			}
+     		 
+ 		};
+ 		
+ 		
+    	 
     	 
      }
      
     public EventPaneComponent(Event e) {
 		super();
 		event = e;
-		init();
+		
 		//init
 		
 		title.getStyleClass().add("vbLabel");
@@ -184,6 +220,7 @@ public class EventPaneComponent extends HBox{
 	    PropertyManager manager = new PropertyManager("");
 	    manager.loadLanguageSet(getClass().getSimpleName());
 	    buttonJoinedS = manager.getProperty("buttonJoined");
+	    buttonJoinS = manager.getProperty("buttonJoin");
 	    numberOfUsers.setText(manager.getProperty("numberOfUsers"));
 	    numberOfUsersValue.setText(joinedUser.size()+"/"+e.getMaxUsersOnEvent()); // dorob pocet uzivatelov na dany event
 	    infoR1.getChildren().addAll(numberOfUsers,numberOfUsersValue);
@@ -194,14 +231,16 @@ public class EventPaneComponent extends HBox{
 	    valueOfAddress.setText(e.getAddress());
 	    infoR3.getChildren().addAll(address,valueOfAddress);
 	    
+	    init();
+	    
 		if(joinedUser.contains(Dataset.getInstance().getLoggedIn())) {
  			buttonJoin.setText(manager.getProperty("buttonJoined"));
- 			buttonJoin.setDisable(true);
+ 			buttonJoin.addEventHandler(MouseEvent.MOUSE_CLICKED, leave);
  		}
  		else{
  			String buttontext = manager.getProperty("buttonJoin");
  			System.out.println(buttontext+"---");
- 			
+ 			buttonJoin.addEventHandler(MouseEvent.MOUSE_CLICKED, join);
  			buttonJoin.setText(buttontext);
  		}
 	    
