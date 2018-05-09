@@ -3,10 +3,12 @@ package vava.app.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import vava.app.PropertyManager;
@@ -38,12 +40,18 @@ public class UserDetailsController implements Initializable {
 	private Label contactDataLabel;
 	@FXML
 	private Label registeredAtDataLabel;
-	private User user;
+
+	private static Logger logger = LogManager.getLogger(UserDetailsController.class);
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+
 		//nastavenie textu mulilanguage
 		PropertyManager manager = new PropertyManager("");
-		manager.loadLanguageSet(getClass());
+		String language = manager.loadLanguageSet(getClass());
+		
+		logger.debug("initialize, nastavenie jazyku: " + language);
 		
 		firstNameLabel.setText(manager.getProperty("firstNameLabel"));
 		lastNameLabel.setText(manager.getProperty("lastNameLabel"));
@@ -51,13 +59,8 @@ public class UserDetailsController implements Initializable {
 		contactLabel.setText(manager.getProperty("contactLabel"));
 		registeredAtLabel.setText(manager.getProperty("registeredAtLabel"));
 	}
-	public void fillUserObject(User user) {
-		this.user = user;
-		setData(user);
-	}
 	
-	public void setData(User user) {
-		System.out.println(user);
+	public void fillUserObject(User user) {
 		userNameLabel.setText(user.getUserName());
 		firstNameDataLabel.setText(user.getName());
 		lastNameDataLabel.setText(user.getLastName());

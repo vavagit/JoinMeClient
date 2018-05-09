@@ -9,3 +9,6 @@ neccessaryAgeTF = Age limit
 maxUsersTF = Number of users
 descriptionTA = Description of the event
 connectionError = Connection has been lost
+fillDataError = 
+dataFormatError = 
+eventNotCreated = 

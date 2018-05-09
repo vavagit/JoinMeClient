@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Level;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -45,7 +45,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import vava.app.ClientApplication;
 import vava.app.Config;
 import vava.app.PropertyManager;
 import vava.app.components.GmComponent;
@@ -82,7 +81,7 @@ public class CreateEventsController implements Initializable {
 	
 	private LatLong location;
 
-	private static Logger logger = LogManager.getLogger(ClientApplication.class);
+	private static Logger logger = LogManager.getLogger(CreateEventsController.class);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -211,10 +210,13 @@ public class CreateEventsController implements Initializable {
 		LocalDate date = eventDateDP.getValue();
 		SportCategory category = sportCategoryChB.getValue();
 		
+		PropertyManager propertyManager = new PropertyManager("");
+		propertyManager.loadLanguageSet(getClass());
+		
 		//kontorla vyplnenia udajov
 		if(eventNameString.isEmpty() || addressString.isEmpty() || neccesaryAgeString.isEmpty()
 				|| maxUserString.isEmpty() || descriptionString.isEmpty() || date == null || category == null) {
-			new Alert(AlertType.ERROR, "Je nutne vyplnit vsetky udaje").showAndWait();
+			new Alert(AlertType.ERROR, propertyManager.getProperty("fillDataError")).showAndWait();
 			return;
 		}
 		
@@ -225,7 +227,7 @@ public class CreateEventsController implements Initializable {
 			maxUsers = Integer.parseInt(maxUserString);
 			neccesaryAge = Integer.parseInt(neccesaryAgeString);
 		} catch(NumberFormatException e) {
-			new Alert(AlertType.ERROR, "Nespravne vyplnene ciselne udaje").showAndWait();
+			new Alert(AlertType.ERROR, propertyManager.getProperty("dataFormatError")).showAndWait();
 			logger.debug("Nespravne vyplnene ciselne udaje");
 			return;
 		}
@@ -252,11 +254,11 @@ public class CreateEventsController implements Initializable {
 			template.postForEntity(url, created, Void.class);
 			logger.info("createEventHandle, Poziadavka spracovana event vytvoreny");
 		} catch (HttpStatusCodeException e) {
-			new Alert(AlertType.ERROR, "Event sa nepodarilo vytvorit").showAndWait();
+			new Alert(AlertType.ERROR, propertyManager.getProperty("eventNotCreated")).showAndWait();
 			logger.info("createEventHandle, Poziadavka spracovana nastala chyba");
 			return;
 		} catch (RestClientException e) {
-			new Alert(AlertType.ERROR, "Chyba spojenia").showAndWait();
+			new Alert(AlertType.ERROR, propertyManager.getProperty("connectionError")).showAndWait();
 			logger.catching(Level.ERROR, e);
 			return;
 		}
